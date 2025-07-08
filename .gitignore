@@ -1,0 +1,10 @@
+.idea
+__pycache__
+
+logs/
+database/
+
+.pytest_cache/
+.env
+
+*.db
