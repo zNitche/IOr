@@ -4,7 +4,7 @@ from config import Config
 
 
 def register_blueprints(app: Flask):
-    from ior import blueprints
+    from io_remastered import blueprints
 
     app.register_blueprint(blueprints.core)
 

@@ -1,4 +1,4 @@
-from ior import create_app
+from io_remastered import create_app
 
 
 app = create_app()
