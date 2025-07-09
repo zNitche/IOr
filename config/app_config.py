@@ -11,3 +11,4 @@ class AppConfig:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     DATABASE_URI = f"sqlite:////{PROJECT_ROOT}/database/app.db"
+    LOGS_DIR_PATH = os.path.join(PROJECT_ROOT, "logs")

@@ -2,6 +2,7 @@ from flask import Flask
 import os
 from config.app_config import AppConfig
 from io_remastered.db import Database
+from io_remastered.logging import Logging
 
 
 db = Database()
@@ -22,6 +23,14 @@ def create_app(config_class: AppConfig):
 
     db.setup(app.config["DATABASE_URI"])
     db.create_all()
+
+    app_logging = Logging(
+        app=app,
+        logs_filename="app.log",
+        logs_path=app.config.get("LOGS_DIR_PATH"),
+        backup_log_files_count=3)
+    
+    app_logging.setup()
 
     with app.app_context():
         register_blueprints(app)
