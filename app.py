@@ -1,7 +1,8 @@
+from config import AppConfig
 from io_remastered import create_app
 
 
-app = create_app()
+app = create_app(config_class=AppConfig)
 
 
 if __name__ == "__main__":
