@@ -8,4 +8,4 @@ class User(Base):
 
     id = mapped_column(Integer, primary_key=True)
     username = mapped_column(String(20), unique=True, nullable=False)
-    password = mapped_column(String(128), unique=False, nullable=False)
+    password = mapped_column(String(), unique=False, nullable=False)
