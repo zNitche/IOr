@@ -7,7 +7,7 @@ class Database:
     def __init__(self):
         self.engine: Engine | None = None
         self.session_maker: sessionmaker[Session] | None = None
-        self.session: Session | None = None
+        self.session: scoped_session[Session] | None = None
 
     def setup(self, db_uri):
         self.engine = create_engine(db_uri)
@@ -17,6 +17,9 @@ class Database:
     def create_all(self):
         from io_remastered import models
 
+        if self.session is None:
+            raise Exception("session doesn't exist!")
+
         Base.query = self.session.query_property()
         Base.metadata.create_all(bind=self.engine)
 
@@ -24,6 +27,9 @@ class Database:
         return sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
 
     def get_session(self):
+        if self.session_maker is None:
+            raise Exception("session_maker doesn't exist!")
+
         return scoped_session(self.session_maker)
 
     def close_session(self, exception=None):
@@ -40,14 +46,23 @@ class Database:
         self.commit()
 
     def add(self, obj):
+        if self.session is None:
+            raise Exception("session doesn't exist!")
+
         self.session.add(obj)
         self.commit()
 
     def remove(self, obj):
+        if self.session is None:
+            raise Exception("session doesn't exist!")
+
         self.session.delete(obj)
         self.commit()
 
     def commit(self):
+        if self.session is None:
+            raise Exception("session doesn't exist!")
+
         try:
             self.session.commit()
 

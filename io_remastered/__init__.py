@@ -14,7 +14,7 @@ def register_blueprints(app: Flask):
     app.register_blueprint(blueprints.core)
 
 
-def create_app(config_class: AppConfig):
+def create_app(config_class: type[AppConfig]):
     app = Flask(__name__, instance_relative_config=False)
 
     app.secret_key = os.urandom(
@@ -29,7 +29,7 @@ def create_app(config_class: AppConfig):
         logs_filename="app.log",
         logs_path=app.config.get("LOGS_DIR_PATH"),
         backup_log_files_count=3)
-    
+
     app_logging.setup()
 
     with app.app_context():

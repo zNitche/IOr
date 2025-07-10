@@ -19,7 +19,7 @@ class Logging:
         self.logs_path = self.__set_logs_path(logs_filename, logs_path)
         self.__logger = create_logger(app)
 
-    def __set_logs_path(self, filename: str, path: str) -> str | None:
+    def __set_logs_path(self, filename: str | None, path: str | None) -> str | None:
         if filename is None or path is None:
             return None
 
@@ -37,7 +37,7 @@ class Logging:
         self.__setup_serial()
 
         if self.logs_path is not None:
-            self.__setup_file()
+            self.__setup_file(self.logs_path)
 
     def __setup_serial(self):
         formatter = self.__get_formatter(with_day=False)
@@ -47,10 +47,10 @@ class Logging:
 
         self.__logger.addHandler(console_logger)
 
-    def __setup_file(self):
+    def __setup_file(self, path: str):
         formatter = self.__get_formatter()
 
-        file_handler = TimedRotatingFileHandler(filename=self.logs_path,
+        file_handler = TimedRotatingFileHandler(filename=path,
                                                 when="midnight",
                                                 encoding="utf-8",
                                                 backupCount=self.backup_log_files_count)
