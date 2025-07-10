@@ -2,10 +2,10 @@ import os
 from management_cli.helper import Helper
 from management_cli.modules import ModuleBase
 from management_cli.modules import ExitModule
-from management_cli.modules import ListUsersModule
-from management_cli.modules import AddUserModule
-from management_cli.modules import RemoveUserModule
-from management_cli.modules import ResetUserPasswordModule
+from management_cli.modules.users import ListUsersModule
+from management_cli.modules.users import AddUserModule
+from management_cli.modules.users import RemoveUserModule
+from management_cli.modules.users import ResetUserPasswordModule
 
 
 class CLI:

@@ -1,0 +1,4 @@
+from management_cli.modules.users.list_users_module import ListUsersModule
+from management_cli.modules.users.add_user_module import AddUserModule
+from management_cli.modules.users.reset_user_password_module import ResetUserPasswordModule
+from management_cli.modules.users.remove_user_module import RemoveUserModule

@@ -1,6 +1,2 @@
 from management_cli.modules.module_base import ModuleBase
 from management_cli.modules.exit_module import ExitModule
-from management_cli.modules.list_users_module import ListUsersModule
-from management_cli.modules.add_user_module import AddUserModule
-from management_cli.modules.reset_user_password_module import ResetUserPasswordModule
-from management_cli.modules.remove_user_module import RemoveUserModule
