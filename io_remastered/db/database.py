@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 from sqlalchemy import create_engine, Engine, exc
 from sqlalchemy.orm import scoped_session, sessionmaker, Session
 from io_remastered.db import Base
@@ -69,3 +70,17 @@ class Database:
         except Exception as exception:
             self.session.rollback()
             raise exception
+
+    @contextmanager
+    def session_context(self):
+        session = self.get_session()
+
+        try:
+            yield session
+
+        except Exception as e:
+            session.rollback()
+            raise
+
+        finally:
+            session.remove()
