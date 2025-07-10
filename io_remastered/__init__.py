@@ -5,6 +5,9 @@ from io_remastered.db import Database
 from io_remastered.logging import Logging
 
 
+__version__ = "0.0.1"
+
+
 db = Database()
 
 
