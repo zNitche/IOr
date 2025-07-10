@@ -1,5 +1,8 @@
+from sqlalchemy.orm import Query
+
+
 class Pagination:
-    def __init__(self, query, page_id, items_per_page=25):
+    def __init__(self, query: Query, page_id: int, items_per_page=25):
         self.__query = query
 
         self.page_id = page_id
