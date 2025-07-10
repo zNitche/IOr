@@ -1,4 +1,6 @@
+import json
 from management_cli.modules import ModuleBase
+from io_remastered.models import User
 
 
 class ListUsersModule(ModuleBase):
@@ -7,15 +9,23 @@ class ListUsersModule(ModuleBase):
 
         self.name = "List users"
 
-    def show(self):
-        print(f"---{self.name}---\n")
-
     def action(self):
-        users_names = self.helper.get_users_names()
+        users = self.helper.get_users()
 
-        if len(users_names) == 0:
+        if len(users) == 0:
             print("no users to be listed...")
 
         else:
-            for id, name in enumerate(users_names):
-                print(f"{id + 1}) {name}")
+            for user in users:
+                print(json.dumps(self.__cleanup_user(user), indent=4))
+
+    
+    def __cleanup_user(self, user: User):
+        struct = {}
+        user_dict = user.__dict__
+
+        for key in user_dict:
+            if not key.startswith("_"):
+                struct[key] = user_dict.get(key)
+
+        return struct

@@ -1,6 +1,11 @@
 import os
-from management_cli.modules import ModuleBase, ExitModule, ListUsersModule
 from management_cli.helper import Helper
+from management_cli.modules import ModuleBase
+from management_cli.modules import ExitModule
+from management_cli.modules import ListUsersModule
+from management_cli.modules import AddUserModule
+from management_cli.modules import RemoveUserModule
+from management_cli.modules import ResetUserPasswordModule
 
 
 class CLI:
@@ -10,30 +15,35 @@ class CLI:
     def init_modules(self):
         helper = Helper()
         modules: list[type[ModuleBase]] = [
-            ExitModule, ListUsersModule
+            ExitModule, ListUsersModule, AddUserModule,
+            RemoveUserModule, ResetUserPasswordModule
         ]
 
         return [module(helper=helper) for module in modules]
 
     def mainloop(self):
-        print("---IOr CLI---\n")
-        print("Choose what you want to do: ")
+        try:
+            print("---IOr CLI---\n")
+            print("Choose what you want to do: ")
 
-        for id, module in enumerate(self.modules):
-            print(f"{id} - {module.name}")
+            for id, module in enumerate(self.modules):
+                print(f"{id} - {module.name}")
 
-        choice = int(input("> "))
-        os.system("clear")
+            choice = int(input("> "))
+            os.system("clear")
 
-        if 0 <= choice < len(self.modules):
-            module = self.modules[choice]
+            if 0 <= choice < len(self.modules):
+                module = self.modules[choice]
 
-            module.show()
-            module.action()
+                module.show()
+                module.action()
 
-        else:
-            print("Unknown option")
+            else:
+                print("Unknown option")
 
-        input("\nPress any key to continue")
+            input("\nPress any key to continue")
 
-        self.mainloop()
+            self.mainloop()
+
+        except KeyboardInterrupt:
+            print("Closing, bye...")

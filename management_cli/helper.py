@@ -9,34 +9,29 @@ class Helper:
         self.db = Database()
         self.db.setup(db_uri=AppConfig.DATABASE_URI)
 
-    def get_users_names(self):
-        names = []
-
+    def get_users(self):
         with self.db.session_context() as session:
             users = session.query(models.User).all()
 
-            for user in users:
-                names.append(user.username)
+        return users
 
-        return names
+    def __hash_password(self, plain_password: str):
+        return generate_password_hash(plain_password)
 
-    def hash_password(self, plain_password):
-        password = generate_password_hash(plain_password)
+    def add_user(self, user_name: str, password: str):
+        users_names = [user.username for user in self.get_users()]
 
-        return password
-
-    def add_user(self, user_name, password):
-        if user_name in self.get_users_names():
+        if user_name in users_names:
             raise Exception("user already exists")
 
-        encrypted_password = self.hash_password(password)
+        encrypted_password = self.__hash_password(password)
         user = models.User(username=user_name, password=encrypted_password)
 
         with self.db.session_context() as session:
             session.add(user)
             session.commit()
 
-    def delete_user(self, user_name):
+    def delete_user(self, user_name: str):
         with self.db.session_context() as session:
             user = session.query(models.User).filter_by(
                 username=user_name).first()
@@ -47,7 +42,7 @@ class Helper:
             session.delete(user)
             session.commit()
 
-    def reset_user_password(self, user_name, password):
+    def reset_user_password(self, user_name: str, password: str):
         with self.db.session_context() as session:
             user = session.query(models.User).filter_by(
                 username=user_name).first()
@@ -55,5 +50,5 @@ class Helper:
             if not user:
                 raise Exception("user doesn't exists")
 
-            user.password = self.hash_password(password)
+            user.password = self.__hash_password(password)
             session.commit()

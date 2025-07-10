@@ -7,7 +7,8 @@ class ModuleBase:
         self.name = ""
 
     def show(self):
-        pass
+        if self.name:
+            print(f"---{self.name}---\n")
 
     def action(self):
         pass
