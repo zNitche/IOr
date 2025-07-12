@@ -1,3 +1,4 @@
+from getpass import getpass
 from management_cli.modules import ModuleBase
 
 
@@ -9,7 +10,7 @@ class AddUserModule(ModuleBase):
 
     def action(self):
         user_name = input("username > ")
-        password = input("password > ")
+        password = getpass("password > ")
 
         self.helper.add_user(user_name, password)
 
