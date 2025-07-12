@@ -5,12 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+
     <title>IO_remastered</title>
 </head>
 
 <body>
     <h1>Hello IOremastered</h1>
-    <p>CSRF token -> {{get_csrf_token()}}</p>
+    <button onclick="testCSRFFetch('/csrf-test', '{{get_csrf_token()}}')">fetch CSRF protected</button>
 </body>
 
 </html>
