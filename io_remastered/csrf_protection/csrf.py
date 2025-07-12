@@ -65,20 +65,13 @@ class CSRF:
         token_session_field_name = current_app.config.get(
             CSRF_TOKEN_FIELD_NAME_KEY, CSRF_TOKEN_FIELD_NAME)
 
-        current_csrf_token = g.get(token_session_field_name)
-
-        if current_csrf_token:
-            return current_csrf_token
-
         signer = URLSafeTimedSerializer(
             secret_key=app_secret, salt="io_remastered")
 
         new_token = secrets.token_hex(nbytes=32)
-        signed_token = signer.dumps(new_token)
+        setattr(session, token_session_field_name, new_token)
 
-        setattr(session, token_session_field_name, signed_token)
-
-        return signed_token
+        return signer.dumps(new_token)
 
     @staticmethod
     def validate_token(signed_token: str | None):
@@ -97,7 +90,7 @@ class CSRF:
             token = signer.loads(s=signed_token, max_age=token_ttl)
 
         except Exception as e:
-            raise CSRFValidationException("CSRF token validation error") from e
+            raise CSRFValidationException("CSRF token loading error") from e
 
         is_match = secrets.compare_digest(token, session_csrf_token)
 
