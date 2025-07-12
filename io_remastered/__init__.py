@@ -30,8 +30,7 @@ def setup_app_modules(app: Flask):
     db.setup(app.config["DATABASE_URI"])
     db.create_all()
 
-    csrf = CSRF(app)
-    csrf.setup()
+    CSRF(app)
 
 
 def create_app(config_class: type[AppConfig]):
