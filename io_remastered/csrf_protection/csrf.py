@@ -6,6 +6,7 @@ from io_remastered.csrf_protection.exceptions import CSRFValidationException
 CSRF_TOKEN_SALT = "io_remastered"
 CSRF_TOKEN_FIELD_NAME = "csrf_token"
 CSRF_TOKEN_FIELD_NAME_KEY = "CSRF_TOKEN_FIELD_NAME"
+CSRF_TOKEN_HTTP_HEADER_NAME = "X-CSRF-TOKEN"
 
 
 class CSRF:
@@ -32,7 +33,7 @@ class CSRF:
             secret_key=app_secret, salt=CSRF_TOKEN_SALT)
 
         new_token = secrets.token_hex(nbytes=32)
-        setattr(session, token_session_field_name, new_token)
+        session[token_session_field_name] = new_token
 
         return signer.dumps(new_token)
 
@@ -44,7 +45,8 @@ class CSRF:
         session_csrf_token = session.get(CSRF_TOKEN_FIELD_NAME)
 
         if not session_csrf_token or not signed_token:
-            raise CSRFValidationException("CSRF token is missing")
+            part = "session" if not session_csrf_token else "request"
+            raise CSRFValidationException(f"missing CSRF token in {part}")
 
         signer = URLSafeTimedSerializer(
             secret_key=app_secret, salt=CSRF_TOKEN_SALT)
@@ -57,7 +59,7 @@ class CSRF:
 
         is_match = secrets.compare_digest(token, session_csrf_token)
 
-        if not is_match:
+        if not is_match: 
             raise CSRFValidationException("CSRF tokens don't match")
 
     @staticmethod
@@ -71,6 +73,11 @@ class CSRF:
 
         if form_token:
             return form_token
+
+        header_token = request.headers.get(CSRF_TOKEN_HTTP_HEADER_NAME)
+
+        if header_token:
+            return header_token
 
         return None
 
