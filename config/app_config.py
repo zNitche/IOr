@@ -8,6 +8,8 @@ class AppConfig:
     APP_HOST = "0.0.0.0"
     APP_PORT = 8080
 
+    SESSION_COOKIE_SAMESITE = "Lax"
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     DATABASE_ROOT_PATH = os.path.join(PROJECT_ROOT, "database")
