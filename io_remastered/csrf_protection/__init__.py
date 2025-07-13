@@ -1,2 +1,0 @@
-from io_remastered.csrf_protection.csrf import CSRF
-from io_remastered.csrf_protection.decorators import csrf_protected

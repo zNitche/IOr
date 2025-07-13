@@ -3,7 +3,7 @@ import secrets
 from config.app_config import AppConfig
 from io_remastered.db import Database
 from io_remastered.logging import Logging
-from io_remastered.csrf_protection import CSRF
+from io_remastered.io_csrf import CSRF
 from io_remastered import app_context_processor_funcs
 
 

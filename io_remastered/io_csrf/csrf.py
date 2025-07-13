@@ -1,7 +1,7 @@
 from flask import Flask, current_app, session, request, g
 from itsdangerous import URLSafeTimedSerializer
 import secrets
-from io_remastered.csrf_protection.exceptions import CSRFValidationException
+from io_remastered.io_csrf.exceptions import CSRFValidationException
 
 CSRF_TOKEN_SALT = "io_remastered"
 CSRF_TOKEN_FIELD_NAME = "csrf_token"

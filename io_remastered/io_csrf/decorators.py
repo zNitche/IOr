@@ -1,6 +1,6 @@
 from functools import wraps
 from flask import abort
-from io_remastered.csrf_protection import CSRF
+from io_remastered.io_csrf import CSRF
 
 
 def csrf_protected(f):

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, current_app, Response, request
-from io_remastered.csrf_protection import csrf_protected, CSRF
+from io_remastered.io_csrf import csrf_protected, CSRF
 from io_remastered import forms
 
 
@@ -25,11 +25,10 @@ def login_view():
     return render_template("login.html", form=form)
 
 
-@core.route("/login/action", methods=["POST"])
+@core.route("/login", methods=["POST"])
 @csrf_protected
 def login_action():
-    form = forms.LoginForm()
-
-    print(request.form.values)
+    form = forms.LoginForm(form_data=request.form)
+    form.is_valid()
 
     return "ok"
