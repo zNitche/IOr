@@ -4,6 +4,7 @@ from config.app_config import AppConfig
 from io_remastered.db import Database
 from io_remastered.logging import Logging
 from io_remastered.csrf_protection import CSRF
+from io_remastered import app_context_processor_funcs
 
 
 __version__ = "0.0.1"
@@ -33,6 +34,11 @@ def setup_app_modules(app: Flask):
     CSRF(app)
 
 
+def setup_constext_processor(app: Flask):
+    app.context_processor(
+        lambda: {"get_static_resource": app_context_processor_funcs.get_static_resource})
+
+
 def create_app(config_class: type[AppConfig]):
     app = Flask(__name__, instance_relative_config=False)
 
@@ -43,6 +49,7 @@ def create_app(config_class: type[AppConfig]):
     setup_app_modules(app)
 
     with app.app_context():
+        setup_constext_processor(app)
         register_blueprints(app)
 
         return app
