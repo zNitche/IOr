@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, current_app
+from flask import Blueprint, render_template, current_app, Response
 from io_remastered.csrf_protection import csrf_protected
 
 
@@ -14,4 +14,4 @@ def home():
 @core.route("/csrf-test")
 @csrf_protected
 def csrf_test():
-    return render_template("index.html")
+    return Response(response="ok")

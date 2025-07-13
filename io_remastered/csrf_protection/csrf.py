@@ -1,4 +1,4 @@
-from flask import Flask, current_app, session, request
+from flask import Flask, current_app, session, request, g
 from itsdangerous import URLSafeTimedSerializer
 import secrets
 from io_remastered.csrf_protection.exceptions import CSRFValidationException
@@ -25,6 +25,11 @@ class CSRF:
 
     @staticmethod
     def generate_token():
+        current_token = g.get(CSRF_TOKEN_FIELD_NAME)
+
+        if current_token:
+            return current_token
+
         app_secret = str(current_app.secret_key)
         token_session_field_name = current_app.config.get(
             CSRF_TOKEN_FIELD_NAME_KEY, CSRF_TOKEN_FIELD_NAME)
@@ -33,9 +38,12 @@ class CSRF:
             secret_key=app_secret, salt=CSRF_TOKEN_SALT)
 
         new_token = secrets.token_hex(nbytes=32)
-        session[token_session_field_name] = new_token
+        signed_token = signer.dumps(new_token)
 
-        return signer.dumps(new_token)
+        session[token_session_field_name] = new_token
+        setattr(g, CSRF_TOKEN_FIELD_NAME, signed_token)
+
+        return signed_token
 
     @staticmethod
     def validate_token(signed_token: str | None):

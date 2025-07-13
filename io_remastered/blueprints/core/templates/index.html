@@ -13,6 +13,8 @@
 <body>
     <h1>Hello IOremastered</h1>
     <button onclick="testCSRFFetch('/csrf-test', '{{get_csrf_token()}}')">fetch CSRF protected</button>
+
+    <p>{{get_csrf_token()}}</p>
 </body>
 
 </html>
