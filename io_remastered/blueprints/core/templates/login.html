@@ -9,7 +9,19 @@
 </head>
 
 <body>
-    <div>{{form.render()|safe}}</div>
+    <form method="post" action="/login">
+        <div class="form-container">
+            {{ form.csrf_token_field }}
+
+            {% for field in form.fields %}
+            <div class="form-inputs-container">
+                {{ field.label }}
+                {{ field }}
+            </div>
+            {% endfor %}
+        </div>
+        <button type="submit">login</button>
+    </form>
 </body>
 
 </html>

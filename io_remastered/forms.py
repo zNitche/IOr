@@ -3,14 +3,11 @@ from io_remastered.io_forms.inputs import TextInput, PasswordInput
 
 
 class LoginForm(Form):
-    def __init__(self, csrf_token: str | None = None):
-        super().__init__(url="/login/action", method="POST",
-                         submit_button_text="login", csrf_token=csrf_token)
-
-        self.setup()
+    def __init__(self, csrf_token: str | None = None, form_data: dict[str, str] | None = None):
+        super().__init__(url="/login", method="POST", csrf_token=csrf_token, form_data=form_data)
 
     def setup(self):
-        self.add_input(TextInput(id="name", props={}, field_name="name",
+        self.add_field(TextInput(id="name", props={}, field_name="name",
                        label="name", required=True))
-        self.add_input(PasswordInput(id="password", props={}, field_name="password",
+        self.add_field(PasswordInput(id="password", props={}, field_name="password",
                        label="password", required=True))
