@@ -1,13 +1,9 @@
-from typing import Literal
 from io_remastered.io_forms.inputs import InputBase, CSRFTokenField
 
 
 class Form:
-    def __init__(self, url: str, method: Literal["GET", "POST"], csrf_token: str | None,
+    def __init__(self, csrf_token: str | None,
                  form_data: dict[str, str] | None = None):
-
-        self.url = url
-        self.method = method
 
         self.csrf_token = csrf_token
         self.form_data = form_data
