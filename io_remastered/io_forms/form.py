@@ -16,10 +16,11 @@ class Form:
     @property
     def csrf_token_field(self):
         if not self.csrf_token:
-            return ""
-        
+            raise Exception(
+                "trying to access csrf field, but no token has been provided")
+
         return CSRFTokenField(token=self.csrf_token)
-    
+
     @property
     def fields(self):
         return self.__fields
@@ -29,7 +30,7 @@ class Form:
 
     def setup(self) -> None:
         raise NotImplementedError()
-    
+
     def __fill_fields_values(self):
         if self.form_data:
             for field in self.__fields:
@@ -44,5 +45,5 @@ class Form:
 
             if not field.is_valid:
                 return False
-                
+
         return True
