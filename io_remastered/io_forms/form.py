@@ -47,3 +47,13 @@ class Form:
                 return False
 
         return True
+    
+    def get_field_value(self, field_name: str):
+        value = None
+
+        for field in self.__fields:
+            if field.field_name == field_name:
+                value = field.value
+                break
+
+        return value
