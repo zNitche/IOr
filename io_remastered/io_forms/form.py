@@ -11,6 +11,7 @@ class Form:
         self.__fields: list[InputBase] = []
 
         self.setup()
+        self.__fill_fields_values()
 
     @property
     def csrf_token_field(self):
@@ -27,7 +28,21 @@ class Form:
         self.__fields.append(field)
 
     def setup(self) -> None:
-        pass
+        raise NotImplementedError()
+    
+    def __fill_fields_values(self):
+        if self.form_data:
+            for field in self.__fields:
+                field.value = self.form_data.get(field.id)
 
     def is_valid(self):
-        print(self.form_data)
+        if not self.form_data:
+            return False
+
+        for field in self.__fields:
+            field.validate()
+
+            if not field.is_valid:
+                return False
+                
+        return True
