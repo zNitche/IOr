@@ -11,7 +11,7 @@ def load_dotenv(file_path: str):
                 
                 if len(split_line) == 2:
                     name, value = split_line
-                    os.environ[name] = value
+                    os.environ[name] = value.rstrip()
 
     else:
         print(f"{file_path} doesn't exist, skipping...")
