@@ -1,15 +1,18 @@
 from functools import wraps
-from flask import abort
+from flask import abort, request
 from io_remastered.io_csrf import CSRF
 
 
-def csrf_protected(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        status = CSRF.check_csrf_protected_request()
+def csrf_protected(skipped_methods=["GET"]):
+    def inner_wrapper(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if request.method not in skipped_methods:
+                status = CSRF.check_csrf_protected_request()
 
-        if not status:
-            abort(403)
+                if not status:
+                    abort(403)
 
-        return f(*args, **kwargs)
-    return decorated_function
+            return f(*args, **kwargs)
+        return decorated_function
+    return inner_wrapper
