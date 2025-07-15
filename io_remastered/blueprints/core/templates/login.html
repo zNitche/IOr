@@ -18,6 +18,13 @@
                 {{ field.label }}
                 {{ field }}
             </div>
+            <div class="form-errors-container">
+                {% for error in field.errors %}
+                <span>
+                    {{ error }}
+                </span>
+                {% endfor %}
+            </div>
             {% endfor %}
         </div>
         <button type="submit">login</button>
