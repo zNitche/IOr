@@ -13,8 +13,6 @@ class LoginForm(Form):
 
         name_input.add_validator(
             DataRequiredValidator(error_message="field required"))
-        name_input.add_validator(
-            MaxLengthValidator(length=2, error_message="2"))
 
         password_input = PasswordInput(id="password", props={}, field_name="password",
                                        label="password", required=True)

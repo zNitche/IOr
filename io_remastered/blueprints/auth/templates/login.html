@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <form method="post" action="/login">
+    <form method="post" action="{{url_for('auth.login')}}">
         <div class="form-container">
             {{ form.csrf_token_field }}
 

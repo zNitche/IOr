@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, current_app, Response, request
-from io_remastered.io_csrf import csrf_protected, CSRF
-from io_remastered import forms
+from flask import Blueprint, render_template, current_app, Response
+from io_remastered.io_csrf import csrf_protected
+from io_remastered.authentication.decorators import login_required
 
 
 core = Blueprint("core", __name__, template_folder="templates",
@@ -8,22 +8,14 @@ core = Blueprint("core", __name__, template_folder="templates",
 
 
 @core.route("/")
+@login_required
 def home():
     current_app.logger.debug("hello world log")
     return render_template("index.html")
 
 
 @core.route("/csrf-test")
-@csrf_protected
+@login_required
+@csrf_protected()
 def csrf_test():
     return Response(response="ok")
-
-
-@core.route("/login", methods=["GET", "POST"])
-def login_view():
-    form = forms.LoginForm(csrf_token=CSRF.generate_token(), form_data=request.form)
-
-    if form.is_valid():
-        return "ok"
-
-    return render_template("login.html", form=form)
