@@ -17,3 +17,6 @@ class AppConfig:
 
     DATABASE_URI = f"sqlite:////{DATABASE_ROOT_PATH}/app.db"
     LOGS_DIR_PATH = os.path.join(PROJECT_ROOT, "logs")
+
+    REDIS_SERVER_ADDRESS = os.getenv("REDIS_SERVER_ADDRESS")
+    REDIS_SERVER_PORT = os.getenv("REDIS_SERVER_PORT")
