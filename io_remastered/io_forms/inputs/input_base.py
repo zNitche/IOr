@@ -57,7 +57,7 @@ class InputBase:
         for validator in self.__validators:
             if not validator.validate(self.value):
                 self.__validation_errors.append(
-                    FieldError(message=validator.error_message))
+                    FieldError(value=self.value, message=validator.error_message))
                 
                 valid = False
                 break
