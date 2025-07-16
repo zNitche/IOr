@@ -30,8 +30,9 @@ def login():
     return render_template("login.html", form=form)
 
 
-@auth.route("/logout", methods=["POST"])
+@auth.route("/logout", methods=["GET"])
 @login_required
+@csrf_protected()
 def logout():
     authentication_manager.logout()
     return redirect(url_for("core.home"))
