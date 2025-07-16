@@ -8,7 +8,7 @@ def login_required(f):
     def decorated_function(*args, **kwargs):
         auth_token = session.get("auth_token")
 
-        if not auth_token or not authentication_manager.token_exists(auth_token):
+        if not auth_token:
             abort(401)
 
         current_user = authentication_manager.user_for_token(auth_token)

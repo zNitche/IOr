@@ -1,4 +1,4 @@
-from flask import Flask, g
+from flask import Flask
 import secrets
 from config.app_config import AppConfig
 from io_remastered.db import Database
@@ -61,15 +61,15 @@ def setup_constext_processor(app: Flask):
         lambda: {"get_static_resource": app_context_processor_funcs.get_static_resource})
 
     app.context_processor(
-        lambda: {"current_user": g.get("current_user", None)})
+        lambda: {"current_user": authentication_manager.current_user})
 
 
 def create_app(config_class: type[AppConfig]):
     app = Flask(__name__, instance_relative_config=False)
 
-    app.secret_key = secrets.token_hex(
-        nbytes=32) if not config_class.DEBUG_MODE else "debug_secret"
     app.config.from_object(config_class)
+    app.secret_key = secrets.token_hex(
+        nbytes=32) if not app.debug else "debug_secret"
 
     setup_app_modules(app)
     setup_cache_databases(app)
