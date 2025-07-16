@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ get_static_resource('css/base.css') }}">
+    <link rel="stylesheet" href="{{ get_static_resource('css/page.css') }}">
+    <link rel="stylesheet" href="{{ get_static_resource('css/variables.css') }}">
+
+    {% block head_links %}
+    {% endblock %}
+
+    <title>IOremastered</title>
+</head>
+
+<body>
+    {% block content %}
+    {% endblock %}
+</body>
+
+</html>
