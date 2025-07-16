@@ -10,8 +10,9 @@ INPUT_TYPES = Literal[
 
 
 class InputBase:
-    def __init__(self, id: str, field_name: str, label: str | None,
-                 input_type: INPUT_TYPES | None, props: dict[str, Any], required: bool):
+    def __init__(self, id: str, field_name: str,
+                 input_type: INPUT_TYPES | None, props: dict[str, Any], label: str | None = None,
+                 required: bool = False, placeholder: str | None = None):
 
         self.input_type = input_type
 
@@ -20,6 +21,7 @@ class InputBase:
         self.field_name = field_name
 
         self.required = required
+        self.placeholder = placeholder
 
         self.__input_label = InputLabel(
             input_id=id, label=label) if label else None
@@ -34,19 +36,26 @@ class InputBase:
         self.props["id"] = self.id
         self.props["name"] = self.field_name
         self.props["type"] = self.input_type
+        self.props["placeholder"] = self.placeholder
 
         return f'<input {self.__render_props()} {'required' if self.required else ''} />'
 
     @property
     def label(self):
-        return self.__input_label
+        return self.__input_label if self.__input_label else ""
 
     @property
     def errors(self):
         return self.__validation_errors
 
     def __render_props(self):
-        return " ".join(f'{key}="{self.props[key]}"' for key in self.props)
+        props = []
+
+        for key, value in self.props.items():
+            if value:
+                props.append(f'{key}="{value}"')
+
+        return " ".join(props)
 
     def add_validator(self, validator: ValidatorBase):
         self.__validators.append(validator)
@@ -58,7 +67,7 @@ class InputBase:
             if not validator.validate(self.value):
                 self.__validation_errors.append(
                     FieldError(value=self.value, message=validator.error_message))
-                
+
                 valid = False
                 break
 

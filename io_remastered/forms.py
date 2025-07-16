@@ -1,6 +1,6 @@
 from io_remastered.io_forms import Form
 from io_remastered.io_forms.inputs import TextInput, PasswordInput
-from io_remastered.io_forms.validators import MaxLengthValidator, DataRequiredValidator
+from io_remastered.io_forms.validators import DataRequiredValidator
 
 
 class LoginForm(Form):
@@ -9,13 +9,13 @@ class LoginForm(Form):
 
     def setup(self):
         name_input = TextInput(id="name", props={}, field_name="name",
-                               label="name", required=True)
+                               required=True, placeholder="name")
 
         name_input.add_validator(
             DataRequiredValidator(error_message="field required"))
 
         password_input = PasswordInput(id="password", props={}, field_name="password",
-                                       label="password", required=True)
+                                       required=True, placeholder="password")
 
         password_input.add_validator(
             DataRequiredValidator(error_message="field required"))
