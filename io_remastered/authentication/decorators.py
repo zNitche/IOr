@@ -16,7 +16,7 @@ def login_required(f):
         if not current_user:
             abort(401)
 
-        g.current_user = current_user
+        setattr(g, "current_user", current_user)
         authentication_manager.refresh(auth_token)
 
         return f(*args, **kwargs)

@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, g
 import secrets
 from config.app_config import AppConfig
 from io_remastered.db import Database
@@ -52,13 +52,16 @@ def setup_cache_databases(app: Flask):
     if redis_server_port and redis_server_address:
         authentication_cache_db.setup(
             address=redis_server_address, port=redis_server_port, flush=flush_database)
-        
+
         app.logger.info("authentication_cache_db setup completed...")
 
 
 def setup_constext_processor(app: Flask):
     app.context_processor(
         lambda: {"get_static_resource": app_context_processor_funcs.get_static_resource})
+
+    app.context_processor(
+        lambda: {"current_user": g.get("current_user", None)})
 
 
 def create_app(config_class: type[AppConfig]):
