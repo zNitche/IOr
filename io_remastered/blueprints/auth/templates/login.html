@@ -1,34 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "page.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block head_links %}
+<link rel="stylesheet" href="{{ get_static_resource('css/pages/login.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/forms/form.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/forms/login_form.css') }}">
+{% endblock %}
 
-    <title>IO_remastered - login</title>
-</head>
+{% block page_content %}
+<div class="login-page-wrapper">
+    <div class="login-page-form-wrapper">
+        <form class="login-page-form" method="post" action="{{url_for('auth.login')}}">
+            {% with extra_class="login-form" %}
+            {% include "components/form.html" %}
+            {% endwith %}
+            <button type="submit">login</button>
+        </form>
+    </div>
 
-<body>
-    <form method="post" action="{{url_for('auth.login')}}">
-        <div class="form-container">
-            {{ form.csrf_token_field }}
+</div>
 
-            {% for field in form.fields %}
-            <div class="form-inputs-container">
-                {{ field.label }}
-                {{ field }}
-            </div>
-            <div class="form-errors-container">
-                {% for error in field.errors %}
-                <span>
-                    {{ error }}
-                </span>
-                {% endfor %}
-            </div>
-            {% endfor %}
-        </div>
-        <button type="submit">login</button>
-    </form>
-</body>
-
-</html>
+{% endblock %}

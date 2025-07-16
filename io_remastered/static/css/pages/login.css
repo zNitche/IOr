@@ -1,0 +1,17 @@
+.login-page-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    height: 100vh;
+}
+
+.login-page-form-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-page-form {
+
+}
