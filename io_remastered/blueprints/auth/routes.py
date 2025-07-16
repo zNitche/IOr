@@ -32,7 +32,6 @@ def login():
 
 @auth.route("/logout", methods=["GET"])
 @login_required
-@csrf_protected()
 def logout():
     authentication_manager.logout()
     return redirect(url_for("core.home"))
