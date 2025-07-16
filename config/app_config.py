@@ -3,7 +3,7 @@ from config import PROJECT_ROOT
 
 
 class AppConfig:
-    DEBUG_MODE = bool(int(os.getenv("DEBUG", 0)))
+    DEBUG = bool(int(os.getenv("DEBUG", 0)))
 
     APP_HOST = "0.0.0.0"
     APP_PORT = 8080
