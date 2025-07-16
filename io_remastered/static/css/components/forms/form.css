@@ -1,0 +1,21 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-inputs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.form-errors-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.form-field-error {
+    color: var(--red);
+}

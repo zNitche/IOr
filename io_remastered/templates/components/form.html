@@ -1,0 +1,19 @@
+{% set extra_class_value = extra_class if extra_class is defined else '' %}
+
+<div class="form-container {{ extra_class_value }}">
+    {{ form.csrf_token_field }}
+
+    {% for field in form.fields %}
+    <div class="form-inputs-container {{ extra_class_value }}">
+        {{ field.label }}
+        {{ field }}
+    </div>
+    <div class="form-errors-container {{ extra_class_value }}">
+        {% for error in field.errors %}
+        <span class="form-field-error {{ extra_class_value }}">
+            {{ error }}
+        </span>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
