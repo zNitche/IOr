@@ -90,15 +90,15 @@ class CSRF:
 
     @staticmethod
     def check_csrf_protected_request():
-        is_ok = False
+        is_valid = False
 
         try:
             current_request_token = CSRF.get_csrf_token_for_current_request()
             CSRF.validate_token(signed_token=current_request_token)
 
-            is_ok = True
+            is_valid = True
 
         except CSRFValidationException as e:
             current_app.logger.exception(e)
 
-        return is_ok
+        return is_valid

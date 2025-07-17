@@ -11,11 +11,19 @@ auth = Blueprint("auth", __name__, template_folder="templates",
                  static_folder="static", url_prefix="/auth")
 
 
-@auth.route("/login", methods=["GET", "POST"])
+@auth.route("/login", methods=["GET"])
+@anonymous_only
+def login():
+    form = forms.LoginForm(csrf_token=CSRF.generate_token())
+
+    return render_template("login.html", form=form)
+
+
+@auth.route("/login/submit", methods=["POST"])
 @anonymous_only
 @csrf_protected()
-def login():
-    form = forms.LoginForm(csrf_token=CSRF.generate_token(), form_data=request.form)
+def login_submit():
+    form = forms.LoginForm(form_data=request.form)
 
     if form.is_valid():
         username = form.get_field_value("name")
@@ -27,11 +35,11 @@ def login():
             authentication_manager.login(user.id)
 
             return redirect(url_for("core.home"))
-        
+
         else:
             flash("wrong name or password", FlashConsts.TYPE_ERROR)
 
-    return render_template("login.html", form=form)
+    return redirect(url_for("auth.login"))
 
 
 @auth.route("/logout", methods=["GET"])

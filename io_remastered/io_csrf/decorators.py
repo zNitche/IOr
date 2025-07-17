@@ -8,9 +8,9 @@ def csrf_protected(skipped_methods=["GET"]):
         @wraps(f)
         def decorated_function(*args, **kwargs):
             if request.method not in skipped_methods:
-                status = CSRF.check_csrf_protected_request()
+                valid = CSRF.check_csrf_protected_request()
 
-                if not status:
+                if not valid:
                     abort(403)
 
             return f(*args, **kwargs)
