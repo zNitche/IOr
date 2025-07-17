@@ -1,7 +1,13 @@
 :root {
+    /* colors */
     --background: #1a1a1d;
-    
+    --black: #000000;
     --white: #ffffff;
     --red: #ff0000;
     --green: #06d960;
+
+    /* fonts */
+    --font-size-s: 10px;
+    --font-size: 13px;
+    --font-size-l: 20px
 }

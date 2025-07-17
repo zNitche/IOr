@@ -30,11 +30,13 @@
      background: var(--green);
 }
 
-.flashed-message-title {
+.flashed-message-text {
     flex: 1;
+    font-size: var(--font-size-l);
 }
 
 .close-flash-message-icon {
     width: 16px;
     height: 16px;
+    cursor: pointer;
 }
