@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from werkzeug.security import check_password_hash
 from io_remastered.io_csrf import CSRF
 from io_remastered.io_csrf import csrf_protected
 from io_remastered.authentication.decorators import login_required, anonymous_only
 from io_remastered import forms, authentication_manager, models
+from io_remastered.consts import FlashConsts
 
 
 auth = Blueprint("auth", __name__, template_folder="templates",
@@ -25,7 +26,10 @@ def login():
         if user and check_password_hash(user.password, password):
             authentication_manager.login(user.id)
 
-        return redirect(url_for("core.home"))
+            return redirect(url_for("core.home"))
+        
+        else:
+            flash("wrong name or password", FlashConsts.TYPE_ERROR)
 
     return render_template("login.html", form=form)
 
