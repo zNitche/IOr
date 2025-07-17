@@ -7,7 +7,11 @@
     <div class="flashed-messages-wrapper">
         {% for category, message in messages %}
         <div class="flashed-message flashed-message-{{ category }}">
-            {{ message }}
+            <div class="flashed-message-title">
+                {{ message }}
+            </div>
+            <img src="{{ get_static_resource('icons/close_icon.svg') }}" class="close-flash-message-icon"
+                onclick="closeFlashMessage(event)" />
         </div>
         {% endfor %}
     </div>

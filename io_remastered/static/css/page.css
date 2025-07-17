@@ -15,6 +15,9 @@
 .flashed-message {
     padding: 4px 8px;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .flashed-message-error {
@@ -25,4 +28,13 @@
 .flashed-message-success {
      color: var(--white);
      background: var(--green);
+}
+
+.flashed-message-title {
+    flex: 1;
+}
+
+.close-flash-message-icon {
+    width: 16px;
+    height: 16px;
 }

@@ -23,6 +23,8 @@
 
 .io-logo {
     -webkit-user-drag: none;
+    width: 64px;
+    height: 64px;
 }
 
 .login-page-form {
