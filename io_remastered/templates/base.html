@@ -18,6 +18,18 @@
 </head>
 
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flashed-messages-wrapper">
+        {% for category, message in messages %}
+        <div class="flashed-message flashed-message-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
     {% block content %}
     {% endblock %}
 </body>

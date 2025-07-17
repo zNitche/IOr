@@ -2,6 +2,27 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    height: auto;
     box-sizing: border-box;
+}
+
+.flashed-messages-wrapper {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.flashed-message {
+    padding: 4px 8px;
+    box-sizing: border-box;
+}
+
+.flashed-message-error {
+    color: var(--white);
+    background: var(--red);
+}
+
+.flashed-message-success {
+     color: var(--white);
+     background: var(--green);
 }
