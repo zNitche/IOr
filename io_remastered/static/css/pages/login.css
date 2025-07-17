@@ -6,12 +6,33 @@
     height: 100vh;
 }
 
-.login-page-form-wrapper {
+.login-page-content-wrapper {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 16px;
+    padding: 16px;
 }
 
 .login-page-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
 
+.login-form-submit-button {
+    border: unset;
+    border-radius: 4px;
+    padding: 4px;
+    background: var(--green);
+    color: var(--black);
+    text-transform: capitalize;
+}
+
+@media (max-width: 576px) {
+    .login-page-content-wrapper {
+        width: 100%;
+    }
 }

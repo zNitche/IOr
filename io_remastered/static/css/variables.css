@@ -1,3 +1,7 @@
 :root {
-    --red: #f00;
+    --background: #1a1a1d;
+    
+    --white: #ffffff;
+    --red: #ff0000;
+    --green: #06d960;
 }

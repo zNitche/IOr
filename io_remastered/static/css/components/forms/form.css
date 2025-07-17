@@ -4,18 +4,28 @@
     gap: 8px;
 }
 
-.form-inputs-container {
+.form-inputs {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.form-errors-container {
+.form-input-container input {
+    box-sizing: border-box;
+    width: 100%;
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.form-input-container label {}
+
+.form-input-errors-container {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.form-field-error {
+.input-field-error {
     color: var(--red);
 }

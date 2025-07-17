@@ -3,17 +3,19 @@
 <div class="form-container {{ extra_class_value }}">
     {{ form.csrf_token_field }}
 
-    {% for field in form.fields %}
-    <div class="form-inputs-container {{ extra_class_value }}">
-        {{ field.label }}
-        {{ field }}
-    </div>
-    <div class="form-errors-container {{ extra_class_value }}">
-        {% for error in field.errors %}
-        <span class="form-field-error {{ extra_class_value }}">
-            {{ error }}
-        </span>
+    <div class="form-inputs {{ extra_class_value }}">
+        {% for field in form.fields %}
+        <div class="form-input-container {{ extra_class_value }}">
+            {{ field.label }}
+            {{ field }}
+        </div>
+        <div class="form-input-errors-container {{ extra_class_value }}">
+            {% for error in field.errors %}
+            <span class="input-field-error {{ extra_class_value }}">
+                {{ error }}
+            </span>
+            {% endfor %}
+        </div>
         {% endfor %}
     </div>
-    {% endfor %}
 </div>
