@@ -38,7 +38,7 @@ def setup_app_modules(app: Flask):
     db.setup(app.config["DATABASE_URI"])
     db.create_all()
 
-    CSRF(app)
+    CSRF.initialize(app)
 
     app.logger.info("app modules setup completed...")
 

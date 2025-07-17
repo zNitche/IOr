@@ -10,18 +10,17 @@ CSRF_TOKEN_HTTP_HEADER_NAME = "X-CSRF-TOKEN"
 
 
 class CSRF:
-    def __init__(self, app: Flask):
-        self.app = app
+    def __init__(self):
+        pass
 
-        self.__setup()
+    @staticmethod
+    def initialize(app: Flask):
+        app.context_processor(
+            lambda: {"get_csrf_token": CSRF.generate_token})
 
-    def __setup(self):
-        self.app.context_processor(
-            lambda: {"get_csrf_token": self.generate_token})
+        app.config[CSRF_TOKEN_FIELD_NAME_KEY] = CSRF_TOKEN_FIELD_NAME
 
-        self.app.config[CSRF_TOKEN_FIELD_NAME_KEY] = CSRF_TOKEN_FIELD_NAME
-
-        self.app.logger.info("[CSRF] initialized")
+        app.logger.info("[CSRF] initialized")
 
     @staticmethod
     def generate_token():
@@ -67,7 +66,7 @@ class CSRF:
 
         is_match = secrets.compare_digest(token, session_csrf_token)
 
-        if not is_match: 
+        if not is_match:
             raise CSRFValidationException("CSRF tokens don't match")
 
     @staticmethod
