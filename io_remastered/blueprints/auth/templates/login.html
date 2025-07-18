@@ -10,11 +10,12 @@
 <div class="login-page-wrapper">
     <div class="login-page-content-wrapper">
         <img src="{{ get_static_resource('icons/io_placeholder.svg') }}" class="io-logo" />
-        <form class="login-page-form" method="post" action="{{url_for('auth.login_submit')}}">
+        <form class="login-page-form" method="post" action="{{url_for('auth.login_submit')}}"
+            onsubmit="disableButtonById('login-submit-button')">
             {% with extra_class="login-form" %}
             {% include "components/form.html" %}
             {% endwith %}
-            <button class="login-form-submit-button" type="submit">login</button>
+            <button class="login-form-submit-button" id="login-submit-button" type="submit">login</button>
         </form>
     </div>
 
