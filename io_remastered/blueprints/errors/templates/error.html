@@ -1,0 +1,13 @@
+{% extends "page.html" %}
+
+{% block head_links %}
+<link rel="stylesheet" href="{{ get_static_resource('css/pages/error.css') }}">
+{% endblock %}
+
+{% block page_content %}
+<div class="error-page-wrapper">
+    <div class="title">Oof {{error.code}}</div>
+    <div class="description">An unexpeted error has occured</div>
+    <a class="nav-link" href="{{url_for('core.home')}}">navigate to home page</a>
+</div>
+{% endblock %}
