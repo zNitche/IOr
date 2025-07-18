@@ -2,15 +2,15 @@
 
 {% block head_links %}
 <link rel="stylesheet" href="{{ get_static_resource('css/pages/home.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/navigation_bar.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/more_menu.css') }}">
 {% endblock %}
 
 {% block page_content %}
+{% include "components/navigation_bar.html" %}
 <div class="home-page">
     <h1>Hello IOremastered</h1>
     <p>user: {{current_user.username}}</p>
-    <p>
-        <a href="{{url_for('auth.logout')}}">logout</a>
-    </p>
 </div>
 
 {% endblock %}
