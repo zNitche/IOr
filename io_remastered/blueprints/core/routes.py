@@ -12,10 +12,3 @@ core = Blueprint("core", __name__, template_folder="templates",
 def home():
     current_app.logger.debug("hello world log")
     return render_template("index.html")
-
-
-@core.route("/csrf-test")
-@login_required
-@csrf_protected()
-def csrf_test():
-    return Response(response="ok")
