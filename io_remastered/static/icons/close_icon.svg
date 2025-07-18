@@ -2,46 +2,17 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="9.5462732mm"
-   height="9.5462732mm"
-   viewBox="0 0 9.5462732 9.5462732"
+   width="9.5462704mm"
+   height="9.5462704mm"
+   viewBox="0 0 9.5462704 9.5462704"
    version="1.1"
    id="svg1"
-   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
-   sodipodi:docname="close_icon.svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xml:space="preserve"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview1"
-     pagecolor="#505050"
-     bordercolor="#ffffff"
-     borderopacity="1"
-     inkscape:showpageshadow="0"
-     inkscape:pageopacity="0"
-     inkscape:pagecheckerboard="1"
-     inkscape:deskcolor="#505050"
-     inkscape:document-units="mm"
-     inkscape:zoom="5.9162854"
-     inkscape:cx="10.310523"
-     inkscape:cy="17.66311"
-     inkscape:window-width="1536"
-     inkscape:window-height="795"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
-  <defs
-     id="defs1" />
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+     id="defs1" /><g
      id="layer1"
-     transform="translate(-75.976715,-81.226782)">
-    <path
-       d="m 75.976715,82.287561 3.712541,3.712541 -3.712175,3.712175 1.060413,1.060413 3.712175,-3.712176 3.71254,3.712541 1.060779,-1.060779 -3.712541,-3.71254 3.712176,-3.712175 -1.060413,-1.060413 -3.712175,3.712175 -3.712541,-3.712541 z"
+     transform="translate(-105.02895,-143.39353)"><path
+       d="m 105.02895,144.45431 3.71254,3.71254 -3.71218,3.71218 1.06042,1.06041 3.71217,-3.71218 3.71254,3.71254 1.06078,-1.06078 -3.71254,-3.71254 3.71217,-3.71217 -1.06041,-1.06041 -3.71217,3.71217 -3.71254,-3.71254 z"
        style="fill:#ffffff;stroke-width:0.229136"
-       id="path1" />
-  </g>
-</svg>
+       id="path1" /></g></svg>
