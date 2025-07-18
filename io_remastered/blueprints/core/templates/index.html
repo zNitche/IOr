@@ -1,21 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "page.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block head_links %}
+<link rel="stylesheet" href="{{ get_static_resource('css/pages/home.css') }}">
+{% endblock %}
 
-    <title>IO_remastered</title>
-</head>
-
-<body>
+{% block page_content %}
+<div class="home-page">
     <h1>Hello IOremastered</h1>
-    <p>user: {{current_user.username}}</p> 
-
-    <p>{{get_csrf_token()}}</p>
+    <p>user: {{current_user.username}}</p>
     <p>
         <a href="{{url_for('auth.logout')}}">logout</a>
     </p>
-</body>
+</div>
 
-</html>
+{% endblock %}
