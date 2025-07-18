@@ -63,6 +63,9 @@ def setup_constext_processor(app: Flask):
     app.context_processor(
         lambda: {"current_user": authentication_manager.current_user})
 
+    app.context_processor(
+        lambda: {"io_version": __version__})
+
 
 def create_app(config_class: type[AppConfig]):
     app = Flask(__name__, instance_relative_config=False)
