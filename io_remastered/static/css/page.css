@@ -9,6 +9,8 @@
 .flashed-messages-wrapper {
     display: flex;
     flex-direction: column;
+    position: fixed;
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -26,8 +28,8 @@
 }
 
 .flashed-message-success {
-     color: var(--white);
-     background: var(--green);
+    color: var(--white);
+    background: var(--green);
 }
 
 .flashed-message-text {

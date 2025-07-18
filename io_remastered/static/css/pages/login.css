@@ -15,10 +15,6 @@
     box-sizing: border-box;
     gap: 16px;
     padding: 16px;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    top: 50%;
 }
 
 .io-logo {
@@ -41,6 +37,12 @@
     background: var(--green);
     color: var(--black);
     text-transform: capitalize;
+    cursor: pointer;
+}
+
+.login-form-submit-button:disabled {
+    cursor: unset;
+    background: var(--green-1);
 }
 
 @media (max-width: 576px) {
