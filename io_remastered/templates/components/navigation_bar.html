@@ -1,0 +1,10 @@
+<div class="navigation-bar">
+    <div class="left">
+        <img src="{{ get_static_resource('icons/io_placeholder.svg') }}" class="navigation-bar-icon io-logo" />
+    </div>
+    <div class="right">
+        <img src="{{ get_static_resource('icons/burger.svg') }}" class="navigation-bar-icon burger-icon"
+            onclick="toggleElementById('more-menu', true)" />
+    </div>
+</div>
+{% include "components/more_menu.html" %}

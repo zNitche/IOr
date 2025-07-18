@@ -17,3 +17,14 @@ function disableButtonById(buttonId) {
     }
 }
 
+
+function toggleElementById(id, state) {
+    const element = document.getElementById(id);
+
+    if (element) {
+        const displayValue = state ? "block" : "none";
+        element.style.display = displayValue;
+    }
+}
+
+
