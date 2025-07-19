@@ -1,5 +1,4 @@
-from flask import Blueprint, render_template, current_app, Response
-from io_remastered.io_csrf import csrf_protected
+from flask import Blueprint, render_template
 from io_remastered.authentication.decorators import login_required
 
 
@@ -10,5 +9,4 @@ core = Blueprint("core", __name__, template_folder="templates",
 @core.route("/")
 @login_required
 def home():
-    current_app.logger.debug("hello world log")
     return render_template("index.html")

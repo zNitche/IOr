@@ -81,4 +81,6 @@ def create_app(config_class: type[AppConfig]):
         setup_constext_processor(app)
         register_blueprints(app)
 
+        app.logger.info("app has been created")
+
         return app

@@ -19,16 +19,10 @@ class Logging:
         self.logs_path = self.__set_logs_path(logs_filename, logs_path)
         self.__logger = create_logger(app)
 
-    def __set_logs_path(self, filename: str | None, path: str | None) -> str | None:
-        if filename is None or path is None:
-            return None
-
-        if not os.path.exists(path):
-            os.makedirs(path, exist_ok=True)
-
-        return os.path.join(path, filename)
-
     def setup(self):
+        # clear built in logging handlers
+        self.__logger.handlers.clear()
+
         if self.app.debug:
             self.__logger.setLevel("DEBUG")
         else:
@@ -38,6 +32,15 @@ class Logging:
 
         if self.logs_path is not None:
             self.__setup_file(self.logs_path)
+
+    def __set_logs_path(self, filename: str | None, path: str | None) -> str | None:
+        if filename is None or path is None:
+            return None
+
+        if not os.path.exists(path):
+            os.makedirs(path, exist_ok=True)
+
+        return os.path.join(path, filename)
 
     def __setup_serial(self):
         formatter = self.__get_formatter(with_day=False)
