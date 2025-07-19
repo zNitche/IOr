@@ -1,6 +1,6 @@
 from io_remastered.io_forms import Form
 from io_remastered.io_forms.inputs import TextInput, PasswordInput
-from io_remastered.io_forms.validators import DataRequiredValidator
+from io_remastered.io_forms.validators import DataRequiredValidator, MaxLengthValidator
 
 
 class LoginForm(Form):
@@ -8,17 +8,21 @@ class LoginForm(Form):
         super().__init__(csrf_token=csrf_token, form_data=form_data)
 
     def setup(self):
-        name_input = TextInput(id="name", props={}, field_name="name",
+        name_input = TextInput(id="name", props={"maxlength": 20}, field_name="name",
                                required=True, placeholder="name")
 
         name_input.add_validator(
             DataRequiredValidator(error_message="field required"))
+        name_input.add_validator(MaxLengthValidator(
+            error_message="username can't exceed 20 characters", length=20))
 
-        password_input = PasswordInput(id="password", props={}, field_name="password",
+        password_input = PasswordInput(id="password", props={"maxlength": 64}, field_name="password",
                                        required=True, placeholder="password")
 
         password_input.add_validator(
             DataRequiredValidator(error_message="field required"))
+        password_input.add_validator(MaxLengthValidator(
+            error_message="password can't exceed 64 characters", length=64))
 
         self.add_field(name_input)
         self.add_field(password_input)
