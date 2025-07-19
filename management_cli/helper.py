@@ -18,14 +18,15 @@ class Helper:
     def __hash_password(self, plain_password: str):
         return generate_password_hash(plain_password)
 
-    def add_user(self, user_name: str, password: str):
+    def add_user(self, user_name: str, password: str, storage_size: int):
         users_names = [user.username for user in self.get_users()]
 
         if user_name in users_names:
             raise Exception("user already exists")
 
         encrypted_password = self.__hash_password(password)
-        user = models.User(username=user_name, password=encrypted_password)
+        user = models.User(
+            username=user_name, password=encrypted_password, max_storage_size=storage_size)
 
         with self.db.session_context() as session:
             session.add(user)
@@ -51,4 +52,15 @@ class Helper:
                 raise Exception("user doesn't exists")
 
             user.password = self.__hash_password(password)
+            session.commit()
+
+    def change_user_max_storage_size(self, user_name: str, storage_size: int):
+        with self.db.session_context() as session:
+            user = session.query(models.User).filter_by(
+                username=user_name).first()
+
+            if not user:
+                raise Exception("user doesn't exists")
+
+            user.max_storage_size = storage_size
             session.commit()

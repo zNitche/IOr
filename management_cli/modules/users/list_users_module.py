@@ -1,4 +1,3 @@
-import json
 from management_cli.modules import ModuleBase
 from io_remastered.models import User
 
@@ -17,7 +16,7 @@ class ListUsersModule(ModuleBase):
 
         else:
             for user in users:
-                print(json.dumps(self.__cleanup_user(user), indent=4))
+                print(self.__cleanup_user(user))
 
     
     def __cleanup_user(self, user: User):
