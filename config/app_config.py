@@ -20,3 +20,6 @@ class AppConfig:
 
     REDIS_SERVER_ADDRESS = os.getenv("REDIS_SERVER_ADDRESS")
     REDIS_SERVER_PORT = os.getenv("REDIS_SERVER_PORT")
+
+    STORAGE_ROOT_PATH = os.path.join(PROJECT_ROOT, "storage")
+    STORAGE_TMP_ROOT_PATH = os.path.join(STORAGE_ROOT_PATH, "tmp")
