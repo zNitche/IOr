@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from config import PROJECT_ROOT
 
 
@@ -8,9 +9,10 @@ class AppConfig:
     APP_HOST = "0.0.0.0"
     APP_PORT = 8080
 
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SECURE = bool(int(os.getenv("HTTPS_ONLY", 1)))
     SESSION_COOKIE_SAMESITE = "Lax"
-
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    PERMANENT_SESSION_LIFETIME = timedelta(days=1)
 
     DATABASE_ROOT_PATH = os.path.join(PROJECT_ROOT, "database")
     MIGRATIONS_DIR_PATH = os.path.join(DATABASE_ROOT_PATH, "migrations")
