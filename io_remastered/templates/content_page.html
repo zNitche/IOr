@@ -1,5 +1,13 @@
 {% extends "page.html" %}
 
+{% block head_links %}
+<link rel="stylesheet" href="{{ get_static_resource('css/content_page.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/navigation_bar.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/more_menu.css') }}">
+
+{{ super() }}
+{% endblock %}
+
 {% block page %}
 {% include "components/navigation_bar.html" %}
 <div class="content-page">

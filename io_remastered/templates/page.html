@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% block head_links %}
+{{super()}}
+<link rel="stylesheet" href="{{ get_static_resource('css/page.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="page-content-wrapper">
     {% with messages = get_flashed_messages(with_categories=true) %}
