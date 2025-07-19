@@ -1,5 +1,7 @@
 from io_remastered import models
 from io_remastered.db import Database
+import os
+import shutil
 from config.app_config import AppConfig
 from werkzeug.security import generate_password_hash
 
@@ -32,6 +34,22 @@ class Helper:
             session.add(user)
             session.commit()
 
+            self.__create_user_storage_directory(user_id=user.id)
+
+    def __create_user_storage_directory(self, user_id: str):
+        storage_path = os.path.join(
+            AppConfig.STORAGE_ROOT_PATH, str(user_id))
+
+        if not os.path.exists(storage_path):
+            os.mkdir(storage_path)
+
+    def __remove_user_storage_directory(self, user_id: str):
+        storage_path = os.path.join(
+            AppConfig.STORAGE_ROOT_PATH, str(user_id))
+
+        if os.path.exists(storage_path):
+            shutil.rmtree(storage_path)
+
     def delete_user(self, user_name: str):
         with self.db.session_context() as session:
             user = session.query(models.User).filter_by(
@@ -42,6 +60,8 @@ class Helper:
 
             session.delete(user)
             session.commit()
+
+            self.__remove_user_storage_directory(user.id)
 
     def reset_user_password(self, user_name: str, password: str):
         with self.db.session_context() as session:
