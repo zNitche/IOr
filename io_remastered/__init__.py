@@ -24,6 +24,7 @@ def register_blueprints(app: Flask):
     app.register_blueprint(blueprints.errors)
     app.register_blueprint(blueprints.core)
     app.register_blueprint(blueprints.auth)
+    app.register_blueprint(blueprints.storage)
 
 
 def setup_app_modules(app: Flask):

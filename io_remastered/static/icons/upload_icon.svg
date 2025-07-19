@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="12mm"
+   height="12.296487mm"
+   viewBox="0 0 12 12.296487"
+   version="1.1"
+   id="svg1"
+   xml:space="preserve"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+     id="defs1"><marker
+       style="overflow:visible"
+       id="ArrowWide"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="0.69999999"
+       markerHeight="0.69999999"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid"><path
+         style="fill:none;stroke:context-stroke;stroke-width:1;stroke-linecap:butt"
+         d="M 3,-3 0,0 3,3"
+         transform="rotate(180,0.125,0)"
+         id="path3" /></marker></defs><g
+     id="layer1"
+     transform="translate(-69.935416,-248.06323)"><path
+       style="fill:none;stroke:#ffffff;stroke-width:0.920331;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWide)"
+       d="m 75.935416,257.14992 c 0,-8.47009 0,-8.47009 0,-8.47009"
+       id="path1" /><rect
+       style="fill:#ffffff;stroke:#ffffff;stroke-width:0.9176;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3"
+       width="11.0824"
+       height="0.082400486"
+       x="-1.4337903"
+       y="12.579758"
+       transform="translate(71.828006,247.23876)" /></g></svg>
