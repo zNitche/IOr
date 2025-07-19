@@ -11,7 +11,7 @@ class User(Base):
     id = mapped_column(Integer, primary_key=True)
 
     username = mapped_column(String(20), unique=True, nullable=False)
-    password = mapped_column(String(), unique=False, nullable=False)
+    password = mapped_column(String, unique=False, nullable=False)
 
     created_at = mapped_column(
         DATETIME, nullable=False, default=lambda: datetime.datetime.now(datetime.timezone.utc))
@@ -30,5 +30,14 @@ class File(Base):
     id = mapped_column(Integer, primary_key=True)
     uuid = mapped_column(String(32), unique=True,
                          nullable=False, default=lambda: uuid.uuid4().hex)
+    
+    name = mapped_column(String(64), unique=False, nullable=False)
+    extension = mapped_column(String(10), unique=False, nullable=False)
+
+    size = mapped_column(Integer, unique=False, nullable=False, default=0)
+    sha256_sum = mapped_column(String(64), unique=False, nullable=False)
+
+    upload_date = mapped_column(
+        DATETIME, nullable=False, default=lambda: datetime.datetime.now(datetime.timezone.utc))
 
     owner_id = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
