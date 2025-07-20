@@ -8,3 +8,5 @@ database/
 .env
 
 *.db
+
+storage/
