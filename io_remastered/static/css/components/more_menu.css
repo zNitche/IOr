@@ -6,7 +6,6 @@
     position: fixed;
     right: 0;
     box-sizing: border-box;
-    display: none;
     height: 100%;
     padding: 12px;
 }
