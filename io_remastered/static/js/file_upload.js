@@ -128,13 +128,3 @@ function setUploadProgressDetials(progress) {
     progressBar.style.width = `${progress}%`;
     progressText.innerHTML = `${progress}%`;
 }
-
-function getXHRResponse(request) {
-    const response = JSON.parse(request.responseText);
-    const status = request.status;
-
-    return {
-        message: response.message,
-        status,
-    };
-}

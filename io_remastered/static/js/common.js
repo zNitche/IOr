@@ -17,7 +17,6 @@ function disableButtonById(buttonId) {
     }
 }
 
-
 function toggleElementVisibility(id, visible) {
     const element = document.getElementById(id);
 
@@ -32,4 +31,12 @@ function toggleElementVisibility(id, visible) {
     }
 }
 
+function getXHRResponse(request) {
+    const response = JSON.parse(request.responseText);
+    const status = request.status;
 
+    return {
+        message: response.message,
+        status,
+    };
+}
