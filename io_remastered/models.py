@@ -1,5 +1,6 @@
 import datetime
 import uuid
+import json
 from sqlalchemy import Integer, String, DATETIME, ForeignKey
 from sqlalchemy.orm import mapped_column, relationship
 from io_remastered.db import Base
@@ -22,7 +23,17 @@ class User(Base):
 
     files = relationship("File", backref="owner",
                          cascade="all, delete-orphan", lazy=False)
-    
+
+    def __str__(self):
+        struct = {
+            "username": self.username,
+            "created_at": str(self.created_at),
+            "max_storage_size": self.max_storage_size,
+            "files_count": len(self.files)
+        }
+
+        return json.dumps(struct)
+
     def get_max_storage_size_in_bytes(self):
         return self.max_storage_size * 1_000_000
 
@@ -33,7 +44,7 @@ class File(Base):
     id = mapped_column(Integer, primary_key=True)
     uuid = mapped_column(String(32), unique=True,
                          nullable=False, default=lambda: uuid.uuid4().hex)
-    
+
     name = mapped_column(String(64), unique=False, nullable=False)
     extension = mapped_column(String(10), unique=False, nullable=False)
 
