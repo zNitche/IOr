@@ -25,3 +25,6 @@ class AppConfig:
 
     STORAGE_ROOT_PATH = os.path.join(PROJECT_ROOT, "storage")
     STORAGE_TMP_ROOT_PATH = os.path.join(STORAGE_ROOT_PATH, "tmp")
+
+    # in MB, defaults to 30 GB
+    MAX_FILE_UPLOAD_SIZE = int(os.getenv("MAX_FILE_UPLOAD_SIZE", 30_000))
