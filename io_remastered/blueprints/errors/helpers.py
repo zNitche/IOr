@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from io_remastered.utils import is_js_request
+from io_remastered.utils.requests_utils import is_js_request
 
 
 def headless_error(error):
