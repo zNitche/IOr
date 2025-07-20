@@ -10,7 +10,12 @@ class ResetUserPasswordModule(ModuleBase):
 
     def action(self):
         target_username = input("username > ")
+
         new_password = getpass("password > ")
+        confirm_new_password = getpass("confirm password > ")
+
+        if new_password != confirm_new_password:
+            raise Exception("passwords doesn't match")
         
         self.helper.reset_user_password(target_username, new_password)
 
