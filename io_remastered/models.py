@@ -22,6 +22,9 @@ class User(Base):
 
     files = relationship("File", backref="owner",
                          cascade="all, delete-orphan", lazy=False)
+    
+    def get_max_storage_size_in_bytes(self):
+        return self.max_storage_size * 1_000_000
 
 
 class File(Base):
