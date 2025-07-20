@@ -1,6 +1,4 @@
-from typing import Any
 from management_cli.modules import ModuleBase
-from io_remastered.models import User
 
 
 class ListUsersModule(ModuleBase):
@@ -17,17 +15,4 @@ class ListUsersModule(ModuleBase):
 
         else:
             for user in users:
-                print(self.__cleanup_object(user))
-                print("\nFiles:")
-                print(user.files)
-
-    
-    def __cleanup_object(self, object: Any):
-        struct = {}
-        dict = object.__dict__
-
-        for key in dict:
-            if not key.startswith("_"):
-                struct[key] = dict.get(key)
-
-        return struct
+                print(str(user))

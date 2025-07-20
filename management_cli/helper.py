@@ -1,9 +1,10 @@
-from io_remastered import models
-from io_remastered.db import Database
 import os
 import shutil
 from config.app_config import AppConfig
 from werkzeug.security import generate_password_hash
+from typing import Any
+from io_remastered import models
+from io_remastered.db import Database
 
 
 class Helper:
@@ -16,6 +17,13 @@ class Helper:
             users = session.query(models.User).all()
 
         return users
+
+    def get_user(self, user_name: str):
+        with self.db.session_context() as session:
+            user = session.query(models.User).filter_by(
+                username=user_name).first()
+
+        return user
 
     def __hash_password(self, plain_password: str):
         return generate_password_hash(plain_password)
@@ -52,8 +60,7 @@ class Helper:
 
     def delete_user(self, user_name: str):
         with self.db.session_context() as session:
-            user = session.query(models.User).filter_by(
-                username=user_name).first()
+            user = self.get_user(user_name)
 
             if user is None:
                 raise Exception("user doesn't exists")
@@ -65,8 +72,7 @@ class Helper:
 
     def reset_user_password(self, user_name: str, password: str):
         with self.db.session_context() as session:
-            user = session.query(models.User).filter_by(
-                username=user_name).first()
+            user = self.get_user(user_name)
 
             if not user:
                 raise Exception("user doesn't exists")
@@ -76,11 +82,20 @@ class Helper:
 
     def change_user_max_storage_size(self, user_name: str, storage_size: int):
         with self.db.session_context() as session:
-            user = session.query(models.User).filter_by(
-                username=user_name).first()
+            user = self.get_user(user_name)
 
             if not user:
                 raise Exception("user doesn't exists")
 
             user.max_storage_size = storage_size
             session.commit()
+
+    def cleanup_db_object(self, object: Any):
+        struct = {}
+        dict = object.__dict__
+
+        for key in dict:
+            if not key.startswith("_"):
+                struct[key] = dict.get(key)
+
+        return struct

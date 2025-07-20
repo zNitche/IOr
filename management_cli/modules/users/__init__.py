@@ -3,3 +3,4 @@ from management_cli.modules.users.add_user_module import AddUserModule
 from management_cli.modules.users.reset_user_password_module import ResetUserPasswordModule
 from management_cli.modules.users.remove_user_module import RemoveUserModule
 from management_cli.modules.users.change_user_max_storage_size import ChangeUserMaxStorageSize
+from management_cli.modules.users.list_user_files_module import ListUserFilesModule
