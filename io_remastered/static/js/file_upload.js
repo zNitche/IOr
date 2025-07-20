@@ -86,7 +86,7 @@ function sendFile(upload_url, csrf_token) {
     xhr.setRequestHeader("Content-Type", file.type);
     xhr.setRequestHeader("X-CSRF-TOKEN", csrf_token);
 
-    xhr.send();
+    xhr.send(file);
 }
 
 function handleSendFileError(event) {
@@ -98,11 +98,7 @@ function handleSendFileLoadEnd(event) {
 
     const response = getXHRResponse(event.currentTarget);
 
-    if (response.status !== 200) {
-        showMessage(response.message, "error");
-    } else {
-        showMessage("file has been uploaded successfully", "success");
-    }
+    showMessage(response.message, response.status !== 200 ? "error" : "success");
 
     clearFileInput();
 }
