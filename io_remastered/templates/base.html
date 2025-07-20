@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{{ get_static_resource('css/base.css') }}">
     <link rel="stylesheet" href="{{ get_static_resource('css/variables.css') }}">
 
+    <script src="{{ get_static_resource('js/common.js') }}"></script>
+
     {% block head_links %}
     {% endblock %}
 
@@ -19,8 +21,6 @@
 <body>
     {% block content %}
     {% endblock %}
-
-    <script src="{{ get_static_resource('js/common.js') }}"></script>
 </body>
 
 </html>

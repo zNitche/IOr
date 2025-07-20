@@ -18,12 +18,17 @@ function disableButtonById(buttonId) {
 }
 
 
-function toggleElementById(id, state) {
+function toggleElementVisibility(id, visible) {
     const element = document.getElementById(id);
 
     if (element) {
-        const displayValue = state ? "block" : "none";
-        element.style.display = displayValue;
+        if (visible) {
+            element.classList.remove("d-none");
+        } else {
+            element.classList.add("d-none")
+        }
+    } else {
+        console.error("can't find element with id " + id);
     }
 }
 

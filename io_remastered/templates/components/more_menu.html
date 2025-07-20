@@ -7,7 +7,7 @@
 {
 'title': 'Upload',
 'icon_name': 'io_placeholder.svg',
-'url': url_for('storage.file_upload'),
+'url': url_for('storage.upload'),
 },
 {
 'title': 'Account',
@@ -21,7 +21,7 @@
     <div class="more-menu-content">
         <div class="header">
             <img src="{{ get_static_resource('icons/close_icon.svg') }}" class="more-menu-icon close-icon"
-                onclick="toggleElementById('more-menu', false)" />
+                onclick="toggleElementVisibility('more-menu', false)" />
         </div>
         <div class="top">
             {% for menuItem in menuItems %}
@@ -41,3 +41,7 @@
         </div>
     </div>
 </div>
+
+<script>
+    toggleElementVisibility("more-menu", false);
+</script>
