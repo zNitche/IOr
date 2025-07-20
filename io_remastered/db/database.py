@@ -8,7 +8,7 @@ class Database:
     def __init__(self):
         self.engine: Engine | None = None
         self.session_maker: sessionmaker[Session] | None = None
-        self.session: scoped_session[Session] | None = None
+        self.session: scoped_session[Session] = None # type: ignore
 
     def setup(self, db_uri):
         self.engine = create_engine(db_uri)
