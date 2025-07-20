@@ -86,6 +86,19 @@
     justify-content: center;
 }
 
+.file-upload-message {
+    font-size: var(--font-size);
+    text-align: center;
+}
+
+.file-upload-message.error {
+    color: var(--red);
+}
+
+.file-upload-message.success {
+    color: var(--green);
+}
+
 @media (max-width: 576px) {
     .file-upload-wrapper {
         width: 100%;

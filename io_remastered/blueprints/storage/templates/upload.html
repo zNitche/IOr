@@ -15,12 +15,15 @@
             <img src="{{get_static_resource('icons/upload_icon.svg')}}" class="file-upload-icon">
         </label>
         <input id="file-upload-input" class="file-upload-input" type="file" onchange="handleUploadFileSelected()">
+
         <div id="file-upload-name" class="file-upload-name"></div>
-        <div id="file-upload-error" class="file-upload-error"></div>
+        <div id="file-upload-message" class="file-upload-message"></div>
+
         <div id="file-upload-progress-bar" class="file-upload-progress-bar">
             <div class="inner" id="file-upload-progress"></div>
-            <span class="text" id="file-upload-progress-text">20%</span>
+            <span class="text" id="file-upload-progress-text"></span>
         </div>
+
         <button id="file-upload-button" class="file-upload-button"
             onclick="sendFile('{{file_upload_url}}', '{{get_csrf_token()}}')">Upload</button>
     </div>
