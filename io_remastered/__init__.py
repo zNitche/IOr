@@ -62,7 +62,7 @@ def setup_constext_processor(app: Flask):
         lambda: {"get_static_resource": app_context_processor_funcs.get_static_resource})
 
     app.context_processor(
-        lambda: {"current_user": authentication_manager.current_user})
+        lambda: {"current_user": lambda: authentication_manager.current_user})
 
     app.context_processor(
         lambda: {"io_version": __version__})

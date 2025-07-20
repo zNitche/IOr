@@ -30,10 +30,15 @@ class AuthenticationManager:
         return True if user_id is not None else False
 
     @property
-    def current_user(self):
-        return g.get("current_user", None)
+    def current_user(self) -> models.User:
+        user = g.get("current_user", None)
 
-    def user_for_token(self, token: str | None):
+        if not user:
+            raise Exception("current user is none")
+        
+        return user
+
+    def user_for_token(self, token: str | None) -> models.User | None:
         if not token:
             return None
 
