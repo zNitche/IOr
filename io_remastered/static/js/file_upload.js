@@ -21,9 +21,12 @@ function clearFileInput() {
     const fileNameElement = document.getElementById("file-upload-name");
 
     filesInputElement.file = null;
+    filesInputElement.value = '';
+
     fileNameElement.innerHTML = "";
 
     toggleElementVisibility("file-upload-name", false);
+    toggleElementVisibility("file-upload-button", false);
 }
 
 function handleUploadFileSelected() {
