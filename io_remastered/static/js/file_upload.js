@@ -37,6 +37,8 @@ function handleUploadFileSelected() {
     if (file) {
         showUploadFileElements(file.name);
         toggleElementVisibility("file-upload-button", true);
+    } else {
+        clearFileInput();
     }
 }
 
