@@ -35,7 +35,7 @@ class User(Base):
         return json.dumps(struct)
 
     def get_max_storage_size_in_bytes(self):
-        return self.max_storage_size * 1_000_000
+        return self.max_storage_size * 1_000_000_000
 
 
 class File(Base):
