@@ -1,7 +1,7 @@
 import os
 import shutil
 from uuid import uuid4
-from flask import Blueprint, render_template, jsonify, current_app, request
+from flask import Blueprint, render_template, jsonify, current_app, request, Response
 from werkzeug.utils import secure_filename
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
@@ -11,24 +11,20 @@ from io_remastered.utils import files_utils
 
 
 storage = Blueprint("storage", __name__, template_folder="templates",
-                    static_folder="static", url_prefix="/files")
+                    static_folder="static", url_prefix="/storage")
 
 
-@storage.route("/upload", methods=["GET"])
+@storage.route("/file/upload", methods=["GET"])
 @login_required
 def upload():
     return render_template("upload.html")
 
 
-@storage.route("/upload/submit", methods=["POST"])
-@limit_content_length(current_app.config.get("MAX_FILE_UPLOAD_SIZE", None))
+@storage.route("/file/upload/preflight", methods=["POST"])
 @login_required
 @csrf_protected()
-def upload_handler():
-    file_name = secure_filename(request.headers["X-File-Name"])
+def upload_handler_preflight():
     file_size = int(request.headers["X-File-Size"])
-    _, file_extension = os.path.splitext(file_name)
-    file_uuid = uuid4().hex
 
     current_user = authentication_manager.current_user
 
@@ -39,6 +35,23 @@ def upload_handler():
     if (user_files_size + file_size) > current_user.get_max_storage_size_in_bytes():
         return jsonify({"message": "max storage size exceeded"}), 400
 
+    return Response(status=200)
+
+
+@storage.route("/file/upload/submit", methods=["POST"])
+@limit_content_length(current_app.config.get("MAX_FILE_UPLOAD_SIZE", None))
+@login_required
+@csrf_protected()
+def upload_handler():
+    file_name = secure_filename(request.headers["X-File-Name"])
+    _, file_extension = os.path.splitext(file_name)
+    file_uuid = uuid4().hex
+
+    current_user = authentication_manager.current_user
+
+    user_storage_path = os.path.join(
+        current_app.config["STORAGE_ROOT_PATH"], str(current_user.id))
+
     tmp_file_path = os.path.join(
         current_app.config["STORAGE_TMP_ROOT_PATH"], file_uuid)
     target_file_path = os.path.join(user_storage_path, file_uuid)
@@ -48,7 +61,6 @@ def upload_handler():
             stream=request.stream, file_path=tmp_file_path)
 
         final_file_size = files_utils.get_file_size(tmp_file_path)
-
         user_files_size = files_utils.get_directory_files_size(
             user_storage_path)
 

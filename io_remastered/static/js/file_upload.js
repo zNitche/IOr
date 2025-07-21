@@ -62,34 +62,58 @@ function showMessage(message, type) {
     messageElement.innerHTML = `${messagePrefix}${message}!`;
 }
 
-function sendFile(upload_url, csrf_token) {
+async function sendFile(upload_preflight_url, upload_url, csrf_token) {
     const file = getInputFile();
 
     if (!file) {
-        showMessage("can't access selected file", "error")
+        showMessage("can't access selected file", "error");
         return;
     }
 
+    // it seems xhr can't be aborted midflight via backend response, so let's do a preflight request]
+    await fileUploadPreflight(upload_preflight_url, file, csrf_token);
+
+    // setup XHR
     const xhr = new XMLHttpRequest();
 
-    xhr.addEventListener("abort", handleSendFileError)
-    xhr.addEventListener("error", handleSendFileError)
-    xhr.addEventListener("timeout", handleSendFileError)
+    xhr.addEventListener("abort", handleSendFileError);
+    xhr.addEventListener("error", handleSendFileError);
+    xhr.addEventListener("timeout", handleSendFileError);
 
-    xhr.addEventListener("loadend", handleSendFileLoadEnd)
-    xhr.addEventListener("loadstart", handleSendFileLoadStart)
+    xhr.addEventListener("loadend", handleSendFileLoadEnd);
+    xhr.addEventListener("loadstart", handleSendFileLoadStart);
 
-    xhr.addEventListener("progress", handleSendFileLoadProgress)
+    xhr.upload.addEventListener("progress", (event) => handleSendFileLoadProgress(event));
 
     xhr.open("POST", upload_url, true);
 
     xhr.setRequestHeader("X-Is-JS-Request", true);
+    xhr.setRequestHeader("X-CSRF-TOKEN", csrf_token);
     xhr.setRequestHeader("X-File-Name", file.name);
     xhr.setRequestHeader("X-File-Size", file.size);
     xhr.setRequestHeader("Content-Type", file.type);
-    xhr.setRequestHeader("X-CSRF-TOKEN", csrf_token);
 
     xhr.send(file);
+}
+
+async function fileUploadPreflight(preflight_url, file, csrf_token) {
+    const preflightResponse = await fetch(preflight_url, {
+        method: "POST",
+        headers: {
+            "X-Is-JS-Request": true,
+            "X-CSRF-TOKEN": csrf_token,
+            "X-File-Size": file.size,
+        }
+    });
+
+    if (!preflightResponse.ok) {
+        const responseJson = await preflightResponse.json();
+
+        showMessage(responseJson.message, "error");
+        clearFileInput();
+
+        throw new Error(responseJson.message)
+    }
 }
 
 function handleSendFileError(event) {
