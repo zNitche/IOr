@@ -9,4 +9,4 @@ database/
 
 *.db
 
-.storage/
+files_storage/*
