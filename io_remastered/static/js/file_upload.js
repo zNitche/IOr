@@ -64,7 +64,7 @@ function showMessage(message, type) {
     messageElement.innerHTML = `${messagePrefix}${message}!`;
 }
 
-async function sendFile(upload_preflight_url, upload_url, csrf_token) {
+async function sendFile(file_upload_preflight_url, upload_url, csrf_token) {
     const file = getInputFile();
 
     if (!file) {
@@ -72,67 +72,33 @@ async function sendFile(upload_preflight_url, upload_url, csrf_token) {
         return;
     }
 
-    // it seems xhr can't be aborted midflight via backend response, so let's do a preflight request]
-    await fileUploadPreflight(upload_preflight_url, file, csrf_token);
+    handleSendFileLoadStart();
 
-    // setup XHR
-    const xhr = new XMLHttpRequest();
+    try {
+        const uploader = new FileChunksUploader(file);
+        const response = await uploader.uploadChunkedFile(upload_url, file_upload_preflight_url,
+             csrf_token, handleSendFileLoadProgress);
 
-    xhr.addEventListener("abort", handleSendFileError);
-    xhr.addEventListener("error", handleSendFileError);
-    xhr.addEventListener("timeout", handleSendFileError);
-
-    xhr.addEventListener("loadend", handleSendFileLoadEnd);
-    xhr.addEventListener("loadstart", handleSendFileLoadStart);
-
-    xhr.upload.addEventListener("progress", (event) => handleSendFileLoadProgress(event));
-
-    xhr.open("POST", upload_url, true);
-
-    xhr.setRequestHeader("X-Is-JS-Request", true);
-    xhr.setRequestHeader("X-CSRF-TOKEN", csrf_token);
-    xhr.setRequestHeader("X-File-Name", file.name);
-    xhr.setRequestHeader("X-File-Size", file.size);
-    xhr.setRequestHeader("Content-Type", file.type);
-
-    xhr.send(file);
-}
-
-async function fileUploadPreflight(preflight_url, file, csrf_token) {
-    const preflightResponse = await fetch(preflight_url, {
-        method: "POST",
-        headers: {
-            "X-Is-JS-Request": true,
-            "X-CSRF-TOKEN": csrf_token,
-            "X-File-Size": file.size,
+        if (!response) {
+            showMessage("no response from server", "error");
+            return;
         }
-    });
 
-    if (!preflightResponse.ok) {
-        const responseJson = await preflightResponse.json();
-
-        showMessage(responseJson.message, "error");
-        clearFileInput();
-
-        throw new Error(responseJson.message)
+        const resJson = await response.json()
+        handleSendFileLoadEnd(resJson.message, response.status !== 200);
+    } catch {
+        handleSendFileLoadEnd("an error has occured", true);
     }
 }
 
-function handleSendFileError(event) {
-    showMessage(event.type, "error")
-}
-
-function handleSendFileLoadEnd(event) {
+function handleSendFileLoadEnd(message, isError) {
     toggleElementVisibility("file-upload-progress-bar", false);
-
-    const response = getXHRResponse(event.currentTarget);
-
-    showMessage(response.message, response.status !== 200 ? "error" : "success");
+    showMessage(message, isError ? "error" : "success");
 
     clearFileInput();
 }
 
-function handleSendFileLoadStart(event) {
+function handleSendFileLoadStart() {
     toggleElementVisibility("file-upload-message", false);
     toggleElementVisibility("file-upload-progress-bar", true);
     toggleElementVisibility("file-upload-button", false);
@@ -140,8 +106,8 @@ function handleSendFileLoadStart(event) {
     setUploadProgressDetials(0);
 }
 
-function handleSendFileLoadProgress(event) {
-    const currentProgress = ((event.loaded / event.total) * 100).toFixed(2);
+function handleSendFileLoadProgress(current, total) {
+    const currentProgress = (current * 100 / total).toFixed(2);
 
     setUploadProgressDetials(currentProgress);
 }

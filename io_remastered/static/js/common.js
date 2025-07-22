@@ -30,13 +30,3 @@ function toggleElementVisibility(id, visible) {
         console.error("can't find element with id " + id);
     }
 }
-
-function getXHRResponse(request) {
-    const response = JSON.parse(request.responseText);
-    const status = request.status;
-
-    return {
-        message: response.message,
-        status,
-    };
-}
