@@ -18,7 +18,10 @@ def get_directory_files_size(files_path: str):
 
 
 def write_file_from_stream(stream: IO[bytes], file_path: str, chunk_size=102400):
-    with open(file_path, "wb") as file:
+    if not os.path.exists(file_path):
+        raise Exception(f"file '{file_path}' doesn't exists")
+
+    with open(file_path, "ab") as file:
         while True:
             chunk = stream.read(chunk_size)
 
@@ -26,3 +29,16 @@ def write_file_from_stream(stream: IO[bytes], file_path: str, chunk_size=102400)
                 break
 
             file.write(chunk)
+
+
+def get_filename_for_tmp_upload(uuid: str, user_id: int):
+    return f"{uuid}_{user_id}"
+
+
+def create_tmp_file_for_upload(tmp_files_path: str, uuid: str, user_id: int):
+    path = os.path.join(tmp_files_path, get_filename_for_tmp_upload(uuid, user_id))
+
+    if os.path.exists(path):
+        os.remove(path)
+
+    open(path, "x").close()
