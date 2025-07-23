@@ -4,6 +4,7 @@ class FileChunksUploader {
         this.chunkSize = chunkSize;
 
         this.fileSize = file.size;
+        this.fileName = file.name.substring(0, 64) // limit filename to 64 characters
 
         this.fileChunksCount = Math.ceil(this.fileSize / chunkSize);
     }
@@ -22,8 +23,8 @@ class FileChunksUploader {
             method: "POST",
             headers: {
                 "X-Is-JS-Request": true,
-                "X-File-Size": this.file.size,
-                "X-File-Name": this.file.name,
+                "X-File-Size": this.fileSize,
+                "X-File-Name": this.fileName,
                 "X-CSRF-TOKEN": csrf_token,
             },
         });
@@ -66,7 +67,7 @@ class FileChunksUploader {
             headers: {
                 "X-Is-JS-Request": true,
                 "X-File-UUID": fileUUID,
-                "X-File-Name": this.file.name,
+                "X-File-Name": this.fileName,
                 "X-Is-Last-Chunk": chunkData.size < this.chunkSize ? 1 : 0,
             },
             body: chunkData

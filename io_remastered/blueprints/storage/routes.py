@@ -34,7 +34,7 @@ def upload_handler_preflight():
     if storage_size_exceeded:
         return jsonify({"message": "max storage size exceeded"}), 400
 
-    uuid = secrets.token_hex(nbytes=64)
+    uuid = secrets.token_hex(nbytes=128)
     tmp_files_path = current_app.config["STORAGE_TMP_ROOT_PATH"]
 
     files_utils.create_tmp_file_for_upload(
@@ -71,6 +71,9 @@ def upload_handler():
         
         if is_last_chunk:
             file_name = secure_filename(request.headers["X-File-Name"])
+
+            if len(file_name) > 64:
+                file_name = file_name[:64]
 
             user_storage_path = os.path.join(
                 current_app.config["STORAGE_ROOT_PATH"], str(current_user.id))
