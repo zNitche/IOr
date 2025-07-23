@@ -81,12 +81,13 @@ def upload_handler():
             shutil.move(tmp_file_path, target_file_path)
 
             _, file_extension = os.path.splitext(file_name)
+            final_file_size = files_utils.get_file_size(target_file_path)
 
-            # file_object = models.File(uuid=file_uuid, name=file_name,
-            #                           extension=file_extension, size=final_file_size,
-            #                           owner_id=current_user.id, sha256_sum="")
+            file_object = models.File(uuid=file_uuid, name=file_name,
+                                      extension=file_extension, size=final_file_size,
+                                      owner_id=current_user.id, sha256_sum="")
 
-            # db.add(file_object)
+            db.add(file_object)
 
             return jsonify({"message": f"'{file_name}' has been uploaded successfully"}), 200
 
