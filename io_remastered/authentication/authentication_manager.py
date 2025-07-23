@@ -6,16 +6,23 @@ from io_remastered.extra_modules import RedisCacheDatabase
 
 class AuthenticationManager:
     def __init__(self, auth_db: RedisCacheDatabase):
+        self.__default_auth_token_ttl = 600
+
         self.__auth_db = auth_db
+
+    def setup(self, default_auth_token_ttl: None | int = 600):
+        if default_auth_token_ttl is not None:
+            self.__default_auth_token_ttl = default_auth_token_ttl
 
     def login(self, user_id: int):
         token = secrets.token_hex(128)
-        self.__auth_db.set_value(token, user_id, ttl=600)
+        self.__auth_db.set_value(
+            token, user_id, ttl=self.__default_auth_token_ttl)
 
         session["auth_token"] = token
 
-    def refresh(self, token: str, time=600):
-        self.__auth_db.update_ttl(token, ttl=time)
+    def refresh(self, token: str):
+        self.__auth_db.update_ttl(token, ttl=self.__default_auth_token_ttl)
 
     def logout(self):
         token = session.get("auth_token")
@@ -35,7 +42,7 @@ class AuthenticationManager:
 
         if not user:
             raise Exception("current user is none")
-        
+
         return user
 
     def user_for_token(self, token: str | None) -> models.User | None:

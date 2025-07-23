@@ -39,6 +39,9 @@ def setup_app_modules(app: Flask):
     db.setup(app.config["DATABASE_URI"])
     db.create_all()
 
+    authentication_manager.setup(
+        default_auth_token_ttl=app.config.get("AUTH_TOKEN_LIFESPAN", None))
+
     CSRF.initialize(app)
 
     app.logger.info("app modules setup completed...")

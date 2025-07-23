@@ -23,6 +23,8 @@ class AppConfig:
     REDIS_SERVER_ADDRESS = os.getenv("REDIS_SERVER_ADDRESS")
     REDIS_SERVER_PORT = os.getenv("REDIS_SERVER_PORT")
 
+    AUTH_TOKEN_LIFESPAN = int(os.getenv("AUTH_TOKEN_LIFESPAN", 600))
+
     STORAGE_ROOT_PATH = os.path.join(PROJECT_ROOT, "files_storage")
     STORAGE_TMP_ROOT_PATH = os.path.join(STORAGE_ROOT_PATH, "tmp")
 
