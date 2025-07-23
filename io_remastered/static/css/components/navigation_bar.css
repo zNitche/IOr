@@ -7,6 +7,8 @@
     background: var(--background-1);
     align-items: center;
     padding: 4px 20%;
+    top: 0;
+    position: sticky;
 }
 
 .navigation-bar-icon {
