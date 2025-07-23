@@ -34,7 +34,7 @@ def upload_handler_preflight():
     if storage_size_exceeded:
         return jsonify({"message": "max storage size exceeded"}), 400
 
-    uuid = secrets.token_hex(nbytes=128)
+    uuid = secrets.token_hex(nbytes=64)
     tmp_files_path = current_app.config["STORAGE_TMP_ROOT_PATH"]
 
     files_utils.create_tmp_file_for_upload(
