@@ -21,7 +21,7 @@ def upload():
     return render_template("upload.html")
 
 
-@storage.route("/file/upload/preflight", methods=["PUT"])
+@storage.route("/file/upload/preflight", methods=["POST"])
 @login_required
 @csrf_protected()
 def upload_handler_preflight():
@@ -43,7 +43,7 @@ def upload_handler_preflight():
     return jsonify({"file_uuid": uuid}), 200
 
 
-@storage.route("/file/upload/submit", methods=["POST"])
+@storage.route("/file/upload/submit", methods=["PUT"])
 @login_required
 def upload_handler():
     current_user = authentication_manager.current_user

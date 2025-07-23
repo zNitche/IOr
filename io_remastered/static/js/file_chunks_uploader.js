@@ -19,7 +19,7 @@ class FileChunksUploader {
 
     async preflightRequest(url, csrf_token) {
         const response = await fetch(url, {
-            method: "PUT",
+            method: "POST",
             headers: {
                 "X-Is-JS-Request": true,
                 "X-File-Size": this.file.size,
@@ -62,7 +62,7 @@ class FileChunksUploader {
 
     async uploadFileChunk(url, chunkData, fileUUID) {
         const response = await fetch(url, {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "X-Is-JS-Request": true,
                 "X-File-UUID": fileUUID,
