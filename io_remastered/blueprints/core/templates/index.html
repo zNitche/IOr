@@ -3,12 +3,12 @@
 {% block head_links %}
 {{super()}}
 <link rel="stylesheet" href="{{ get_static_resource('css/pages/home.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/storage_space_bar.css') }}">
 {% endblock %}
 
 {% block page_content %}
 <div class="home-page">
-    <h1>Hello IOremastered</h1>
-    <p>user: {{current_user().username}}</p>
+    {% include "components/storage_space_bar.html" %}
 </div>
 
 {% endblock %}
