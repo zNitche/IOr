@@ -99,6 +99,10 @@ def upload_handler():
     except Exception as e:
         current_app.logger.exception(e)
 
+        # cleanup
+        if os.path.exists(tmp_file_path):
+            os.remove(tmp_file_path)
+
         return jsonify({"message": "error while writing file data"}), 500
 
     return Response(status=200)
