@@ -4,7 +4,6 @@ from config.app_config import AppConfig
 from io_remastered.db import Database
 from io_remastered.logging import Logging
 from io_remastered.io_csrf import CSRF
-from io_remastered import app_helpers
 from io_remastered.extra_modules import RedisCacheDatabase
 from io_remastered.authentication import AuthenticationManager
 
@@ -61,11 +60,16 @@ def setup_cache_databases(app: Flask):
 
 
 def setup_constext_processor(app: Flask):
+    from io_remastered import app_helpers
+
     app.context_processor(
         lambda: {"get_static_resource": app_helpers.context_processor_funcs.get_static_resource})
 
     app.context_processor(
         lambda: {"current_user": lambda: authentication_manager.current_user})
+    
+    app.context_processor(
+        lambda: {"user_storage": app_helpers.UserStorage()})
 
     app.context_processor(
         lambda: {"io_version": __version__})
