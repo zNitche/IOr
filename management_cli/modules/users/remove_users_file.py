@@ -1,11 +1,11 @@
 from management_cli.modules import ModuleBase
 
 
-class ListUserFilesModule(ModuleBase):
+class RemoveUsersFileModule(ModuleBase):
     def __init__(self, helper):
         super().__init__(helper=helper)
 
-        self.name = "List User Files"
+        self.name = "Remove User's File"
 
     def action(self):
         user_name = input("username > ")
@@ -14,8 +14,10 @@ class ListUserFilesModule(ModuleBase):
         if not user:
             print(f"'{user_name}' doesn't exist")
             return
-        
+
         print(f"files count: {len(user.files)}\n")
 
-        for file in user.files:
-            print(self.helper.cleanup_db_object(file))
+        file_uuid = input("file uuid > ")
+        self.helper.remove_file(file_uuid=file_uuid, user_id=user.id)
+
+        print(f"{file_uuid} removed.")

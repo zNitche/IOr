@@ -24,6 +24,13 @@ class Helper:
                 username=user_name).first()
 
         return user
+    
+    def get_file(self, file_uuid: str):
+        with self.db.session_context() as session:
+            file = session.query(models.File).filter_by(
+                uuid=file_uuid).first()
+
+        return file
 
     def __hash_password(self, plain_password: str):
         return generate_password_hash(plain_password)
@@ -89,6 +96,19 @@ class Helper:
 
             user.max_storage_size = storage_size
             session.commit()
+
+    def remove_file(self, user_id: str, file_uuid: str):
+        file = self.get_file(file_uuid)
+
+        if not file:
+            raise Exception("file doesn't exists")
+
+        self.db.remove(file)
+
+        file_path = os.path.join(AppConfig.STORAGE_ROOT_PATH, str(user_id), file_uuid)
+
+        if os.path.exists(file_path):
+            os.remove(file_path)
 
     def cleanup_db_object(self, object: Any):
         struct = {}

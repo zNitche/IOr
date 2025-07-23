@@ -7,7 +7,9 @@ from management_cli.modules.users import AddUserModule
 from management_cli.modules.users import RemoveUserModule
 from management_cli.modules.users import ResetUserPasswordModule
 from management_cli.modules.users import ChangeUserMaxStorageSize
-from management_cli.modules.users import ListUserFilesModule
+from management_cli.modules.users import ListUsersFilesModule
+from management_cli.modules.users import RemoveUsersFileModule
+from management_cli.modules.users import RemoveUserFilesModule
 
 
 class CLI:
@@ -19,7 +21,8 @@ class CLI:
         modules: list[type[ModuleBase]] = [
             ExitModule, ListUsersModule, AddUserModule,
             RemoveUserModule, ResetUserPasswordModule,
-            ChangeUserMaxStorageSize, ListUserFilesModule
+            ChangeUserMaxStorageSize, ListUsersFilesModule,
+            RemoveUsersFileModule, RemoveUserFilesModule
         ]
 
         return [module(helper=helper) for module in modules]
