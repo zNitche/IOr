@@ -13,7 +13,7 @@
         <img src="{{ get_static_resource('icons/io_placeholder.svg') }}" class="io-logo" />
         <form class="login-page-form" method="post" action="{{url_for('auth.login_submit')}}"
             onsubmit="disableButtonById('login-submit-button')">
-            {% with extra_class="login-form" %}
+            {% with extra_class="login-form", form=form %}
             {% include "components/form.html" %}
             {% endwith %}
             <button class="login-form-submit-button" id="login-submit-button" type="submit">login</button>
