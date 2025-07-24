@@ -6,6 +6,7 @@ from io_remastered.logging import Logging
 from io_remastered.io_csrf import CSRF
 from io_remastered.extra_modules import RedisCacheDatabase
 from io_remastered.authentication import AuthenticationManager
+from io_remastered import jinja_filters
 
 
 __version__ = "0.0.1"
@@ -74,6 +75,10 @@ def setup_constext_processor(app: Flask):
 
     app.context_processor(
         lambda: {"io_version": __version__})
+    
+
+def setup_template_filters(app: Flask):
+    app.jinja_env.filters["formatted_file_size"] = jinja_filters.formatted_file_size
 
 
 def create_app(config_class: type[AppConfig]):
@@ -88,6 +93,8 @@ def create_app(config_class: type[AppConfig]):
 
     with app.app_context():
         setup_constext_processor(app)
+        setup_template_filters(app)
+
         register_blueprints(app)
 
         app.logger.info("app has been created")
