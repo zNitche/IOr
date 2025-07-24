@@ -1,6 +1,8 @@
 <div class="navigation-bar">
     <div class="left">
-        <img src="{{ get_static_resource('icons/io_placeholder.svg') }}" class="navigation-bar-icon io-logo" />
+        <a href="{{url_for('core.home')}}" class="navigation-bar-icon">
+            <img src="{{ get_static_resource('icons/io_placeholder.svg') }}" class="navigation-bar-icon io-logo" />
+        </a>
     </div>
     <div class="right">
         <img src="{{ get_static_resource('icons/burger_icon.svg') }}" class="navigation-bar-icon burger-icon"

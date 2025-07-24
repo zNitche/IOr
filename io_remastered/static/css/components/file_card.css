@@ -16,7 +16,14 @@
     flex: 1;
 }
 
+.file-card .file-type-icon {
+    height: 24px;
+}
+
 .file-card .open-file-preview-icon {
     height: 24px;
     margin-left: auto;
+}
+.file-card  .open-file-preview-anchor {
+    display: flex;
 }
