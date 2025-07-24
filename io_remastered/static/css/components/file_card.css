@@ -13,6 +13,7 @@
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+    flex: 1;
 }
 
 .file-card .open-file-preview-icon {
