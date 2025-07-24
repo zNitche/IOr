@@ -1,0 +1,52 @@
+{% extends "content_page.html" %}
+
+{% set details_items = [{
+"title": "name",
+"content": file.name
+},
+{
+"title": "extension",
+"content": file.extension
+},
+{
+"title": "size",
+"content": file.size|formatted_file_size
+},
+{
+"title": "uuid",
+"content": file.uuid
+},
+{
+"title": "upload date",
+"content": file.upload_date.strftime('%d-%m-%Y %H:%M:%S')
+},{
+"title": "sha256sum",
+"content": file.sha256_sum
+}] %}
+
+{% block head_links %}
+{{super()}}
+<link rel="stylesheet" href="{{ get_static_resource('css/pages/file_preview.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/forms/form.css') }}">
+{% endblock %}
+
+{% block page_content %}
+<div class="file-preview-page">
+    <div class="file-type-icon-wrapper">
+        <img src="{{get_static_resource('icons/io_placeholder.svg')}}" class="file-type-icon">
+    </div>
+    <div class="file-details">
+        {% for item in details_items %}
+        <div class="row">
+            <div class="title">{{item.title}}</div>
+            <div class="content">{% if not item.content %}-{% else %}{{item.content}}{% endif %}</div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="file-actions">
+        <button>download</button>
+        <button class="remove-file-button">remove</button>
+    </div>
+</div>
+
+{% endblock %}

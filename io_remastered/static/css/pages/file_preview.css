@@ -1,0 +1,83 @@
+.file-preview-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.file-type-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+}
+
+.file-type-icon-wrapper .file-type-icon {
+    width: 64px;
+    height: 64px;
+}
+
+.file-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.file-details .row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px 8px;
+    background: var(--background-3);
+}
+
+.row .title {
+    font-size: var(--font-size-m);
+}
+
+.row .content {
+    font-size: var(--font-size-l);
+    overflow: hidden;
+    overflow-x: auto;
+}
+
+.content::-webkit-scrollbar {
+  width: 8px;
+  margin: 10px;
+}
+
+.content::-webkit-scrollbar-track {
+  background: var(--background-3); 
+}
+ 
+.content::-webkit-scrollbar-thumb {
+  background: var(--background-2); 
+}
+.content::-webkit-scrollbar-thumb:hover {
+  background: var(--background-2-hover); 
+}
+
+.file-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.file-actions button {
+    border: unset;
+    border-radius: 4px;
+    padding: 8px 8px;
+    background: var(--green);
+    color: var(--black);
+    text-transform: capitalize;
+    cursor: pointer;
+}
+
+.file-actions .remove-file-button {
+    background: var(--red);
+}
+
+@media (max-width: 576px) {
+    .file-actions button {
+        width: 100%;
+    }
+}

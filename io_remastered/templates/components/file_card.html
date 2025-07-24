@@ -1,5 +1,7 @@
 <div class="file-card">
+    <img src="{{ get_static_resource('icons/io_placeholder.svg') }}" class="file-type-icon" />
     <span class="title">{{file.name}}</span>
     <span class="upload-date">{{file.upload_date.strftime('%d-%m-%Y')}}</span>
-    <img src="{{ get_static_resource('icons/burger_icon.svg') }}" class="open-file-preview-icon" />
+    <a href="{{url_for('storage.file_preview', uuid=file.uuid)}}" class="open-file-preview-anchor"><img
+            src="{{ get_static_resource('icons/burger_icon.svg') }}" class="open-file-preview-icon" /></a>
 </div>
