@@ -1,0 +1,8 @@
+<form class="search-bar" method="get" action="{{action_url}}" onsubmit="disableButtonById('search-button')">
+    {% with extra_class="search-bar-form", form=form %}
+    {% include "components/form.html" %}
+    {% endwith %}
+    <button class="search-button" id="search-button" type="submit">
+        <img src="{{ get_static_resource('icons/io_placeholder.svg') }}" />
+    </button>
+</form>
