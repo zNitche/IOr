@@ -1,6 +1,7 @@
-{% extends "page.html" %}
+{% extends "content_page.html" %}
 
 {% block head_links %}
+{{super()}}
 <link rel="stylesheet" href="{{ get_static_resource('css/pages/error.css') }}">
 {% endblock %}
 
