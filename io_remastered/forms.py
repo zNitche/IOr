@@ -26,3 +26,14 @@ class LoginForm(Form):
 
         self.add_field(name_input)
         self.add_field(password_input)
+
+
+class SearchBarForm(Form):
+    def __init__(self, csrf_token: str | None = None, form_data: dict[str, str] | None = None):
+        super().__init__(csrf_token=csrf_token, form_data=form_data)
+
+    def setup(self):
+        search_phrase_input = TextInput(id="search-phrase", props={"maxlength": 64}, field_name="search",
+                                        required=False, placeholder="search")
+
+        self.add_field(search_phrase_input)

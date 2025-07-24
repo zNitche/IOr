@@ -4,11 +4,29 @@
 {{super()}}
 <link rel="stylesheet" href="{{ get_static_resource('css/pages/home.css') }}">
 <link rel="stylesheet" href="{{ get_static_resource('css/components/storage_space_bar.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/forms/form.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/forms/search_bar.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/file_card.css') }}">
 {% endblock %}
 
 {% block page_content %}
 <div class="home-page">
     {% include "components/storage_space_bar.html" %}
+    <div class="user-files-wrapper">
+        {% with route=url_for('core.home'), form=form %}
+        {% include "components/search_bar.html" %}
+        {% endwith %}
+        <div class="title">
+            Files
+        </div>
+        <div class="user-files">
+            {% for file in files %}
+            {% with file=file %}
+            {% include "components/file_card.html" %}
+            {% endwith %}
+            {% endfor %}
+        </div>
+    </div>
 </div>
 
 {% endblock %}
