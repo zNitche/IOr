@@ -27,7 +27,7 @@
 {% block head_links %}
 {{super()}}
 <link rel="stylesheet" href="{{ get_static_resource('css/pages/file_preview.css') }}">
-<link rel="stylesheet" href="{{ get_static_resource('css/components/forms/form.css') }}">
+<script src="{{ get_static_resource('js/file_preview.js') }}"></script>
 {% endblock %}
 
 {% block page_content %}
@@ -44,8 +44,8 @@
         {% endfor %}
     </div>
     <div class="file-actions">
-        <button>download</button>
-        <button class="remove-file-button">remove</button>
+        <a href="{{url_for('storage.download_file', uuid=file.uuid)}}"><button>download</button></a>
+        <button onclick="removeFile('{{file.uuid}}')" class="remove-file-button">remove</button>
     </div>
 </div>
 
