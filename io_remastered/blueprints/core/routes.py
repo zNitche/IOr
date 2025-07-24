@@ -16,7 +16,7 @@ def home():
     form = forms.SearchBarForm(form_data={"search-phrase": search_string})
 
     files = models.File.query.filter(models.File.name.icontains(
-        search_string), models.File.owner_id == current_user.id)
+        search_string), models.File.owner_id == current_user.id).order_by(models.File.upload_date.desc())
 
     files_count = files.count()
     files = files.all()
