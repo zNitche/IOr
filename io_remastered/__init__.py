@@ -21,8 +21,9 @@ def register_blueprints(app: Flask):
     from io_remastered import blueprints
 
     app.register_blueprint(blueprints.errors)
-    app.register_blueprint(blueprints.core)
     app.register_blueprint(blueprints.auth)
+    app.register_blueprint(blueprints.core)
+    app.register_blueprint(blueprints.upload)
     app.register_blueprint(blueprints.storage)
 
 
@@ -67,7 +68,7 @@ def setup_constext_processor(app: Flask):
 
     app.context_processor(
         lambda: {"current_user": lambda: authentication_manager.current_user})
-    
+
     app.context_processor(
         lambda: {"user_storage": app_helpers.UserStorage()})
 

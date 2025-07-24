@@ -7,8 +7,8 @@
 <script src="{{ get_static_resource('js/file_upload.js') }}"></script>
 {% endblock %}
 
-{% set file_upload_preflight_url = url_for('storage.upload_handler_preflight') %}
-{% set file_upload_url = url_for('storage.upload_handler') %}
+{% set file_upload_preflight_url = url_for('upload.upload_handler_preflight') %}
+{% set file_upload_url = url_for('upload.upload_handler') %}
 
 {% block page_content %}
 <div class="upload-page">
