@@ -12,7 +12,7 @@ INPUT_TYPES = Literal[
 class InputBase:
     def __init__(self, id: str, field_name: str,
                  input_type: INPUT_TYPES | None, props: dict[str, Any], label: str | None = None,
-                 required: bool = False, placeholder: str | None = None):
+                 required: bool = False, placeholder: str | None = None, value: str | None = None):
 
         self.input_type = input_type
 
@@ -21,6 +21,8 @@ class InputBase:
         self.field_name = field_name
 
         self.required = required
+
+        self.value = value
         self.placeholder = placeholder
 
         self.__input_label = InputLabel(
@@ -37,6 +39,7 @@ class InputBase:
         self.props["name"] = self.field_name
         self.props["type"] = self.input_type
         self.props["placeholder"] = self.placeholder
+        self.props["value"] = self.value
 
         return f'<input {self.__render_props()} {'required' if self.required else ''} />'
 
