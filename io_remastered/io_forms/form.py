@@ -16,8 +16,7 @@ class Form:
     @property
     def csrf_token_field(self):
         if not self.csrf_token:
-            raise Exception(
-                "trying to access csrf field, but no token has been provided")
+            return ""
 
         return CSRFTokenField(token=self.csrf_token)
 
