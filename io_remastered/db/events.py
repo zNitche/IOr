@@ -5,7 +5,7 @@ from io_remastered import models, db
 
 
 @event.listens_for(models.File, "after_delete")
-def receive_after_scan_file_delete(mapper, connection, target):
+def receive_after_file_delete(mapper, connection, target):
     if not current_app:
         return
 
