@@ -23,6 +23,7 @@ class Database:
             raise Exception("session doesn't exist!")
 
         Base.metadata.create_all(bind=self.engine)
+        Base.get_db_session = lambda: self.session
 
     def __create_session_maker(self):
         return sessionmaker(autocommit=False, autoflush=False, bind=self.engine)
@@ -84,15 +85,3 @@ class Database:
 
         finally:
             session.remove()
-
-    def select(self, obj: type[Base]):
-        return select(obj)
-
-    def query(self, exp: Select):
-        return self.session.scalars(exp)
-
-    def count(self, select_func: Select[tuple[Base]]):
-        count = self.session.scalar(
-            select(func.count()).select_from(select_func.subquery()))
-
-        return count
