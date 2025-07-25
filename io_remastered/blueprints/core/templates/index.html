@@ -19,6 +19,7 @@
         <div class="title">
             Files: {{files_count}}
         </div>
+        {% if files|length > 0 %}
         <div class="user-files">
             {% for file in files %}
             {% with file=file %}
@@ -26,6 +27,9 @@
             {% endwith %}
             {% endfor %}
         </div>
+        {% else %}
+        <span>no files has been found</span>
+        {% endif %}
     </div>
 </div>
 
