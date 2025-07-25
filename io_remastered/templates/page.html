@@ -6,6 +6,8 @@
 {% endblock %}
 
 {% block content %}
+{% block page_outer_content %}
+{% endblock %}
 <div class="page-content-wrapper">
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
