@@ -5,11 +5,11 @@
 }
 
 .remove-file-modal .title {
-
+    font-size: var(--font-size-l);
 }
 
 .remove-file-modal .content {
-
+    font-size: var(--font-size-m);
 }
 
 .remove-file-modal .actions {
