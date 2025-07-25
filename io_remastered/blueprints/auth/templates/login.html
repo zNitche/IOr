@@ -14,11 +14,12 @@
         <form class="login-page-form" method="post" action="{{url_for('auth.login_submit')}}"
             onsubmit="disableButtonById('login-submit-button')">
             {% with extra_class="login-form", form=form %}
-            {% include "components/form.html" %}
+            {% include "components/forms/form.html" %}
             {% endwith %}
             <button class="login-form-submit-button" id="login-submit-button" type="submit">login</button>
         </form>
     </div>
+    <div class="app-version">v{{io_version}}</div>
 </div>
 
 {% endblock %}

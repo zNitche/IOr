@@ -14,7 +14,7 @@
     {% include "components/storage_space_bar.html" %}
     <div class="user-files-wrapper">
         {% with route=url_for('core.home'), form=form %}
-        {% include "components/search_bar.html" %}
+            {% include "components/forms/search_bar.html" %}
         {% endwith %}
         <div class="title">
             Files: {{files_count}}
