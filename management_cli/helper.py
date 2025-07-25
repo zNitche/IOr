@@ -12,18 +12,22 @@ class Helper:
         self.db = Database()
         self.db.setup(db_uri=AppConfig.DATABASE_URI)
 
+        self.db.create_all()
+
     def get_users(self) -> list[models.User]:
-        users = list(self.db.query(self.db.select(models.User)).unique().all())
-            
+        users = list(models.User.query(models.User.select()).unique().all())
+
         return users
 
     def get_user(self, user_name: str) -> models.User | None:
-        user = self.db.query(self.db.select(models.User).filter_by(username=user_name)).first()
+        user = models.User.query(
+            models.User.select().filter_by(username=user_name)).first()
 
         return user
-    
+
     def get_file(self, file_uuid: str) -> models.File | None:
-        file = self.db.query(self.db.select(models.File).filter_by(uuid=file_uuid)).first()
+        file = models.File.query(
+            models.File.select().filter_by(uuid=file_uuid)).first()
 
         return file
 
@@ -100,7 +104,8 @@ class Helper:
 
         self.db.remove(file)
 
-        file_path = os.path.join(AppConfig.STORAGE_ROOT_PATH, str(user_id), file_uuid)
+        file_path = os.path.join(
+            AppConfig.STORAGE_ROOT_PATH, str(user_id), file_uuid)
 
         if os.path.exists(file_path):
             os.remove(file_path)

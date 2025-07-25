@@ -15,8 +15,7 @@ __version__ = "0.0.1"
 db = Database()
 
 authentication_cache_db = RedisCacheDatabase(db_id=0)
-authentication_manager = AuthenticationManager(
-    sql_app_db=db, auth_db=authentication_cache_db)
+authentication_manager = AuthenticationManager(auth_db=authentication_cache_db)
 
 
 def register_blueprints(app: Flask):

@@ -6,8 +6,7 @@ from io_remastered.extra_modules import RedisCacheDatabase
 
 
 class AuthenticationManager:
-    def __init__(self, sql_app_db: Database, auth_db: RedisCacheDatabase):
-        self.__db = sql_app_db
+    def __init__(self, auth_db: RedisCacheDatabase):
         self.__default_auth_token_ttl = 600
 
         self.__auth_db = auth_db
@@ -56,7 +55,10 @@ class AuthenticationManager:
         if user_id is None:
             return None
 
-        return self.__db.query(self.__db.select(models.User).filter_by(id=user_id)).first()
+        user = models.User.query(
+            models.User.select().filter_by(id=user_id)).first()
+
+        return user
 
     def get_auth_token_for_current_session(self):
         return session.get("auth_token")

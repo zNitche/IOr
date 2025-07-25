@@ -12,7 +12,8 @@ storage = Blueprint("storage", __name__, template_folder="templates",
 @login_required
 def file_preview(uuid: str):
     current_user = authentication_manager.current_user
-    file = db.query(db.select(models.File).filter_by(
+
+    file = models.File.query(models.File.select().filter_by(
         owner_id=current_user.id, uuid=uuid)).first()
 
     if not file:
@@ -25,7 +26,7 @@ def file_preview(uuid: str):
 @login_required
 def download_file(uuid: str):
     current_user = authentication_manager.current_user
-    file = db.query(db.select(models.File).filter_by(
+    file = models.File.query(models.File.select().filter_by(
         owner_id=current_user.id, uuid=uuid)).first()
 
     if not file:
@@ -44,7 +45,7 @@ def download_file(uuid: str):
 @login_required
 def remove_file(uuid: str):
     current_user = authentication_manager.current_user
-    file = db.query(db.select(models.File).filter_by(
+    file = models.File.query(models.File.select().filter_by(
         owner_id=current_user.id, uuid=uuid)).first()
 
     if not file:
