@@ -1,0 +1,10 @@
+<div class="modal-overlay d-none" id="{{modal_id}}">
+    <div class="modal {{modal_class}}">
+        <div class="header">
+            <img src="{{ get_static_resource('icons/close_icon.svg') }}" class="close-icon"
+                onclick="toggleElementVisibility('{{modal_id}}', false)" />
+        </div>
+        {% block modal_content %}
+        {% endblock %}
+    </div>
+</div>
