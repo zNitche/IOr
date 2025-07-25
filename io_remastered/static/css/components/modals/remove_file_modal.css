@@ -1,0 +1,29 @@
+.remove-file-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.remove-file-modal .title {
+
+}
+
+.remove-file-modal .content {
+
+}
+
+.remove-file-modal .actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+.actions .remove-file-button {
+    border: none;
+    background: var(--red);
+    cursor: pointer;
+    height: 32px;
+    border-radius: 4px;
+    width: 50%;
+}
