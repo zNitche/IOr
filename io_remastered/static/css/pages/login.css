@@ -3,7 +3,8 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    height: 100%;
+    height: 100vh;
+    position: relative;
 }
 
 .login-page-content-wrapper {
@@ -43,6 +44,14 @@
 .login-form-submit-button:disabled {
     cursor: unset;
     background: var(--green-1);
+}
+
+.app-version {
+    position: absolute;
+    color: var(--white);
+    font-size: var(--font-size);
+    right: 15px;
+    bottom: 15px;
 }
 
 @media (max-width: 576px) {
