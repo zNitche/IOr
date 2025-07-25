@@ -1,9 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from werkzeug.security import check_password_hash
-from io_remastered.io_csrf import CSRF
-from io_remastered.io_csrf import csrf_protected
+from io_remastered.io_csrf import CSRF, csrf_protected
 from io_remastered.authentication.decorators import login_required, anonymous_only
-from io_remastered import forms, authentication_manager, models
+from io_remastered import forms, authentication_manager, models, db
 from io_remastered.consts import FlashConsts
 
 
@@ -29,7 +28,7 @@ def login_submit():
         username = form.get_field_value("name")
         password = str(form.get_field_value("password"))
 
-        user = models.User.query.filter_by(username=username).first()
+        user = db.query(db.select(models.User).filter_by(username=username)).first()
 
         if user and check_password_hash(user.password, password):
             authentication_manager.login(user.id)

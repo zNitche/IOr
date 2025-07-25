@@ -15,7 +15,8 @@ __version__ = "0.0.1"
 db = Database()
 
 authentication_cache_db = RedisCacheDatabase(db_id=0)
-authentication_manager = AuthenticationManager(auth_db=authentication_cache_db)
+authentication_manager = AuthenticationManager(
+    sql_app_db=db, auth_db=authentication_cache_db)
 
 
 def register_blueprints(app: Flask):
@@ -75,7 +76,7 @@ def setup_constext_processor(app: Flask):
 
     app.context_processor(
         lambda: {"io_version": __version__})
-    
+
 
 def setup_template_filters(app: Flask):
     app.jinja_env.filters["formatted_file_size"] = jinja_filters.formatted_file_size

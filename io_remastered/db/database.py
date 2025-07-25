@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from sqlalchemy import create_engine, Engine, exc
+from sqlalchemy import Select, create_engine, Engine, exc, select, func
 from sqlalchemy.orm import scoped_session, sessionmaker, Session
 from io_remastered.db import Base
 
@@ -8,7 +8,7 @@ class Database:
     def __init__(self):
         self.engine: Engine | None = None
         self.session_maker: sessionmaker[Session] | None = None
-        self.session: scoped_session[Session] = None # type: ignore
+        self.session: scoped_session[Session] = None  # type: ignore
 
     def setup(self, db_uri):
         self.engine = create_engine(db_uri)
@@ -17,11 +17,11 @@ class Database:
 
     def create_all(self):
         from io_remastered import models
+        from io_remastered.db import events
 
-        if self.session is None:
+        if self.session is None or self.engine is None:
             raise Exception("session doesn't exist!")
 
-        Base.query = self.session.query_property()
         Base.metadata.create_all(bind=self.engine)
 
     def __create_session_maker(self):
@@ -84,3 +84,15 @@ class Database:
 
         finally:
             session.remove()
+
+    def select(self, obj: type[Base]):
+        return select(obj)
+
+    def query(self, exp: Select):
+        return self.session.scalars(exp)
+
+    def count(self, select_func: Select[tuple[Base]]):
+        count = self.session.scalar(
+            select(func.count()).select_from(select_func.subquery()))
+
+        return count

@@ -1,7 +1,7 @@
 import os
 from flask import Blueprint, render_template, abort, send_file, current_app
 from io_remastered.authentication.decorators import login_required
-from io_remastered import authentication_manager, models
+from io_remastered import authentication_manager, models, db
 
 
 storage = Blueprint("storage", __name__, template_folder="templates",
@@ -12,8 +12,8 @@ storage = Blueprint("storage", __name__, template_folder="templates",
 @login_required
 def file_preview(uuid: str):
     current_user = authentication_manager.current_user
-    file = models.File.query.filter_by(
-        owner_id=current_user.id, uuid=uuid).first()
+    file = db.query(db.select(models.File).filter_by(
+        owner_id=current_user.id, uuid=uuid)).first()
 
     if not file:
         abort(404)
@@ -25,8 +25,27 @@ def file_preview(uuid: str):
 @login_required
 def download_file(uuid: str):
     current_user = authentication_manager.current_user
-    file = models.File.query.filter_by(
-        owner_id=current_user.id, uuid=uuid).first()
+    file = db.query(db.select(models.File).filter_by(
+        owner_id=current_user.id, uuid=uuid)).first()
+
+    if not file:
+        abort(404)
+
+    user_storage_path = os.path.join(
+        current_app.config["STORAGE_ROOT_PATH"], str(current_user.id))
+
+    file_path = os.path.join(user_storage_path, file.uuid)
+
+    return send_file(path_or_file=file_path, as_attachment=True,
+                     download_name=file.name, max_age=None)
+
+
+@storage.route("/file/<uuid>/remove", methods=["POST"])
+@login_required
+def remove_file(uuid: str):
+    current_user = authentication_manager.current_user
+    file = db.query(db.select(models.File).filter_by(
+        owner_id=current_user.id, uuid=uuid)).first()
 
     if not file:
         abort(404)

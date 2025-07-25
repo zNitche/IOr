@@ -12,23 +12,18 @@ class Helper:
         self.db = Database()
         self.db.setup(db_uri=AppConfig.DATABASE_URI)
 
-    def get_users(self):
-        with self.db.session_context() as session:
-            users = session.query(models.User).all()
-
+    def get_users(self) -> list[models.User]:
+        users = list(self.db.query(self.db.select(models.User)).unique().all())
+            
         return users
 
-    def get_user(self, user_name: str):
-        with self.db.session_context() as session:
-            user = session.query(models.User).filter_by(
-                username=user_name).first()
+    def get_user(self, user_name: str) -> models.User | None:
+        user = self.db.query(self.db.select(models.User).filter_by(username=user_name)).first()
 
         return user
     
-    def get_file(self, file_uuid: str):
-        with self.db.session_context() as session:
-            file = session.query(models.File).filter_by(
-                uuid=file_uuid).first()
+    def get_file(self, file_uuid: str) -> models.File | None:
+        file = self.db.query(self.db.select(models.File).filter_by(uuid=file_uuid)).first()
 
         return file
 

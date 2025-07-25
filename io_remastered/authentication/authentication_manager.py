@@ -1,11 +1,13 @@
 import secrets
 from flask import g, session
 from io_remastered import models
+from io_remastered.db import Database
 from io_remastered.extra_modules import RedisCacheDatabase
 
 
 class AuthenticationManager:
-    def __init__(self, auth_db: RedisCacheDatabase):
+    def __init__(self, sql_app_db: Database, auth_db: RedisCacheDatabase):
+        self.__db = sql_app_db
         self.__default_auth_token_ttl = 600
 
         self.__auth_db = auth_db
@@ -54,7 +56,7 @@ class AuthenticationManager:
         if user_id is None:
             return None
 
-        return models.User.query.filter_by(id=user_id).first()
+        return self.__db.query(self.__db.select(models.User).filter_by(id=user_id)).first()
 
     def get_auth_token_for_current_session(self):
         return session.get("auth_token")
