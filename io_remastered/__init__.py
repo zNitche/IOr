@@ -2,6 +2,7 @@ from flask import Flask
 import secrets
 from config.app_config import AppConfig
 from io_remastered.db import Database
+from io_remastered.io_forms import CSRFTokenField
 from io_remastered.logging import Logging
 from io_remastered.io_csrf import CSRF
 from io_remastered.extra_modules import RedisCacheDatabase
@@ -71,7 +72,10 @@ def setup_constext_processor(app: Flask):
         lambda: {"current_user": lambda: authentication_manager.current_user})
 
     app.context_processor(
-        lambda: {"user_storage": app_helpers.UserStorage()})
+        lambda: {"get_taken_user_storage": app_helpers.user_storage.get_taken_storage})
+    
+    app.context_processor(
+        lambda: {"csrf_hidden_input": CSRFTokenField})
 
     app.context_processor(
         lambda: {"io_version": __version__})
