@@ -1,6 +1,6 @@
 {% set current_user = current_user() %}
 {% set max_storage_size = current_user.max_storage_size %}
-{% set taken_space = user_storage.get_taken_storage() %}
+{% set taken_space = get_taken_user_storage() %}
 {% set taken_space_percentage = taken_space * 100 / max_storage_size %}
 
 <div class="storage-space-bar">

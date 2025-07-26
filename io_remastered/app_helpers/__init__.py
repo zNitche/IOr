@@ -1,2 +1,2 @@
 from io_remastered.app_helpers import context_processor_funcs
-from io_remastered.app_helpers.user_storage import UserStorage
+from io_remastered.app_helpers import user_storage
