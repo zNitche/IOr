@@ -1,6 +1,7 @@
 import os
 from flask import Blueprint, render_template, abort, send_file, current_app, url_for, redirect
 from io_remastered.authentication.decorators import login_required
+from io_remastered.io_csrf.decorators import csrf_protected
 from io_remastered import authentication_manager, models, db
 
 
@@ -42,6 +43,7 @@ def download_file(uuid: str):
 
 
 @storage.route("/file/<uuid>/remove", methods=["POST"])
+@csrf_protected()
 @login_required
 def remove_file(uuid: str):
     current_user = authentication_manager.current_user
