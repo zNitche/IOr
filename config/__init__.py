@@ -6,7 +6,7 @@ PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir
 APP_ROOT = os.path.abspath(os.path.join(PROJECT_ROOT, 'io_remastered'))
 
 
-load_dotenv(os.path.join(PROJECT_ROOT, ".env"))
+load_dotenv(os.path.join(PROJECT_ROOT, ".env.app"))
 
 
 from config.app_config import AppConfig

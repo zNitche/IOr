@@ -6,9 +6,6 @@ from config import PROJECT_ROOT
 class AppConfig:
     DEBUG = bool(int(os.getenv("DEBUG", 0)))
 
-    APP_HOST = "0.0.0.0"
-    APP_PORT = 8080
-
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SECURE = bool(int(os.getenv("HTTPS_ONLY", 1)))
     SESSION_COOKIE_SAMESITE = "Lax"
@@ -18,6 +15,7 @@ class AppConfig:
     MIGRATIONS_DIR_PATH = os.path.join(DATABASE_ROOT_PATH, "migrations")
 
     DATABASE_URI = f"sqlite:////{DATABASE_ROOT_PATH}/app.db"
+
     LOGS_DIR_PATH = os.path.join(PROJECT_ROOT, "logs")
 
     REDIS_SERVER_ADDRESS = os.getenv("REDIS_SERVER_ADDRESS")

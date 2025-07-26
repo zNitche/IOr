@@ -5,7 +5,9 @@ logs/
 database/
 
 .pytest_cache/
-.env
+
+.env.app
+.env.docker
 
 *.db
 
