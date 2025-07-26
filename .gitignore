@@ -12,3 +12,5 @@ database/
 *.db
 
 files_storage/*
+
+*.pem

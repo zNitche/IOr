@@ -31,3 +31,9 @@ docker exec -it "ior-app" bash
 ```
 docker compose --env-file .env.docker down -v
 ```
+
+#### HTTPS
+
+```
+openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
+```
