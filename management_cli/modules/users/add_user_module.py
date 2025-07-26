@@ -11,6 +11,10 @@ class AddUserModule(ModuleBase):
     def action(self):
         user_name = input("username > ")
         password = getpass("password > ")
+        confirm_new_password = getpass("confirm password > ")
+
+        if password != confirm_new_password:
+            raise Exception("passwords doesn't match")
 
         storage_size = int(input("storage size (in GB) > "))
 
