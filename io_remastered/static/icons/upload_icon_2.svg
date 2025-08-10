@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="20mm"
+   height="19.999996mm"
+   viewBox="0 0 20 19.999996"
+   version="1.1"
+   id="svg1"
+   xml:space="preserve"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+     id="defs1"><marker
+       style="overflow:visible"
+       id="ArrowWide"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="0.69999999"
+       markerHeight="0.69999999"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid"><path
+         style="fill:none;stroke:context-stroke;stroke-width:1;stroke-linecap:butt"
+         d="M 3,-3 0,0 3,3"
+         transform="rotate(180,0.125,0)"
+         id="path3" /></marker></defs><g
+     id="layer1"
+     transform="translate(-47.654094,-243.45423)"><g
+       id="layer1-5"
+       transform="translate(-18.256249,-2.3281415)"><path
+         style="fill:none;stroke:#ffffff;stroke-width:0.920331;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWide)"
+         d="m 75.935416,257.14992 c 0,-8.47009 0,-8.47009 0,-8.47009"
+         id="path1" /><rect
+         style="fill:#ffffff;stroke:#ffffff;stroke-width:0.9176;stroke-dasharray:none;stroke-opacity:1"
+         id="rect3"
+         width="11.0824"
+         height="0.082400486"
+         x="-1.4337903"
+         y="12.579758"
+         transform="translate(71.828006,247.23876)" /></g><ellipse
+       style="fill:none;stroke:#ffffff;stroke-width:1.29699;stroke-linejoin:round;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="path2"
+       cx="57.654095"
+       cy="253.45422"
+       rx="9.3515053"
+       ry="9.3515034" /></g></svg>

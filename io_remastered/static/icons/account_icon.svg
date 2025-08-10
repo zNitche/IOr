@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="23.938553mm"
+   height="23.938557mm"
+   viewBox="0 0 23.938553 23.938557"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1"
+     transform="translate(-102.21761,-137.60387)">
+    <ellipse
+       style="fill:none;stroke:#ffffff;stroke-width:1.2;stroke-linejoin:round;stroke-dasharray:none"
+       id="path1"
+       cx="114.18689"
+       cy="146"
+       rx="5.5491328"
+       ry="5.5491338" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:1.2;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="rect4"
+       width="22.738552"
+       height="22.738556"
+       x="102.81761"
+       y="138.20387"
+       rx="0.61161309"
+       ry="0.33211637" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:1.2;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:none;paint-order:markers fill stroke"
+       d="m 102.93579,160.81681 c 11.2511,-14.62834 22.5022,0 22.5022,0"
+       id="path5" />
+  </g>
+</svg>
