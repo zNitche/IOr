@@ -5,9 +5,9 @@ def formatted_file_size(size: str):
     current_size = size_bytes
 
     for size in sizes:
-        current_size = round(current_size / 1_000, 2)
+        current_size = round(current_size / 1000, 2)
 
         if current_size < 1000:
             return f"{current_size}{size}"
 
-    return f"{size_bytes} B"
+    return f"{size_bytes}B"

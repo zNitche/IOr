@@ -1,7 +1,7 @@
 import logging
+import os
 from flask import Flask
 from flask.logging import create_logger
-import os
 from logging.handlers import TimedRotatingFileHandler
 
 
