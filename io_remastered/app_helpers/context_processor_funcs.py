@@ -12,7 +12,7 @@ def icon_for_file_extension(extension: str):
         MEDIA_FILE: "media_file_icon.svg",
         IMAGE_FILE: "graphic_file_icon.svg",
         CODE_FILE: "code_file_icon.svg",
-        DOCUMENT_FILE: "file_icon.svg",
+        DOCUMENT_FILE: "document_file_icon.svg",
     }
 
     icon_type_for_extension = common_files_extensions.get(extension, None)
