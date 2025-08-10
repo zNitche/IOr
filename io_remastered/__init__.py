@@ -7,8 +7,6 @@ from io_remastered.logging import Logging
 from io_remastered.io_csrf import CSRF
 from io_remastered.extra_modules import RedisCacheDatabase
 from io_remastered.authentication import AuthenticationManager
-from io_remastered import jinja_filters
-
 
 __version__ = "0.0.1"
 
@@ -73,7 +71,7 @@ def setup_constext_processor(app: Flask):
 
     app.context_processor(
         lambda: {"get_taken_user_storage": app_helpers.user_storage.get_taken_storage})
-    
+
     app.context_processor(
         lambda: {"csrf_hidden_input": CSRFTokenField})
 
@@ -82,7 +80,9 @@ def setup_constext_processor(app: Flask):
 
 
 def setup_template_filters(app: Flask):
-    app.jinja_env.filters["formatted_file_size"] = jinja_filters.formatted_file_size
+    from io_remastered import app_helpers
+
+    app.jinja_env.filters["formatted_file_size"] = app_helpers.jinja_filters.formatted_file_size
 
 
 def create_app(config_class: type[AppConfig]):
