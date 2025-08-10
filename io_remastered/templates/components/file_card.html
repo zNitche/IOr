@@ -3,5 +3,5 @@
     <span class="title">{{file.name}}</span>
     <span class="upload-date">{{file.upload_date.strftime('%d-%m-%Y')}}</span>
     <a href="{{url_for('storage.file_preview', uuid=file.uuid)}}" class="open-file-preview-anchor"><img
-            src="{{ get_static_resource('icons/burger_icon.svg') }}" class="open-file-preview-icon" /></a>
+            src="{{ get_static_resource('icons/arrow_right_icon.svg') }}" class="open-file-preview-icon" /></a>
 </div>
