@@ -2,16 +2,16 @@ import os
 
 
 def load_dotenv(file_path: str):
-    if os.path.exists(file_path):
-        with open(file_path, "r") as file:
-            lines = file.readlines()
+    if not os.path.exists(file_path):
+        raise Exception(
+            f".env file loading has failed, {file_path} doesn't exist")
 
-            for line in lines:
-                split_line = line.split("=")
-                
-                if len(split_line) == 2:
-                    name, value = split_line
-                    os.environ[name] = value.rstrip()
+    with open(file_path, "r") as file:
+        lines = file.readlines()
 
-    else:
-        print(f"{file_path} doesn't exist, skipping...")
+        for line in lines:
+            split_line = line.split("=")
+
+            if len(split_line) == 2:
+                name, value = split_line
+                os.environ[name] = value.rstrip()
