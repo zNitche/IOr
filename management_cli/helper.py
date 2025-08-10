@@ -1,8 +1,8 @@
 import os
 import shutil
-from config.app_config import AppConfig
-from werkzeug.security import generate_password_hash
 from typing import Any
+from werkzeug.security import generate_password_hash
+from config.app_config import AppConfig
 from io_remastered import models
 from io_remastered.db import Database
 
@@ -32,7 +32,7 @@ class Helper:
         return file
 
     def __hash_password(self, plain_password: str):
-        return generate_password_hash(plain_password)
+        return generate_password_hash(plain_password, salt_length=32)
 
     def add_user(self, user_name: str, password: str, storage_size: int):
         users_names = [user.username for user in self.get_users()]
@@ -44,11 +44,9 @@ class Helper:
         user = models.User(
             username=user_name, password=encrypted_password, max_storage_size=storage_size)
 
-        with self.db.session_context() as session:
-            session.add(user)
-            session.commit()
+        self.db.add(user)
 
-            self.__create_user_storage_directory(user_id=user.id)
+        self.__create_user_storage_directory(user_id=user.id)
 
     def __create_user_storage_directory(self, user_id: str):
         storage_path = os.path.join(
@@ -65,36 +63,34 @@ class Helper:
             shutil.rmtree(storage_path)
 
     def delete_user(self, user_name: str):
-        with self.db.session_context() as session:
-            user = self.get_user(user_name)
+        user = self.get_user(user_name)
 
-            if user is None:
-                raise Exception("user doesn't exists")
+        if user is None:
+            raise Exception("user doesn't exists")
 
-            session.delete(user)
-            session.commit()
+        self.db.remove(user)
 
-            self.__remove_user_storage_directory(user.id)
+        self.__remove_user_storage_directory(user.id)
 
     def reset_user_password(self, user_name: str, password: str):
-        with self.db.session_context() as session:
-            user = self.get_user(user_name)
+        user = self.get_user(user_name)
 
-            if not user:
-                raise Exception("user doesn't exists")
+        if not user:
+            raise Exception("user doesn't exists")
 
-            user.password = self.__hash_password(password)
-            session.commit()
+        encrypted_password = self.__hash_password(password)
+        user.password = encrypted_password
+
+        self.db.commit()
 
     def change_user_max_storage_size(self, user_name: str, storage_size: int):
-        with self.db.session_context() as session:
-            user = self.get_user(user_name)
+        user = self.get_user(user_name)
 
-            if not user:
-                raise Exception("user doesn't exists")
+        if not user:
+            raise Exception("user doesn't exists")
 
-            user.max_storage_size = storage_size
-            session.commit()
+        user.max_storage_size = storage_size
+        self.db.commit()
 
     def remove_file(self, user_id: str, file_uuid: str):
         file = self.get_file(file_uuid)
