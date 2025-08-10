@@ -10,7 +10,7 @@
 {% block page %}
 <div class="login-page">
     <div class="login-page-content-wrapper">
-        <img src="{{ get_static_resource('icons/io_placeholder.svg') }}" class="io-logo" />
+        <img src="{{ get_static_resource('icons/ior_logo.svg') }}" class="io-logo" />
         <form class="login-page-form" method="post" action="{{url_for('auth.login_submit')}}"
             onsubmit="disableButtonById('login-submit-button')">
             {% with extra_class="login-form", form=form %}
