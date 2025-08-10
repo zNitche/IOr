@@ -1,5 +1,5 @@
 <div class="file-card">
-    <img src="{{ get_static_resource('icons/io_placeholder.svg') }}" class="file-type-icon" />
+    <img src="{{ icon_for_file_extension(file.extension) }}" class="file-type-icon" />
     <span class="title">{{file.name}}</span>
     <span class="upload-date">{{file.upload_date.strftime('%d-%m-%Y')}}</span>
     <a href="{{url_for('storage.file_preview', uuid=file.uuid)}}" class="open-file-preview-anchor"><img

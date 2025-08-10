@@ -67,6 +67,9 @@ def setup_constext_processor(app: Flask):
         lambda: {"get_static_resource": app_helpers.context_processor_funcs.get_static_resource})
 
     app.context_processor(
+        lambda: {"icon_for_file_extension": app_helpers.context_processor_funcs.icon_for_file_extension})
+
+    app.context_processor(
         lambda: {"current_user": lambda: authentication_manager.current_user})
 
     app.context_processor(
