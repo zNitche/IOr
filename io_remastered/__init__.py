@@ -53,11 +53,10 @@ def setup_cache_databases(app: Flask):
     redis_server_address = app.config.get("REDIS_SERVER_ADDRESS", "")
     redis_server_port = int(app.config.get("REDIS_SERVER_PORT", 0))
 
-    if redis_server_port and redis_server_address:
-        authentication_cache_db.setup(
-            address=redis_server_address, port=redis_server_port, flush=flush_database)
+    authentication_cache_db.setup(
+        address=redis_server_address, port=redis_server_port, flush=flush_database)
 
-        app.logger.info("authentication_cache_db setup completed...")
+    app.logger.info("authentication_cache_db setup completed...")
 
 
 def setup_constext_processor(app: Flask):
