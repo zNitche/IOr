@@ -11,7 +11,9 @@ services:
     command: gunicorn -c gunicorn.conf.py app:app --preload
     container_name: ior-app
     restart: unless-stopped
-    build: .
+    build:
+      context: .
+      dockerfile: docker_files/Dockerfile.app
     ports:
       - ${APP_PORT}:8080
     volumes:
@@ -24,7 +26,9 @@ services:
     command: python3 run_background_tasks.py
     container_name: io-background-tasks
     restart: unless-stopped
-    build: .
+    build:
+      context: .
+      dockerfile: docker_files/Dockerfile.background_tasks
     volumes:
       - ${DB_PATH}:/io_remastered/database
       - ${LOGS_PATH}:/io_remastered/logs
