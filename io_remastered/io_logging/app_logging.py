@@ -5,7 +5,7 @@ from flask.logging import create_logger
 from logging.handlers import TimedRotatingFileHandler
 
 
-class Logging:
+class AppLogging:
     def __init__(self,
                  app: Flask,
                  logs_filename: str | None = None,

@@ -3,7 +3,7 @@ import secrets
 from config.app_config import AppConfig
 from io_remastered.db import Database
 from io_remastered.io_forms import CSRFTokenField
-from io_remastered.logging import Logging
+from io_remastered.io_logging import AppLogging
 from io_remastered.io_csrf import CSRF
 from io_remastered.extra_modules import RedisCacheDatabase
 from io_remastered.authentication import AuthenticationManager
@@ -28,7 +28,7 @@ def register_blueprints(app: Flask):
 
 
 def setup_app_modules(app: Flask):
-    app_logging = Logging(
+    app_logging = AppLogging(
         app=app,
         logs_filename="app.log",
         logs_path=app.config.get("LOGS_DIR_PATH"),
