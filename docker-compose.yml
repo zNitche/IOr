@@ -19,3 +19,13 @@ services:
       - ${LOGS_PATH}:/io_remastered/logs
       - ${STORAGE_PATH}:/io_remastered/files_storage
     env_file: ".env.app"
+
+  io_background_tasks:
+    command: python3 run_background_tasks.py
+    container_name: io-background-tasks
+    restart: unless-stopped
+    build: .
+    volumes:
+      - ${DB_PATH}:/io_remastered/database
+      - ${LOGS_PATH}:/io_remastered/logs
+      - ${STORAGE_PATH}:/io_remastered/files_storage
