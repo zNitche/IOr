@@ -20,7 +20,7 @@ class BackgroundTasksRunner:
         self.logger.info("starting background tasks...")
         tasks = self.get_tasks()
 
-        self.logger.info(f"{len(tasks)} has been found, processing...")
+        self.logger.info(f"{len(tasks)} task(s) has been found, processing...")
 
         for task_class in tasks:
             task_instance = task_class()
@@ -28,7 +28,7 @@ class BackgroundTasksRunner:
             try:
                 self.logger.info(f"starting {task_instance.name}...")
 
-                process = multiprocessing.Process(target=task_instance.mainloop)
+                process = multiprocessing.Process(target=task_instance.entrypoint)
                 process.start()
 
                 self.logger.info(f"{task_instance.name} has been started")
