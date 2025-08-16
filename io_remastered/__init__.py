@@ -5,6 +5,7 @@ from io_remastered.db import Database
 from io_remastered.io_forms import CSRFTokenField
 from io_remastered.io_logging import AppLogging
 from io_remastered.io_csrf import CSRF
+from io_remastered.io_i18n import I18n
 from io_remastered.extra_modules import RedisCacheDatabase
 from io_remastered.authentication import AuthenticationManager
 
@@ -15,6 +16,8 @@ db = Database()
 
 authentication_cache_db = RedisCacheDatabase(db_id=0)
 authentication_manager = AuthenticationManager(auth_db=authentication_cache_db)
+
+i18n = I18n(translations_path="./i18n")
 
 
 def register_blueprints(app: Flask):
@@ -42,7 +45,8 @@ def setup_app_modules(app: Flask):
     authentication_manager.setup(
         default_auth_token_ttl=app.config.get("AUTH_TOKEN_LIFESPAN", None))
 
-    CSRF.initialize(app)
+    CSRF.setup(app)
+    i18n.setup(app)
 
     app.logger.info("app modules setup completed...")
 
