@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from werkzeug.security import check_password_hash
 from io_remastered.io_csrf import CSRF, csrf_protected
 from io_remastered.authentication.decorators import login_required, anonymous_only
-from io_remastered import forms, authentication_manager, models
+from io_remastered import forms, authentication_manager, models, i18n
 from io_remastered.consts import FlashConsts
 
 
@@ -37,7 +37,7 @@ def login_submit():
             return redirect(url_for("core.home"))
 
         else:
-            flash("wrong name or password", FlashConsts.TYPE_ERROR)
+            flash(i18n.t("login_page.auth_error"), FlashConsts.TYPE_ERROR)
 
     return redirect(url_for("auth.login"))
 

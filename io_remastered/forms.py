@@ -1,3 +1,4 @@
+from io_remastered import i18n
 from io_remastered.io_forms import Form
 from io_remastered.io_forms.inputs import TextInput, PasswordInput
 from io_remastered.io_forms.validators import DataRequiredValidator, MaxLengthValidator
@@ -9,20 +10,20 @@ class LoginForm(Form):
 
     def setup(self):
         name_input = TextInput(id="name", props={"maxlength": 20}, field_name="name",
-                               required=True, placeholder="name")
+                               required=True, placeholder=i18n.t("login_form.name"))
 
         name_input.add_validator(
-            DataRequiredValidator(error_message="field required"))
+            DataRequiredValidator(error_message=i18n.t("login_form.validation.field_required")))
         name_input.add_validator(MaxLengthValidator(
-            error_message="username can't exceed 20 characters", length=20))
+            error_message=i18n.t("login_form.validation.max_length_error").format(field="name", characters_count=20), length=20))
 
         password_input = PasswordInput(id="password", props={"maxlength": 64}, field_name="password",
-                                       required=True, placeholder="password")
+                                       required=True, placeholder=i18n.t("login_form.password"))
 
         password_input.add_validator(
-            DataRequiredValidator(error_message="field required"))
+            DataRequiredValidator(error_message=i18n.t("login_form.validation.field_required")))
         password_input.add_validator(MaxLengthValidator(
-            error_message="password can't exceed 64 characters", length=64))
+            error_message=i18n.t("login_form.validation.max_length_error").format(field="password", characters_count=64), length=64))
 
         self.add_field(name_input)
         self.add_field(password_input)
@@ -34,6 +35,6 @@ class SearchBarForm(Form):
 
     def setup(self):
         search_phrase_input = TextInput(id="search-phrase", props={"maxlength": 64}, field_name="search",
-                                        required=False, placeholder="search")
+                                        required=False, placeholder=i18n.t("search_form.search"))
 
         self.add_field(search_phrase_input)

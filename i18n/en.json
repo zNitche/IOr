@@ -1,0 +1,17 @@
+{
+    "login_page": {
+        "login_button": "login",
+        "auth_error": "wrong name or password"
+    },
+    "login_form": {
+        "name": "name",
+        "password": "password",
+        "validation": {
+            "field_required": "field required",
+            "max_length_error": "{field} can't exceed {characters_count} characters"
+        }
+    },
+    "search_form": {
+        "search": "search"
+    }
+}
