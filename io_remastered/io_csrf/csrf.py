@@ -14,7 +14,7 @@ class CSRF:
         pass
 
     @staticmethod
-    def initialize(app: Flask):
+    def setup(app: Flask):
         app.context_processor(
             lambda: {"get_csrf_token": CSRF.generate_token})
 
