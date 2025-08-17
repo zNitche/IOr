@@ -1,7 +1,7 @@
 from typing import Any
 import os
 import json
-from flask import Flask, request, has_app_context, session
+from flask import Flask, has_app_context, session
 
 
 class I18n:
@@ -65,7 +65,7 @@ class I18n:
             raise Exception(
                 "i18n before request handler called outside app context")
         
-        language_key = request.args.get("lang")
+        language_key = session.get("lang")
 
         if not language_key or language_key not in self.__translations.keys():
             session["lang"] = self.default_lang
