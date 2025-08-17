@@ -1,0 +1,7 @@
+<div class="flashed-message flashed-message-{{ category }}">
+    <div class="flashed-message-text">
+        {{ message }}
+    </div>
+    <img src="{{ get_static_resource('icons/close_icon.svg') }}" class="close-flash-message-icon"
+        onclick="closeFlashMessage(event)" />
+</div>
