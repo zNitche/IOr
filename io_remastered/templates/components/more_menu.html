@@ -1,16 +1,16 @@
 {% set menuItems = [
 {
-'title': 'Home',
+'title': i18n('more_menu.home'),
 'icon_name': 'home_icon.svg',
 'url': url_for('core.home'),
 },
 {
-'title': 'Upload',
+'title': i18n('more_menu.upload'),
 'icon_name': 'upload_icon_2.svg',
 'url': url_for('upload.view'),
 },
 {
-'title': 'Account',
+'title': i18n('more_menu.account'),
 'icon_name': 'account_icon.svg',
 'url': url_for('core.home'),
 }
@@ -36,7 +36,7 @@
             <div class="disclaimer">
                 IOr v{{io_version}}
             </div>
-            <a href="{{url_for('auth.logout')}}" class="logout-row"><span>Logout</span><img
+            <a href="{{url_for('auth.logout')}}" class="logout-row"><span>{{i18n('more_menu.logout')}}</span><img
                     src="{{ get_static_resource('icons/logout_icon.svg') }}" class="more-menu-icon logout-icon" /></a>
         </div>
     </div>
