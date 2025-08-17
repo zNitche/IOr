@@ -17,7 +17,7 @@
             {% include "components/forms/search_bar.html" %}
         {% endwith %}
         <div class="title">
-            Files: {{files_count}}
+            {{i18n('home_page.files.title')}}: {{files_count}}
         </div>
         {% if files|length > 0 %}
         <div class="user-files">
@@ -28,7 +28,7 @@
             {% endfor %}
         </div>
         {% else %}
-        <span>no files has been found</span>
+        <span>{{i18n('home_page.files.no_content')}}</span>
         {% endif %}
     </div>
 </div>

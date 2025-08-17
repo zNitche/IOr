@@ -19,5 +19,11 @@
         "upload": "Upload",
         "account": "Account",
         "logout": "Logout"
+    },
+    "home_page": {
+        "files": {
+            "title": "Files",
+            "no_content": "no files has been found"
+        }
     }
 }
