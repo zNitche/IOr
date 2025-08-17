@@ -29,5 +29,22 @@
     "error_page": {
         "description": "An unexpeted error has occured",
         "go_home": "navigate to home page"
+    },
+    "file_preview_page": {
+        "name": "name",
+        "extension": "extension",
+        "size": "size",
+        "uuid": "uuid",
+        "upload_date": "upload date",
+        "sha256sum": "sha256sum",
+        "bottom": {
+            "remove_button": "remove",
+            "download_button": "download"
+        }
+    },
+    "remove_file_modal": {
+        "title": "Delete file",
+        "text": " Do you want to pernamently remove: {file_name}",
+        "remove": "remove"
     }
 }

@@ -2,14 +2,14 @@
 {% block modal_content %}
 <div class="remove-file-modal">
     <div class="title">
-        Delete file
+        {{i18n('remove_file_modal.title')}}
     </div>
     <div class="content">
-        Do you want to pernamently remove: {{file_name}}
+        {{i18n('remove_file_modal.text').format(file_name=file_name)}}
     </div>
     <form action="{{url_for('storage.remove_file', uuid=file_uuid)}}" class="actions" method="post">
         {{csrf_hidden_input(get_csrf_token())}}
-        <button class="remove-file-button" type="submit">remove</button>
+        <button class="remove-file-button" type="submit">{{i18n('remove_file_modal.remove')}}</button>
     </form>
 </div>
 {% endblock %}

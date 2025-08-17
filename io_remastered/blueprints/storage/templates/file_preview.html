@@ -3,26 +3,26 @@
 {% set remove_file_modal_id = 'remove-file-modal' %}
 
 {% set details_items = [{
-"title": "name",
+"title": i18n('file_preview_page.name'),
 "content": file.name
 },
 {
-"title": "extension",
+"title": i18n('file_preview_page.extension'),
 "content": file.extension
 },
 {
-"title": "size",
+"title": i18n('file_preview_page.size'),
 "content": file.size|formatted_file_size
 },
 {
-"title": "uuid",
+"title": i18n('file_preview_page.uuid'),
 "content": file.uuid
 },
 {
-"title": "upload date",
+"title": i18n('file_preview_page.upload_date'),
 "content": file.upload_date.strftime('%d-%m-%Y %H:%M:%S')
 },{
-"title": "sha256sum",
+"title": i18n('file_preview_page.sha256_sum'),
 "content": file.sha256_sum
 }] %}
 
@@ -54,9 +54,13 @@
         {% endfor %}
     </div>
     <div class="file-actions">
-        <a href="{{url_for('storage.download_file', uuid=file.uuid)}}"><button>download</button></a>
+        <a href="{{url_for('storage.download_file', uuid=file.uuid)}}">
+            <button>
+                {{i18n('file_preview_page.bottom.download_button')}}
+            </button>
+        </a>
         <button onclick="toggleElementVisibility('{{remove_file_modal_id}}', true)"
-            class="remove-file-button">remove</button>
+            class="remove-file-button">{{i18n('file_preview_page.bottom.remove_button')}}</button>
     </div>
 </div>
 
