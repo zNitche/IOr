@@ -8,7 +8,7 @@
 {% block page_content %}
 <div class="error-page">
     <div class="title">Oof {{error.code}}</div>
-    <div class="description">An unexpeted error has occured</div>
-    <a class="nav-link" href="{{url_for('core.home')}}">navigate to home page</a>
+    <div class="description">{{i18n('error_page.description')}}</div>
+    <a class="nav-link" href="{{url_for('core.home')}}">{{i18n('error_page.go_home')}}</a>
 </div>
 {% endblock %}

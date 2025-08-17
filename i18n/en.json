@@ -25,5 +25,9 @@
             "title": "Files",
             "no_content": "no files has been found"
         }
+    },
+    "error_page": {
+        "description": "An unexpeted error has occured",
+        "go_home": "navigate to home page"
     }
 }
