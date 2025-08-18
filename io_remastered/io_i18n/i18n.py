@@ -26,7 +26,7 @@ class I18n:
 
                 self.__translations[translation_label] = json_content
 
-    def t(self, i18n_key: str):
+    def t(self, i18n_key: str, format: dict[str, str | int] | None = None):
         if not has_app_context():
             raise Exception(
                 "i18n context processor called outside app context")
@@ -57,6 +57,9 @@ class I18n:
 
         if current_i18n_item is None:
             return i18n_key
+
+        if format is not None and isinstance(current_i18n_item, str):
+            return current_i18n_item.format(**format)
 
         return current_i18n_item
 

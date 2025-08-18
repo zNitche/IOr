@@ -15,7 +15,7 @@ class LoginForm(Form):
         name_input.add_validator(
             DataRequiredValidator(error_message=i18n.t("login_form.validation.field_required")))
         name_input.add_validator(MaxLengthValidator(
-            error_message=i18n.t("login_form.validation.max_length_error").format(field="name", characters_count=20), length=20))
+            error_message=i18n.t("login_form.validation.max_length_error", {"field": "name", "characters_count": 20}), length=20))
 
         password_input = PasswordInput(id="password", props={"maxlength": 64}, field_name="password",
                                        required=True, placeholder=i18n.t("login_form.password"))
@@ -23,7 +23,7 @@ class LoginForm(Form):
         password_input.add_validator(
             DataRequiredValidator(error_message=i18n.t("login_form.validation.field_required")))
         password_input.add_validator(MaxLengthValidator(
-            error_message=i18n.t("login_form.validation.max_length_error").format(field="password", characters_count=64), length=64))
+            error_message=i18n.t("login_form.validation.max_length_error", {"field": "password", "characters_count": 64}), length=64))
 
         self.add_field(name_input)
         self.add_field(password_input)
