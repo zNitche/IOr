@@ -1,8 +1,15 @@
+const i18n = new I18n();
+
+
 function setupFileUploadPage() {
     toggleElementVisibility("file-upload-message", false);
     toggleElementVisibility("file-upload-button", false);
     toggleElementVisibility("file-upload-progress-bar", false);
     toggleElementVisibility("file-upload-name", false);
+}
+
+function setupI18n(translations) {
+    i18n.setTranslations(translations);
 }
 
 function getInputFile() {
@@ -59,7 +66,7 @@ function showMessage(message, type) {
 
     messageElement.classList.add(type);
 
-    const messagePrefix = type === "success" ? "" : "upload has failed: ";
+    const messagePrefix = type === "success" ? "" : i18n.t("upload_has_failed");
 
     messageElement.innerHTML = `${messagePrefix}${message}!`;
 }
@@ -68,7 +75,7 @@ async function sendFile(file_upload_preflight_url, upload_url, csrf_token) {
     const file = getInputFile();
 
     if (!file) {
-        showMessage("can't access selected file", "error");
+        showMessage(i18n.t("cant_access_file"), "error");
         return;
     }
 
@@ -80,14 +87,14 @@ async function sendFile(file_upload_preflight_url, upload_url, csrf_token) {
              csrf_token, handleSendFileLoadProgress);
 
         if (!response) {
-            showMessage("no response from server", "error");
+            showMessage(i18n.t('no_response_from_server'), "error");
             return;
         }
 
         const resJson = await response.json()
         handleSendFileLoadEnd(resJson.message, response.status !== 200);
     } catch {
-        handleSendFileLoadEnd("an error has occured", true);
+        handleSendFileLoadEnd(i18n.t('error_occured'), true);
     }
 }
 

@@ -23,7 +23,7 @@ class I18n:
 
                 with open(file_path, "r") as i18n_file:
                     json_content = json.loads(i18n_file.read())
-             
+
                 self.__translations[translation_label] = json_content
 
     def t(self, i18n_key: str):
@@ -55,16 +55,16 @@ class I18n:
             if current_i18n_item is None:
                 break
 
-        if current_i18n_item is None or not isinstance(current_i18n_item, str):
+        if current_i18n_item is None:
             return i18n_key
 
         return current_i18n_item
-    
+
     def before_request(self):
         if not has_app_context():
             raise Exception(
                 "i18n before request handler called outside app context")
-        
+
         language_key = session.get("lang")
 
         if not language_key or language_key not in self.__translations.keys():
@@ -75,7 +75,6 @@ class I18n:
         app.logger.info(
             f"[I18n] {len(self.__translations.keys())} translation files has been loaded")
 
-        app.context_processor(
-            lambda: {"i18n": self.t})
+        app.context_processor(lambda: {"i18n": self.t})
 
         app.logger.info("[I18n] has been initialized")
