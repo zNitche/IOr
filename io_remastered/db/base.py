@@ -6,7 +6,7 @@ from sqlalchemy.orm import scoped_session, DeclarativeBase, Session
 class Base(DeclarativeBase):
     @classmethod
     def get_db_session(cls) -> scoped_session[Session]:
-        return None # type: ignore
+        return None  # type: ignore
 
     @classmethod
     def select(cls) -> Select[tuple[Self]]:
