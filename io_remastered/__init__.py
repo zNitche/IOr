@@ -2,7 +2,6 @@ from flask import Flask
 import secrets
 from config.app_config import AppConfig
 from io_remastered.db import Database
-from io_remastered.io_forms import CSRFTokenField
 from io_remastered.io_logging import AppLogging
 from io_remastered.io_csrf import CSRF
 from io_remastered.io_i18n import I18n
@@ -63,34 +62,6 @@ def setup_cache_databases(app: Flask):
     app.logger.info("authentication_cache_db setup completed...")
 
 
-def setup_constext_processor(app: Flask):
-    from io_remastered import app_helpers
-
-    app.context_processor(
-        lambda: {"get_static_resource": app_helpers.context_processor_funcs.get_static_resource})
-
-    app.context_processor(
-        lambda: {"icon_for_file_extension": app_helpers.context_processor_funcs.icon_for_file_extension})
-
-    app.context_processor(
-        lambda: {"current_user": lambda: authentication_manager.current_user})
-
-    app.context_processor(
-        lambda: {"get_taken_user_storage": app_helpers.user_storage.get_taken_storage})
-
-    app.context_processor(
-        lambda: {"csrf_hidden_input": CSRFTokenField})
-
-    app.context_processor(
-        lambda: {"io_version": __version__})
-
-
-def setup_template_filters(app: Flask):
-    from io_remastered import app_helpers
-
-    app.jinja_env.filters["formatted_file_size"] = app_helpers.jinja_filters.formatted_file_size
-
-
 def create_app(config_class: type[AppConfig]):
     app = Flask(__name__, instance_relative_config=False)
 
@@ -102,6 +73,8 @@ def create_app(config_class: type[AppConfig]):
     setup_cache_databases(app)
 
     with app.app_context():
+        from io_remastered.jinja_context_processors import setup_constext_processor, setup_template_filters
+
         setup_constext_processor(app)
         setup_template_filters(app)
 
