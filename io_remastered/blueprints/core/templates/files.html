@@ -1,0 +1,46 @@
+{% extends "content_page.html" %}
+
+{% block head_links %}
+{{super()}}
+<link rel="stylesheet" href="{{ get_static_resource('css/pages/files.css') }}">
+
+<link rel="stylesheet" href="{{ get_static_resource('css/components/file_card.css') }}">
+
+<link rel="stylesheet" href="{{ get_static_resource('css/components/forms/form.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/forms/search_bar.css') }}">
+{% endblock %}
+
+{% block page_content %}
+<div class="files-page">
+    <div class="title">
+        <span>{{i18n('files_page.title')}}</span>
+    </div>
+    {% with route=url_for('core.files'), form=search_form %}
+    {% include "components/forms/search_bar.html" %}
+    {% endwith %}
+    {% if files|length > 0 %}
+    <div class="user-files">
+        {% for file in files %}
+        {% with file=file %}
+        {% include "components/file_card.html" %}
+        {% endwith %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <span>{{i18n('files_page.no_content')}}</span>
+    {% endif %}
+    {% if files_pagination.has_prev or files_pagination.has_next %}
+    <div class="pagination-wrapper">
+        {% if files_pagination.has_prev %}
+        <a class="link" href="{{ url_for('core.files', page=files_pagination.prev_num) }}"><img
+                src="{{ get_static_resource('icons/chevron_left_icon.svg') }}" /></a>
+        {% endif %}
+        {% if files_pagination.has_next %}
+        <a class="link next" href="{{ url_for('core.files', page=files_pagination.next_num) }}"><img
+                src="{{ get_static_resource('icons/chevron_right_icon.svg') }}" /></a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

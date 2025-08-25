@@ -18,12 +18,19 @@
         "home": "Home",
         "upload": "Upload",
         "account": "Account",
-        "logout": "Logout"
+        "logout": "Logout",
+        "all_files": "Files",
+        "all_directories": "Directories"
     },
     "home_page": {
         "files": {
-            "title": "Files",
+            "title": "Latest Files",
+            "see_all": "See All",
             "no_content": "no files has been found"
+        },
+        "directories": {
+            "title": "Latest Directories",
+            "see_all": "See All"
         }
     },
     "error_page": {
@@ -52,5 +59,20 @@
         "cant_access_file": "can't access selected file",
         "no_response_from_server": "no response from server",
         "error_occured": "an error has occured"
+    },
+    "directories_page": {
+        "title": "Directories",
+        "no_content": "no directories has been found"
+    },
+    "create_directory_form": {
+        "name": "directory name"
+    },
+    "create_directory_modal": {
+        "title": "Create Directory",
+        "add": "add"
+    },
+    "files_page": {
+        "title": "Files",
+        "no_content": "no files has been found"
     }
 }
