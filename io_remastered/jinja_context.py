@@ -5,7 +5,6 @@ from io_remastered.io_forms import CSRFTokenField
 
 
 def setup_constext_processor(app: Flask):
-
     app.context_processor(
         lambda: {"get_static_resource": app_helpers.context_processor_funcs.get_static_resource})
 

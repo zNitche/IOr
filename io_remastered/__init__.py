@@ -73,7 +73,7 @@ def create_app(config_class: type[AppConfig]):
     setup_cache_databases(app)
 
     with app.app_context():
-        from io_remastered.jinja_context_processors import setup_constext_processor, setup_template_filters
+        from io_remastered.jinja_context import setup_constext_processor, setup_template_filters
 
         setup_constext_processor(app)
         setup_template_filters(app)
