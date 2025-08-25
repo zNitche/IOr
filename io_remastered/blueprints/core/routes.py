@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, request, abort
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf import csrf_protected, CSRF
 from io_remastered import authentication_manager, models, forms
-from io_remastered.db import Pagination
-from io_remastered.db.decorators import pageable_content
+from io_remastered.db.pagination import Pagination
+from io_remastered.db.pagination import pageable_content
 
 
 core = Blueprint("core", __name__, template_folder="templates",
