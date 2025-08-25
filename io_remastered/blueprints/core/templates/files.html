@@ -8,6 +8,8 @@
 
 <link rel="stylesheet" href="{{ get_static_resource('css/components/forms/form.css') }}">
 <link rel="stylesheet" href="{{ get_static_resource('css/components/forms/search_bar.css') }}">
+
+<link rel="stylesheet" href="{{ get_static_resource('css/components/pagination_controls.css') }}">
 {% endblock %}
 
 {% block page_content %}
@@ -29,18 +31,9 @@
     {% else %}
     <span>{{i18n('files_page.no_content')}}</span>
     {% endif %}
-    {% if files_pagination.has_prev or files_pagination.has_next %}
-    <div class="pagination-wrapper">
-        {% if files_pagination.has_prev %}
-        <a class="link" href="{{ url_for('core.files', page=files_pagination.prev_num) }}"><img
-                src="{{ get_static_resource('icons/chevron_left_icon.svg') }}" /></a>
-        {% endif %}
-        {% if files_pagination.has_next %}
-        <a class="link next" href="{{ url_for('core.files', page=files_pagination.next_num) }}"><img
-                src="{{ get_static_resource('icons/chevron_right_icon.svg') }}" /></a>
-        {% endif %}
-    </div>
-    {% endif %}
+    {% with pagination=files_pagination, route="core.files" %}
+    {% include "components/pagination_controls.html" %}
+    {% endwith %}
 </div>
 
 {% endblock %}

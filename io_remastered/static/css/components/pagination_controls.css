@@ -1,0 +1,16 @@
+.pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pagination-controls .link {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+}
+
+.pagination-controls .link.next {
+    margin-left: auto;
+}
