@@ -21,3 +21,13 @@ def icon_for_file_extension(extension: str):
         return url_for('static', filename=f"icons/{icon_per_type.get(icon_type_for_extension)}") 
 
     return url_for('static', filename=f"icons/{defaut_icon}") 
+
+
+def unpack_dict(input_dict: dict, ommited_keys: list[str]):
+    output_dict = {}
+
+    for key in input_dict:
+        if key not in ommited_keys:
+            output_dict[key] = input_dict[key]
+
+    return output_dict

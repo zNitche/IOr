@@ -24,6 +24,9 @@ def setup_constext_processor(app: Flask):
     app.context_processor(
         lambda: {"io_version": __version__})
     
+    app.context_processor(
+        lambda: {"unpack_dict": app_helpers.context_processor_funcs.unpack_dict})
+
 
 def setup_template_filters(app: Flask):
     app.jinja_env.filters["formatted_file_size"] = app_helpers.jinja_filters.formatted_file_size
