@@ -26,12 +26,12 @@ def login_submit():
 
     if form.is_valid():
         username = form.get_field_value("name")
-        password = str(form.get_field_value("password"))
+        password = form.get_field_value("password")
 
         user = models.User.query(
             models.User.select().filter_by(username=username)).first()
 
-        if user and check_password_hash(user.password, password):
+        if user and password and check_password_hash(user.password, password):
             authentication_manager.login(user.id)
 
             return redirect(url_for("core.home"))
