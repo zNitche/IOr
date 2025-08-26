@@ -1,0 +1,31 @@
+.directory-card {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 4px;
+    background: var(--background-3);
+    height: 42px;
+    gap: 8px;
+}
+
+.directory-card .title {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+}
+
+.directory-card .icon {
+    height: 24px;
+}
+
+.directory-card .preview-icon {
+    height: 24px;
+    width: 20px;
+    margin-left: auto;
+}
+
+.directory-card  .preview-anchor {
+    display: flex;
+}

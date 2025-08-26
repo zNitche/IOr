@@ -1,0 +1,33 @@
+.directories-page {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.directories-page .title {
+    font-size: var(--font-size-l);
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.title .see-all {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: var(--white);
+}
+
+
+.title .add-icon {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.user-directories {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}

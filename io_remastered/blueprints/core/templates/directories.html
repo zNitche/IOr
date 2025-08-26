@@ -1,0 +1,51 @@
+{% extends "content_page.html" %}
+
+{% block head_links %}
+{{super()}}
+<link rel="stylesheet" href="{{ get_static_resource('css/pages/directories.css') }}">
+
+<link rel="stylesheet" href="{{ get_static_resource('css/components/directory_card.css') }}">
+
+<link rel="stylesheet" href="{{ get_static_resource('css/components/forms/form.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/forms/search_bar.css') }}">
+
+<link rel="stylesheet" href="{{ get_static_resource('css/components/modals/modal_base.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/modals/create_directory_modal.css') }}">
+
+<link rel="stylesheet" href="{{ get_static_resource('css/components/pagination_controls.css') }}">
+{% endblock %}
+
+{% block page_outer_content %}
+{{super()}}
+{% with modal_id='create_directory_modal', form=create_directory_form %}
+{% include "components/modals/create_directory_modal.html" %}
+{% endwith %}
+{% endblock %}
+
+{% block page_content %}
+<div class="directories-page">
+    <div class="title">
+        <span>{{i18n('directories_page.title')}}</span>
+        <img src="{{ get_static_resource('icons/add_icon.svg') }}"
+            onclick="toggleElementVisibility('create_directory_modal', true)" class="add-icon" />
+    </div>
+    {% with route=url_for('core.home'), form=search_form %}
+    {% include "components/forms/search_bar.html" %}
+    {% endwith %}
+    {% if directories|length > 0 %}
+    <div class="user-directories">
+        {% for directory in directories %}
+        {% with directory=directory %}
+        {% include "components/directory_card.html" %}
+        {% endwith %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <span>{{i18n('directories_page.no_content')}}</span>
+    {% endif %}
+    {% with pagination=directories_pagination, route="core.directories" %}
+    {% include "components/pagination_controls.html" %}
+    {% endwith %}
+</div>
+
+{% endblock %}
