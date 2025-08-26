@@ -2,12 +2,12 @@
 <div class="pagination-controls">
         {% if pagination.has_prev %}
         <a class="link"
-                href="{{ url_for(route, page=pagination.prev_num, **unpack_dict(request.args, ['page'])) }}"><img
+                href="{{ url_for(request.endpoint, page=pagination.prev_num, **unpack_dict(request.args, ['page'])) }}"><img
                         src="{{ get_static_resource('icons/chevron_left_icon.svg') }}" /></a>
         {% endif %}
         {% if pagination.has_next %}
         <a class="link next"
-                href="{{ url_for(route, page=pagination.next_num, **unpack_dict(request.args, ['page'])) }}"><img
+                href="{{ url_for(request.endpoint, page=pagination.next_num, **unpack_dict(request.args, ['page'])) }}"><img
                         src="{{ get_static_resource('icons/chevron_right_icon.svg') }}" /></a>
         {% endif %}
 </div>

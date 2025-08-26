@@ -31,7 +31,7 @@
     {% else %}
     <span>{{i18n('files_page.no_content')}}</span>
     {% endif %}
-    {% with pagination=files_pagination, route="core.files" %}
+    {% with pagination=files_pagination %}
     {% include "components/pagination_controls.html" %}
     {% endwith %}
 </div>

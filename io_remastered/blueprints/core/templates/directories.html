@@ -43,7 +43,7 @@
     {% else %}
     <span>{{i18n('directories_page.no_content')}}</span>
     {% endif %}
-    {% with pagination=directories_pagination, route="core.directories" %}
+    {% with pagination=directories_pagination %}
     {% include "components/pagination_controls.html" %}
     {% endwith %}
 </div>
