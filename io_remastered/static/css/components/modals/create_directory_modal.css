@@ -1,0 +1,35 @@
+.create-directory-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.create-directory-modal .title {
+    font-size: var(--font-size-l);
+}
+
+.remove-file-modal .content {
+    font-size: var(--font-size-m);
+}
+
+.create-directory-modal .content {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+.create-directory-modal .create-directory-form {
+    width: 100%;
+}
+
+.content .submit-button {
+    border: none;
+    background: var(--green);
+    cursor: pointer;
+    height: 32px;
+    border-radius: 4px;
+    width: 100%;
+}

@@ -69,7 +69,9 @@
     },
     "create_directory_modal": {
         "title": "Create Directory",
-        "add": "add"
+        "add": "add",
+        "unexpeted_error": "An unexpeted error has occured",
+        "directory_created": "directory has been created"
     },
     "files_page": {
         "title": "Files",

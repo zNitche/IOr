@@ -1,0 +1,14 @@
+{% extends "components/modals/modal_base.html" %}
+{% block modal_content %}
+<div class="create-directory-modal">
+    <div class="title">
+        {{i18n('create_directory_modal.title')}}
+    </div>
+    <form action="{{url_for('core.add_directory')}}" class="content" method="post">
+        {% with form=form, extra_class="create-directory-form"  %}
+        {% include "components/forms/form.html" %}
+        {% endwith %}
+        <button class="submit-button" type="submit">{{i18n('create_directory_modal.add')}}</button>
+    </form>
+</div>
+{% endblock %}
