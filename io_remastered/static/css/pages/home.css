@@ -4,17 +4,34 @@
     gap: 32px;
 }
 
-.user-files-wrapper {
+.section-wrapper {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.user-files-wrapper .title {
+.section-wrapper .title {
     font-size: var(--font-size-l);
+    display: flex;
+    align-items: center;
+    justify-content: space-between
 }
 
-.user-files {
+.title .see-all {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: var(--white);
+}
+
+
+.title .see-all .see-all-icon {
+    width: 15px;
+    height: 15px;
+}
+
+.section-wrapper .content-rows {
     display: flex;
     flex-direction: column;
     gap: 12px;

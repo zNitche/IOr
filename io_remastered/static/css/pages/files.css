@@ -24,21 +24,3 @@
     flex-direction: column;
     gap: 12px;
 }
-
-
-.pagination-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.pagination-wrapper .link {
-    display: flex;
-    width: 32px;
-    height: 32px;
-    justify-content: center;
-}
-
-.pagination-wrapper .link.next {
-    margin-left: auto;
-}
