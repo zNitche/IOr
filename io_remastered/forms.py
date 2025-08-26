@@ -38,3 +38,14 @@ class SearchBarForm(Form):
                                         required=False, placeholder=i18n.t("search_form.search"))
 
         self.add_field(search_phrase_input)
+
+
+class CreateDirectoryForm(Form):
+    def __init__(self, csrf_token: str | None = None, form_data: dict[str, str] | None = None):
+        super().__init__(csrf_token=csrf_token, form_data=form_data)
+
+    def setup(self):
+        name_input = TextInput(id="name", props={"maxlength": 32}, field_name="name",
+                               required=True, placeholder=i18n.t("create_directory_form.name"))
+
+        self.add_field(name_input)
