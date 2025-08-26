@@ -23,6 +23,9 @@ class User(Base):
 
     files = relationship("File", backref="owner",
                          cascade="all, delete-orphan", lazy=False)
+    
+    directories = relationship("Directory", backref="owner",
+                         cascade="all, delete-orphan", lazy=False)
 
     def __str__(self):
         struct = {
@@ -52,6 +55,25 @@ class File(Base):
     sha256_sum = mapped_column(String(64), unique=False, nullable=False)
 
     upload_date = mapped_column(
-        DATETIME, nullable=False, default=lambda: datetime.datetime.now(datetime.timezone.utc))
+        DATETIME, nullable=False, default=lambda: datetime.datetime.now())
 
     owner_id = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
+    directory_id = mapped_column(Integer, ForeignKey("directories.id"), nullable=True)
+
+
+class Directory(Base):
+    __tablename__ = "directories"
+
+    id = mapped_column(Integer, primary_key=True)
+    uuid = mapped_column(String(32), unique=True,
+                         nullable=False, default=lambda: uuid.uuid4().hex)
+
+    name = mapped_column(String(64), unique=False, nullable=False)
+
+    created_at = mapped_column(
+        DATETIME, nullable=False, default=lambda: datetime.datetime.now())
+    
+    files = relationship("File", backref="directory", lazy=False)
+
+    owner_id = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
+
