@@ -36,7 +36,7 @@ class Pagination:
         self.has_next = count > offset + self.items_per_page
         self.next_num = self.page_id + 1 if self.has_next else self.page_id
 
-        return self.__db_model.query(self.__query.limit(self.items_per_page).offset(offset)).all()
+        return self.__db_model.query(self.__query.limit(self.items_per_page).offset(offset)).unique().all()
 
     def __validate_page_id(self) -> bool:
         return True if self.__get_offset() <= self.total_items_count else False
