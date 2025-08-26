@@ -25,7 +25,7 @@ def home():
     files = models.File.query(files_query).all()
     directories = models.Directory.query(dirs_query).unique().all()
 
-    return render_template("index.html", files=files, directories=directories)
+    return render_template("home.html", files=files, directories=directories)
 
 
 @core.route("/files")
