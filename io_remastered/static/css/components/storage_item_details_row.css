@@ -1,0 +1,51 @@
+.storage-item-details-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 4px 8px;
+    background: var(--background-3);
+}
+
+.storage-item-details-row .title {
+    font-size: var(--font-size-m);
+}
+
+.storage-item-details-row .content-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 4px;
+}
+
+.content-wrapper .content {
+    font-size: var(--font-size-l);
+    overflow: hidden;
+    overflow-x: auto;
+}
+
+.content::-webkit-scrollbar {
+  width: 8px;
+  margin: 10px;
+}
+
+.content::-webkit-scrollbar-track {
+  background: var(--background-3); 
+}
+ 
+.content::-webkit-scrollbar-thumb {
+  background: var(--background-2); 
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background: var(--background-2-hover); 
+}
+
+.edit-icon {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+}
+
+.content-anchor {
+    color: var(--white);
+}

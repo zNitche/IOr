@@ -20,45 +20,23 @@
     gap: 12px;
 }
 
-.file-details .row {
+.file-actions {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 4px 8px;
-    background: var(--background-3);
+    gap: 16px;
 }
 
-.row .title {
-    font-size: var(--font-size-m);
+.file-actions button {
+    border: unset;
+    border-radius: 4px;
+    padding: 8px 8px;
+    background: var(--green);
+    color: var(--black);
+    text-transform: capitalize;
+    cursor: pointer;
 }
 
-.row .content-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 4px;
-}
-
-.content-wrapper .content {
-    font-size: var(--font-size-l);
-    overflow: hidden;
-    overflow-x: auto;
-}
-
-.content::-webkit-scrollbar {
-  width: 8px;
-  margin: 10px;
-}
-
-.content::-webkit-scrollbar-track {
-  background: var(--background-3); 
-}
- 
-.content::-webkit-scrollbar-thumb {
-  background: var(--background-2); 
-}
-.content::-webkit-scrollbar-thumb:hover {
-  background: var(--background-2-hover); 
+.file-actions .remove-file-button {
+    background: var(--red);
 }
 
 .file-actions {
@@ -80,18 +58,10 @@
     background: var(--red);
 }
 
-.edit-icon {
-    width: 22px;
-    height: 22px;
-    cursor: pointer;
-}
-
-.content-anchor {
-    color: var(--white);
-}
-
 @media (max-width: 576px) {
-    .file-actions button, a {
+
+    .file-actions button,
+    a {
         width: 100%;
     }
 }

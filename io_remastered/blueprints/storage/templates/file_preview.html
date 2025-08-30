@@ -40,6 +40,8 @@
 <link rel="stylesheet" href="{{ get_static_resource('css/components/modals/modal_base.css') }}">
 <link rel="stylesheet" href="{{ get_static_resource('css/components/modals/remove_file_modal.css') }}">
 <link rel="stylesheet" href="{{ get_static_resource('css/components/modals/edit_file_directory_modal.css') }}">
+
+<link rel="stylesheet" href="{{ get_static_resource('css/components/storage_item_details_row.css') }}">
 {% endblock %}
 
 {% block page_outer_content %}
@@ -59,23 +61,9 @@
     </div>
     <div class="file-details">
         {% for item in details_items %}
-        <div class="row">
-            <div class="title">{{item.title}}</div>
-            <div class="content-wrapper">
-                {% set content = "-" if not item.content else item.content %}
-                {% if item.on_content_click %}
-                <a class="content-anchor" href="{{item.on_content_click}}">
-                    <div class="content">{{content}}</div>
-                </a>
-                {% else %}
-                <div class="content">{{content}}</div>
-                {% endif %}
-                {% if item.get("on_edit") is not none %}
-                <img src="{{ get_static_resource('icons/edit_icon.svg') }}" class="edit-icon"
-                    onclick="{{item.get('on_edit')}}" />
-                {% endif %}
-            </div>
-        </div>
+        {% with item=item %}
+        {% include "components/storage_item_details_row.html" %}
+        {% endwith %}
         {% endfor %}
     </div>
     <div class="file-actions">
