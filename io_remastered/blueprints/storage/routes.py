@@ -56,3 +56,17 @@ def remove_file(uuid: str):
     db.remove(file)
 
     return redirect(url_for("core.home"))
+
+
+@storage.route("/directory/<uuid>", methods=["GET"])
+@login_required
+def directory_preview(uuid: str):
+    current_user = authentication_manager.current_user
+
+    directory = models.Directory.query(models.Directory.select().filter_by(
+        owner_id=current_user.id, uuid=uuid)).first()
+
+    if not directory:
+        abort(404)
+
+    return render_template("directory_preview.html", directory=directory)
