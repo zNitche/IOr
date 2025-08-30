@@ -30,8 +30,9 @@ class LoginForm(Form):
 
 
 class SearchBarForm(Form):
-    def __init__(self, csrf_token: str | None = None, form_data: dict[str, str] | None = None):
-        super().__init__(csrf_token=csrf_token, form_data=form_data)
+    def __init__(self, search_phrase: str | None):
+        super().__init__(csrf_token=None, form_data={
+            "search-phrase": search_phrase if search_phrase else ""})
 
     def setup(self):
         search_phrase_input = TextInput(id="search-phrase", props={"maxlength": 64}, field_name="search",

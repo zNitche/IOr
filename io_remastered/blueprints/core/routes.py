@@ -35,8 +35,7 @@ def files(page_id: int):
     current_user = authentication_manager.current_user
 
     search_string = request.args.get("search", "")
-    search_form = forms.SearchBarForm(
-        form_data={"search-phrase": search_string})
+    search_form = forms.SearchBarForm(search_phrase=search_string)
 
     files_query = models.File.select().filter(models.File.name.icontains(
         search_string), models.File.owner_id ==
@@ -59,8 +58,7 @@ def directories(page_id: int):
     current_user = authentication_manager.current_user
 
     search_string = request.args.get("search", "")
-    search_form = forms.SearchBarForm(
-        form_data={"search-phrase": search_string})
+    search_form = forms.SearchBarForm(search_phrase=search_string)
 
     dirs_query = models.Directory.select().filter(models.Directory.name.icontains(
         search_string), models.Directory.owner_id ==
