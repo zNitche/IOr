@@ -13,6 +13,7 @@
 {
 "title": i18n('file_preview_page.directory'),
 "content": "/" if not file.directory else file.directory.name,
+"on_content_click": url_for('storage.directory_preview', uuid=file.directory.uuid) if file.directory else "",
 "on_edit": "toggleElementVisibility('edit_file_directory_modal', true)"
 },
 {
@@ -61,9 +62,17 @@
         <div class="row">
             <div class="title">{{item.title}}</div>
             <div class="content-wrapper">
-                <div class="content">{% if not item.content %}-{% else %}{{item.content}}{% endif %}</div>
+                {% set content = "-" if not item.content else item.content %}
+                {% if item.on_content_click %}
+                <a class="content-anchor" href="{{item.on_content_click}}">
+                    <div class="content">{{content}}</div>
+                </a>
+                {% else %}
+                <div class="content">{{content}}</div>
+                {% endif %}
                 {% if item.get("on_edit") is not none %}
-                <img src="{{ get_static_resource('icons/edit_icon.svg') }}" class="edit-icon" onclick="{{item.get('on_edit')}}" />
+                <img src="{{ get_static_resource('icons/edit_icon.svg') }}" class="edit-icon"
+                    onclick="{{item.get('on_edit')}}" />
                 {% endif %}
             </div>
         </div>

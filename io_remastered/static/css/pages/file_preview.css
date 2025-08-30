@@ -86,6 +86,10 @@
     cursor: pointer;
 }
 
+.content-anchor {
+    color: var(--white);
+}
+
 @media (max-width: 576px) {
     .file-actions button, a {
         width: 100%;
