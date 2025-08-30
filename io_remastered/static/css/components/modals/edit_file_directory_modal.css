@@ -1,0 +1,34 @@
+.edit-file-directory-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.edit-file-directory-modal .content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.content-wrapper .content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.content .dirs-content {
+    padding: 10px 5px;
+}
+
+.edit-file-directory-modal .actions {
+    display: flex;
+}
+
+.actions .apply-button {
+    border: none;
+    background: var(--green);
+    cursor: pointer;
+    height: 32px;
+    border-radius: 4px;
+    width: 100%;
+}

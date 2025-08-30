@@ -51,8 +51,13 @@
     },
     "remove_file_modal": {
         "title": "Delete file",
-        "text": " Do you want to pernamently remove: {file_name}",
+        "text": "Do you want to pernamently remove: {file_name}",
         "remove": "remove"
+    },
+    "edit_file_directory_modal": {
+        "title": "Change directory",
+        "apply": "apply",
+        "no_dirs_available": "No directories available"
     },
     "file_upload": {
         "upload_has_failed": "upload has failed: ",

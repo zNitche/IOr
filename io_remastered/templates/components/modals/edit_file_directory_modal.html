@@ -1,0 +1,31 @@
+{% set dirs_available = directories|length > 0 %}
+
+{% extends "components/modals/modal_base.html" %}
+{% block modal_content %}
+<div class="edit-file-directory-modal">
+    <div class="title">
+        {{i18n('edit_file_directory_modal.title')}}
+    </div>
+    <form action="{{url_for('storage.change_file_directory', file_uuid=file_uuid)}}" class="content-wrapper"
+        method="post">
+        <div class="content">
+            {% if dirs_available %}
+            <select name="new-directory" id="new-directory" class="dirs-content">
+                <option value="/">/</option>
+                {% for directory in directories %}
+                <option value="{{directory.uuid}}">{{directory.name}}</option>
+                {% endfor %}
+            </select>
+            {% else %}
+            <div>{{i18n('edit_file_directory_modal.no_dirs_available')}}</div>
+            {% endif %}
+        </div>
+        {% if dirs_available %}
+        <div class="actions">
+            {{csrf_hidden_input(get_csrf_token())}}
+            <button class="apply-button" type="submit">{{i18n('edit_file_directory_modal.apply')}}</button>
+        </div>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
