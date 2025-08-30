@@ -40,6 +40,7 @@
     "file_preview_page": {
         "name": "name",
         "extension": "extension",
+        "directory": "directory",
         "size": "size",
         "uuid": "uuid",
         "upload_date": "upload date",
@@ -82,5 +83,9 @@
     "files_page": {
         "title": "Files",
         "no_content": "no files has been found"
+    },
+    "change_file_directory": {
+        "success": "File has been successfully moved to {dir_name}",
+        "error": "An unexpeted error has occured"
     }
 }

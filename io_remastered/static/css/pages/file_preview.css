@@ -4,17 +4,14 @@
     gap: 24px;
 }
 
-.file-type-icon-wrapper {
+.file-header {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 64px;
-    height: 64px;
+    gap: 20px;
 }
 
-.file-type-icon-wrapper .file-type-icon {
-    width: 64px;
+.file-header .file-type-icon {
     height: 64px;
+    object-fit: contain;
 }
 
 .file-details {
@@ -35,7 +32,14 @@
     font-size: var(--font-size-m);
 }
 
-.row .content {
+.row .content-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 4px;
+}
+
+.content-wrapper .content {
     font-size: var(--font-size-l);
     overflow: hidden;
     overflow-x: auto;
@@ -74,6 +78,12 @@
 
 .file-actions .remove-file-button {
     background: var(--red);
+}
+
+.edit-icon {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
 }
 
 @media (max-width: 576px) {
