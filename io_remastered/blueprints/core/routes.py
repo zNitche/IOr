@@ -93,11 +93,21 @@ def add_directory():
         dirname = form.get_field_value("name")
         name = secure_filename(filename=dirname if dirname else "")
 
-        directory = models.Directory(name=name, owner_id=current_user.id)
-        db.add(directory)
+        directory_with_same_name_query = models.Directory.select().filter(
+            models.Directory.name.icontains(name), models.Directory.owner_id == current_user.id)
+        directory_with_same_name = models.Directory.query(
+            directory_with_same_name_query).first()
 
-        flash(i18n.t('create_directory_modal.directory_created'),
-              FlashConsts.TYPE_SUCCESS)
+        if directory_with_same_name is None:
+            directory = models.Directory(name=name, owner_id=current_user.id)
+            db.add(directory)
+
+            flash(i18n.t('create_directory_modal.directory_created'),
+                  FlashConsts.TYPE_SUCCESS)
+
+        else:
+            flash(i18n.t('create_directory_modal.directory_already_exists', format={"dir_name": name}),
+                  FlashConsts.TYPE_ERROR)
 
     else:
         flash(i18n.t('create_directory_modal.unexpeted_error'),
