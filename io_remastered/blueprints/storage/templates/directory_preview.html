@@ -8,6 +8,11 @@
 {% block page_content %}
 <div class="directory-preview-page">
     {{directory.name}}
+    <div>
+        {% for file in directory.files %}
+        <div>{{file.uuid}}</div>
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock %}
