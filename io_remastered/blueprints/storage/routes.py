@@ -2,7 +2,8 @@ import os
 from flask import Blueprint, render_template, abort, send_file, current_app, url_for, redirect, request, flash
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
-from io_remastered import authentication_manager, models, db, i18n
+from io_remastered import authentication_manager, models, db, i18n, forms
+from io_remastered.db.pagination import Pagination, pageable_content
 from io_remastered.consts import FlashConsts
 
 
@@ -95,7 +96,8 @@ def change_file_directory(file_uuid: str):
 
 @storage.route("/directory/<uuid>", methods=["GET"])
 @login_required
-def directory_preview(uuid: str):
+@pageable_content
+def directory_preview(page_id: int, uuid: str):
     current_user = authentication_manager.current_user
 
     directory = models.Directory.query(models.Directory.select().filter_by(
@@ -104,4 +106,43 @@ def directory_preview(uuid: str):
     if not directory:
         abort(404)
 
-    return render_template("directory_preview.html", directory=directory)
+    search_string = request.args.get("search", "")
+    search_form = forms.SearchBarForm(search_phrase=search_string)
+
+    files_query = models.File.select().filter(models.File.name.icontains(
+        search_string), models.File.owner_id == current_user.id,
+        models.File.directory_id == directory.id).order_by(models.File.upload_date.desc())
+
+    files_pagination = Pagination(
+        db_model=models.File, query=files_query, page_id=page_id)
+
+    if not files_pagination.is_page_id_valid:
+        abort(404)
+
+    return render_template("directory_preview.html",
+                           directory=directory,
+                           search_form=search_form,
+                           files_pagination=files_pagination)
+
+
+@storage.route("/directory/<uuid>/remove", methods=["POST"])
+@csrf_protected()
+@login_required
+def remove_directory(uuid: str):
+    current_user = authentication_manager.current_user
+    directory = models.Directory.query(models.Directory.select().filter_by(
+        owner_id=current_user.id, uuid=uuid)).first()
+
+    if not directory:
+        abort(404)
+
+    remove_all_directory_files = request.form.get("remove-all-files")
+    remove_all_directory_files = remove_all_directory_files == "on"
+
+    if remove_all_directory_files:
+        for file in directory.files:
+            db.remove(file)
+
+    db.remove(directory)
+
+    return redirect(url_for("core.home"))

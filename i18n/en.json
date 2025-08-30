@@ -93,5 +93,8 @@
     "change_file_directory": {
         "success": "File has been successfully moved to {dir_name}",
         "error": "An unexpeted error has occured"
+    },
+    "directory_preview": {
+        "no_content": "no files has been found"
     }
 }
