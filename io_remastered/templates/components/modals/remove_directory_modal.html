@@ -1,0 +1,19 @@
+{% extends "components/modals/modal_base.html" %}
+{% block modal_content %}
+<div class="remove-directory-modal">
+    <div class="title">
+        {{i18n('remove_directory_modal.title')}}
+    </div>
+    <div class="content">
+        {{i18n('remove_directory_modal.text', {"name": directory.name})}}
+    </div>
+    <form action="{{url_for('storage.remove_directory', uuid=directory.uuid)}}" class="actions" method="post">
+        {{csrf_hidden_input(get_csrf_token())}}
+        <div>
+            <input type="checkbox" id="remove-all-files" name="remove-all-files" />
+            <label for="remove-all-files">{{i18n('remove_directory_modal.remove_all_files')}}</label>
+        </div>
+        <button class="remove-button" type="submit">{{i18n('remove_directory_modal.remove')}}</button>
+    </form>
+</div>
+{% endblock %}

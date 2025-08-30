@@ -1,0 +1,31 @@
+.remove-directory-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.remove-directory-modal .title {
+    font-size: var(--font-size-l);
+}
+
+.remove-directory-modal .content {
+    font-size: var(--font-size-m);
+}
+
+.remove-directory-modal .actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.actions .remove-button {
+    border: none;
+    background: var(--red);
+    cursor: pointer;
+    height: 32px;
+    border-radius: 4px;
+    width: 50%;
+}

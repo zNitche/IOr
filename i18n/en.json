@@ -55,6 +55,12 @@
         "text": "Do you want to pernamently remove: {file_name}",
         "remove": "remove"
     },
+    "remove_directory_modal": {
+        "title": "Delete directory",
+        "text": "Do you want to pernamently remove: {name}",
+        "remove_all_files": "also remove all its files",
+        "remove": "remove"
+    },
     "edit_file_directory_modal": {
         "title": "Change directory",
         "apply": "apply",
