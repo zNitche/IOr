@@ -1,5 +1,5 @@
 import os
-import subprocess
+import hashlib
 from typing import IO
 
 
@@ -37,7 +37,8 @@ def get_filename_for_tmp_upload(uuid: str, user_id: int):
 
 
 def create_tmp_file_for_upload(tmp_files_path: str, uuid: str, user_id: int):
-    path = os.path.join(tmp_files_path, get_filename_for_tmp_upload(uuid, user_id))
+    path = os.path.join(
+        tmp_files_path, get_filename_for_tmp_upload(uuid, user_id))
 
     if os.path.exists(path):
         os.remove(path)
@@ -49,7 +50,7 @@ def get_sha256sum_for_file(file_path: str):
     if not os.path.exists(file_path):
         raise Exception(f"file '{file_path}' doesn't exists")
 
-    response = subprocess.check_output(f"openssl dgst -sha256 '{file_path}'", shell=True)
-    hash = response.decode(encoding="utf-8").split("=")[-1]
+    with open(file_path, "rb") as file:
+        sha256_hash = hashlib.file_digest(file, "sha256")
 
-    return hash
+    return sha256_hash.hexdigest()
