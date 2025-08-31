@@ -77,3 +77,5 @@ class Directory(Base):
 
     owner_id = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
 
+    def get_size(self):
+        return sum([file.size for file in self.files])

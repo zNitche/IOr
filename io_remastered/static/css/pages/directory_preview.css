@@ -21,6 +21,15 @@
     gap: 4px;
 }
 
+.header-icon {
+    display: flex;
+}
+
+.header-icon .header-icon-img {
+    height: 64px;
+    object-fit: contain;
+}
+
 .delete-icon {
     object-fit: contain;
     height: 16px;
@@ -28,6 +37,12 @@
 }
 
 .directory-preview-page .directory-files {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.directory-preview-page .directory-details {
     display: flex;
     flex-direction: column;
     gap: 12px;

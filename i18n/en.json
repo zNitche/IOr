@@ -96,5 +96,13 @@
     },
     "directory_preview": {
         "no_content": "no files has been found"
+    },
+    "directory_preview_page": {
+        "details": {
+            "name": "name",
+            "size": "size",
+            "files_count": "files",
+            "creation_date": "creation date"
+        }
     }
 }
