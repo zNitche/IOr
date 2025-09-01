@@ -1,0 +1,14 @@
+{% extends "components/modals/modal_base.html" %}
+{% block modal_content %}
+<div class="change-file-name-modal">
+    <div class="title">
+        {{i18n('change_file_name_modal.title')}}
+    </div>
+    <form action="{{url_for('storage.change_file_name', uuid=file.uuid)}}" class="change-file-name-form" method="post">
+        {% with form=form %}
+        {% include "components/forms/form.html" %}
+        {% endwith %}
+        <button class="submit-button" type="submit">{{i18n('change_file_name_modal.save')}}</button>
+    </form>
+</div>
+{% endblock %}

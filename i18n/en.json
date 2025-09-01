@@ -104,5 +104,16 @@
             "files_count": "files",
             "creation_date": "creation date"
         }
+    },
+    "change_file_name_modal": {
+        "title": "Rename file",
+        "save": "save"
+    },
+    "rename_file_form": {
+        "name": "file name"
+    },
+    "change_file_name": {
+        "success": "File has been successfully renamed",
+        "error": "An unexpeted error has occured"
     }
 }

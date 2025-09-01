@@ -2,7 +2,7 @@ import os
 from flask import Blueprint, render_template, abort, send_file, current_app, url_for, redirect, request, flash
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
-from io_remastered import authentication_manager, models, db, i18n, forms
+from io_remastered import authentication_manager, models, db, i18n, forms, CSRF
 from io_remastered.db.pagination import Pagination, pageable_content
 from io_remastered.consts import FlashConsts
 
@@ -25,7 +25,13 @@ def file_preview(uuid: str):
     directories = models.Directory.query(models.Directory.select().filter(
         models.Directory.owner_id == current_user.id)).unique().all()
 
-    return render_template("file_preview.html", file=file, directories=directories)
+    rename_file_form = forms.RenameFileForm(
+        csrf_token=CSRF.generate_token(), filename=file.name)
+
+    return render_template("file_preview.html",
+                           file=file,
+                           directories=directories,
+                           rename_file_form=rename_file_form)
 
 
 @storage.route("/file/<uuid>/download", methods=["GET"])
@@ -89,6 +95,33 @@ def change_file_directory(file_uuid: str):
 
         flash(i18n.t('change_file_directory.success', format={"dir_name": dir_name}),
               FlashConsts.TYPE_SUCCESS)
+
+    else:
+        flash(i18n.t('change_file_directory.error'), FlashConsts.TYPE_ERROR)
+
+    return redirect(location=request.referrer)
+
+
+@storage.route("/file/<uuid>/change-name", methods=["POST"])
+@csrf_protected()
+@login_required
+def change_file_name(uuid: str):
+    current_user = authentication_manager.current_user
+    file = models.File.query(models.File.select().filter_by(
+        owner_id=current_user.id, uuid=uuid)).first()
+
+    if not file:
+        abort(404)
+
+    form = forms.RenameFileForm(filename=request.form.get("name"))
+
+    if form.is_valid():
+        name = form.get_field_value("name")
+        file.name = name
+
+        db.commit()
+
+        flash(i18n.t('change_file_name.success'), FlashConsts.TYPE_SUCCESS)
 
     else:
         flash(i18n.t('change_file_directory.error'), FlashConsts.TYPE_ERROR)

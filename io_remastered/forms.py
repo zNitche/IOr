@@ -50,3 +50,15 @@ class CreateDirectoryForm(Form):
                                required=True, placeholder=i18n.t("create_directory_form.name"))
 
         self.add_field(name_input)
+
+
+class RenameFileForm(Form):
+    def __init__(self, csrf_token: str | None = None, filename: str | None = None):
+        super().__init__(csrf_token=csrf_token, form_data={
+            "name": filename if filename else ""})
+
+    def setup(self):
+        name_input = TextInput(id="name", props={"maxlength": 64}, field_name="name",
+                               required=True, placeholder=i18n.t("rename_file_form.name"))
+
+        self.add_field(name_input)
