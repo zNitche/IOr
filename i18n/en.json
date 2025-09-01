@@ -77,7 +77,10 @@
         "no_content": "no directories has been found"
     },
     "create_directory_form": {
-        "name": "directory name"
+        "name": "directory name",
+        "validation": {
+            "field_required": "field required"
+        }
     },
     "create_directory_modal": {
         "title": "Create Directory",

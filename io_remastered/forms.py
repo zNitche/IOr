@@ -49,6 +49,9 @@ class CreateDirectoryForm(Form):
         name_input = TextInput(id="name", props={"maxlength": 32}, field_name="name",
                                required=True, placeholder=i18n.t("create_directory_form.name"))
 
+        name_input.add_validator(
+            DataRequiredValidator(error_message=i18n.t("create_directory_form.validation.field_required")))
+
         self.add_field(name_input)
 
 
