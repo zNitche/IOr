@@ -2,7 +2,8 @@
 
 {% set details_items = [{
 "title": i18n('directory_preview_page.details.name'),
-"content": directory.name
+"content": directory.name,
+"on_edit": "toggleElementVisibility('edit_directory_name_modal', true)"
 },
 {
 "title": i18n('directory_preview_page.details.size'),
@@ -21,6 +22,8 @@
 {{super()}}
 <link rel="stylesheet" href="{{ get_static_resource('css/pages/directory_preview.css') }}">
 
+<link rel="stylesheet" href="{{ get_static_resource('css/components/forms/form.css') }}">
+
 <link rel="stylesheet" href="{{ get_static_resource('css/components/file_card.css') }}">
 
 <link rel="stylesheet" href="{{ get_static_resource('css/components/forms/form.css') }}">
@@ -30,6 +33,7 @@
 
 <link rel="stylesheet" href="{{ get_static_resource('css/components/modals/modal_base.css') }}">
 <link rel="stylesheet" href="{{ get_static_resource('css/components/modals/remove_directory_modal.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/modals/change_storage_item_name_modal.css') }}">
 
 <link rel="stylesheet" href="{{ get_static_resource('css/components/storage_item_details_row.css') }}">
 {% endblock %}
@@ -38,6 +42,9 @@
 {{super()}}
 {% with modal_id='remove_directory_modal', directory=directory %}
 {% include "components/modals/remove_directory_modal.html" %}
+{% endwith %}
+{% with modal_id='edit_directory_name_modal', item=directory, endpoint='storage.change_directory_name', form=rename_directory_form %}
+{% include "components/modals/change_storage_item_name_modal.html" %}
 {% endwith %}
 {% endblock %}
 

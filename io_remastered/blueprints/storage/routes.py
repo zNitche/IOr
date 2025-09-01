@@ -25,8 +25,8 @@ def file_preview(uuid: str):
     directories = models.Directory.query(models.Directory.select().filter(
         models.Directory.owner_id == current_user.id)).unique().all()
 
-    rename_file_form = forms.RenameFileForm(
-        csrf_token=CSRF.generate_token(), filename=file.name)
+    rename_file_form = forms.RenameStorageItemForm(
+        csrf_token=CSRF.generate_token(), name=file.name)
 
     return render_template("file_preview.html",
                            file=file,
@@ -113,18 +113,17 @@ def change_file_name(uuid: str):
     if not file:
         abort(404)
 
-    form = forms.RenameFileForm(filename=request.form.get("name"))
+    form = forms.RenameStorageItemForm(name=request.form.get("name"))
 
     if form.is_valid():
-        name = form.get_field_value("name")
-        file.name = name
+        file.name = form.get_field_value("name")
 
         db.commit()
 
         flash(i18n.t('change_file_name.success'), FlashConsts.TYPE_SUCCESS)
 
     else:
-        flash(i18n.t('change_file_directory.error'), FlashConsts.TYPE_ERROR)
+        flash(i18n.t('change_file_name.error'), FlashConsts.TYPE_ERROR)
 
     return redirect(location=request.referrer)
 
@@ -154,10 +153,14 @@ def directory_preview(page_id: int, uuid: str):
     if not files_pagination.is_page_id_valid:
         abort(404)
 
+    rename_directory_form = forms.RenameStorageItemForm(
+        csrf_token=CSRF.generate_token(), name=directory.name)
+
     return render_template("directory_preview.html",
                            directory=directory,
                            search_form=search_form,
-                           files_pagination=files_pagination)
+                           files_pagination=files_pagination,
+                           rename_directory_form=rename_directory_form)
 
 
 @storage.route("/directory/<uuid>/remove", methods=["POST"])
@@ -181,3 +184,29 @@ def remove_directory(uuid: str):
     db.remove(directory)
 
     return redirect(url_for("core.home"))
+
+
+@storage.route("/directory/<uuid>/change-name", methods=["POST"])
+@csrf_protected()
+@login_required
+def change_directory_name(uuid: str):
+    current_user = authentication_manager.current_user
+    directory = models.Directory.query(models.Directory.select().filter_by(
+        owner_id=current_user.id, uuid=uuid)).first()
+
+    if not directory:
+        abort(404)
+
+    form = forms.RenameStorageItemForm(name=request.form.get("name"))
+
+    if form.is_valid():
+        directory.name = form.get_field_value("name")
+
+        db.commit()
+
+        flash(i18n.t('change_directory_name.success'), FlashConsts.TYPE_SUCCESS)
+
+    else:
+        flash(i18n.t('change_directory_name.error'), FlashConsts.TYPE_ERROR)
+
+    return redirect(location=request.referrer)

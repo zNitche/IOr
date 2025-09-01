@@ -108,11 +108,18 @@
     "change_storage_item_name_modal": {
         "save": "save"
     },
-    "rename_file_form": {
-        "name": "file name"
+    "rename_storage_item_form": {
+        "name": "name",
+        "validation": {
+            "field_required": "field required"
+        }
     },
     "change_file_name": {
         "success": "File has been successfully renamed",
+        "error": "An unexpeted error has occured"
+    },
+    "change_directory_name": {
+        "success": "Directory has been successfully renamed",
         "error": "An unexpeted error has occured"
     }
 }

@@ -52,13 +52,16 @@ class CreateDirectoryForm(Form):
         self.add_field(name_input)
 
 
-class RenameFileForm(Form):
-    def __init__(self, csrf_token: str | None = None, filename: str | None = None):
-        super().__init__(csrf_token=csrf_token, form_data={
-            "name": filename if filename else ""})
+class RenameStorageItemForm(Form):
+    def __init__(self, csrf_token: str | None = None, name: str | None = None):
+        super().__init__(csrf_token=csrf_token,
+                         form_data={"name": name if name else ""})
 
     def setup(self):
-        name_input = TextInput(id="name", props={"maxlength": 64}, field_name="name",
-                               required=True, placeholder=i18n.t("rename_file_form.name"))
+        name_input = TextInput(id="name", props={"maxlength": 32}, field_name="name",
+                               required=True, placeholder=i18n.t("rename_storage_item_form.name"))
+
+        name_input.add_validator(
+            DataRequiredValidator(error_message=i18n.t("rename_storage_item_form.validation.field_required")))
 
         self.add_field(name_input)
