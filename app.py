@@ -1,3 +1,7 @@
+from load_dotenv import load_dotenv
+
+load_dotenv(".env.app")
+
 from config import AppConfig
 from io_remastered import create_app
 
