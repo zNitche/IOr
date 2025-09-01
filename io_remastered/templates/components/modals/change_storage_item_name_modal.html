@@ -1,0 +1,13 @@
+{% extends "components/modals/modal_base.html" %}
+{% block modal_content %}
+<div class="change-storage-item-name-modal">
+    <form action="{{url_for(endpoint, uuid=item.uuid)}}" class="change-name-form" method="post">
+        {% with form=form %}
+        {% include "components/forms/form.html" %}
+        {% endwith %}
+        <button class="submit-button" type="submit">
+            {{i18n('change_storage_item_name_modal.save')}}
+        </button>
+    </form>
+</div>
+{% endblock %}

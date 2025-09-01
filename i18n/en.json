@@ -105,8 +105,7 @@
             "creation_date": "creation date"
         }
     },
-    "change_file_name_modal": {
-        "title": "Rename file",
+    "change_storage_item_name_modal": {
         "save": "save"
     },
     "rename_file_form": {
