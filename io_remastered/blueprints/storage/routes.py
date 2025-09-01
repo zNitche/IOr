@@ -42,9 +42,11 @@ def download_file(uuid: str):
         current_app.config["STORAGE_ROOT_PATH"], str(current_user.id))
 
     file_path = os.path.join(user_storage_path, file.uuid)
+    filename = file.name if file.name.endswith(
+        file.extension) else f"{file.name}{file.extension}"
 
     return send_file(path_or_file=file_path, as_attachment=True,
-                     download_name=file.name, max_age=None)
+                     download_name=filename, max_age=None)
 
 
 @storage.route("/file/<uuid>/remove", methods=["POST"])
