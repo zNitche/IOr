@@ -28,26 +28,30 @@
 
 
 <div class="more-menu d-none" id="more-menu">
-    <div class="more-menu-content">
-        <div class="header">
-            <img src="{{ get_static_resource('icons/close_icon.svg') }}" class="more-menu-icon close-icon"
-                onclick="toggleElementVisibility('more-menu', false)" />
-        </div>
-        <div class="top">
-            {% for menuItem in menuItems %}
-            <div class="row">
-                <a href="{{menuItem.url}}" class="row-inner"><img
-                        src="{{ get_static_resource('icons/' + menuItem.icon_name) }}"
-                        class="more-menu-icon" /><span>{{menuItem.title}}</span></a>
+    <div class="more-menu-overlay" onclick="toggleElementVisibility('more-menu', false)"></div>
+    <div class="more-menu-content-wrapper">
+        <div class="more-menu-content">
+            <div class="header">
+                <img src="{{ get_static_resource('icons/close_icon.svg') }}" class="more-menu-icon close-icon"
+                    onclick="toggleElementVisibility('more-menu', false)" />
             </div>
-            {% endfor %}
-        </div>
-        <div class="bottom">
-            <div class="disclaimer">
-                IOr v{{io_version}}
+            <div class="top">
+                {% for menuItem in menuItems %}
+                <div class="row">
+                    <a href="{{menuItem.url}}" class="row-inner"><img
+                            src="{{ get_static_resource('icons/' + menuItem.icon_name) }}"
+                            class="more-menu-icon" /><span>{{menuItem.title}}</span></a>
+                </div>
+                {% endfor %}
             </div>
-            <a href="{{url_for('auth.logout')}}" class="logout-row"><span>{{i18n('more_menu.logout')}}</span><img
-                    src="{{ get_static_resource('icons/logout_icon.svg') }}" class="more-menu-icon logout-icon" /></a>
+            <div class="bottom">
+                <div class="disclaimer">
+                    IOr v{{io_version}}
+                </div>
+                <a href="{{url_for('auth.logout')}}" class="logout-row"><span>{{i18n('more_menu.logout')}}</span><img
+                        src="{{ get_static_resource('icons/logout_icon.svg') }}"
+                        class="more-menu-icon logout-icon" /></a>
+            </div>
         </div>
     </div>
 </div>
