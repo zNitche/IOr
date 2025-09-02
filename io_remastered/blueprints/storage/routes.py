@@ -2,6 +2,7 @@ import os
 from flask import Blueprint, render_template, abort, send_file, current_app, url_for, redirect, request, flash
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
+from io_remastered.consts import DirectoriesConsts
 from io_remastered import authentication_manager, models, db, i18n, forms, CSRF
 from io_remastered.db.pagination import Pagination, pageable_content
 from io_remastered.consts import FlashConsts
@@ -200,11 +201,17 @@ def change_directory_name(uuid: str):
     form = forms.RenameStorageItemForm(name=request.form.get("name"))
 
     if form.is_valid():
-        directory.name = form.get_field_value("name")
+        directory_name = form.get_field_value("name")
 
-        db.commit()
+        if directory_name not in DirectoriesConsts.FORBIDDEN_NAMES:
+            directory.name = directory_name
+            db.commit()
 
-        flash(i18n.t('change_directory_name.success'), FlashConsts.TYPE_SUCCESS)
+            flash(i18n.t('change_directory_name.success'), FlashConsts.TYPE_SUCCESS)
+            
+        else:
+            flash(i18n.t('create_directory_modal.forbidden_name'),
+                  FlashConsts.TYPE_ERROR)
 
     else:
         flash(i18n.t('change_directory_name.error'), FlashConsts.TYPE_ERROR)
