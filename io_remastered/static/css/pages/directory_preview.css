@@ -18,7 +18,7 @@
 .header .header-actions {
     display: flex;
     flex-direction: row;
-    gap: 4px;
+    gap: 24px;
 }
 
 .header-icon {
@@ -30,9 +30,9 @@
     object-fit: contain;
 }
 
-.delete-icon {
+.actions-icon {
     object-fit: contain;
-    height: 16px;
+    height: 24px;
     cursor: pointer;
 }
 

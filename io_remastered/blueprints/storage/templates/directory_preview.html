@@ -43,7 +43,8 @@
 {% with modal_id='remove_directory_modal', directory=directory %}
 {% include "components/modals/remove_directory_modal.html" %}
 {% endwith %}
-{% with modal_id='edit_directory_name_modal', item=directory, endpoint='storage.change_directory_name', form=rename_directory_form %}
+{% with modal_id='edit_directory_name_modal', item=directory, endpoint='storage.change_directory_name',
+form=rename_directory_form %}
 {% include "components/modals/change_storage_item_name_modal.html" %}
 {% endwith %}
 {% endblock %}
@@ -55,7 +56,8 @@
             <img src="{{ get_static_resource('icons/directory_icon.svg') }}" class="header-icon-img">
         </div>
         <div class="header-actions">
-            <img src="{{get_static_resource('icons/trash_icon.svg')}}" class="delete-icon"
+            <img src="{{get_static_resource('icons/share_icon.svg')}}" class="actions-icon" />
+            <img src="{{get_static_resource('icons/trash_icon.svg')}}" class="actions-icon"
                 onclick="toggleElementVisibility('remove_directory_modal', true)" />
         </div>
     </div>
