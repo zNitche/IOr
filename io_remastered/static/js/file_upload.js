@@ -6,6 +6,7 @@ function setupFileUploadPage() {
     toggleElementVisibility("file-upload-button", false);
     toggleElementVisibility("file-upload-progress-bar", false);
     toggleElementVisibility("file-upload-name", false);
+    toggleElementVisibility("file-upload-target-directory", false);
 }
 
 function setupI18n(translationsStr) {
@@ -35,6 +36,7 @@ function clearFileInput() {
 
     toggleElementVisibility("file-upload-name", false);
     toggleElementVisibility("file-upload-button", false);
+    toggleElementVisibility("file-upload-target-directory", false);
 }
 
 function handleUploadFileSelected() {
@@ -45,6 +47,7 @@ function handleUploadFileSelected() {
     if (file) {
         showUploadFileElements(file.name);
         toggleElementVisibility("file-upload-button", true);
+        toggleElementVisibility("file-upload-target-directory", true);
     } else {
         clearFileInput();
     }
@@ -82,10 +85,13 @@ async function sendFile(file_upload_preflight_url, upload_url, csrf_token) {
 
     handleSendFileLoadStart();
 
+    const directorySelectElement = document.getElementById("target-directory-select");
+    const targetDirectoryUUID = directorySelectElement?.value;
+
     try {
-        const uploader = new FileChunksUploader(file);
+        const uploader = new FileChunksUploader(file, targetDirectoryUUID);
         const response = await uploader.uploadChunkedFile(upload_url, file_upload_preflight_url,
-             csrf_token, handleSendFileLoadProgress);
+            csrf_token, handleSendFileLoadProgress);
 
         if (!response) {
             showMessage(i18n.t('no_response_from_server'), "error");
@@ -110,6 +116,7 @@ function handleSendFileLoadStart() {
     toggleElementVisibility("file-upload-message", false);
     toggleElementVisibility("file-upload-progress-bar", true);
     toggleElementVisibility("file-upload-button", false);
+    toggleElementVisibility("file-upload-target-directory", false);
 
     setUploadProgressDetials(0);
 }

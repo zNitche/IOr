@@ -43,6 +43,16 @@
     word-break: break-all;
 }
 
+.file-upload-target-directory {
+    display: flex;
+    width: 100%;
+}
+
+.target-directory-select {
+    width: 100%;
+    padding: 10px 5px;
+}
+
 .file-upload-button {
     box-sizing: border-box;
     width: 100%;

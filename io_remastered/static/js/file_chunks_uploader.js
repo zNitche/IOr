@@ -1,10 +1,11 @@
 class FileChunksUploader {
-    constructor(file, chunkSize = 10_000_000) {
+    constructor(file, targetDirectoryUUID = null, chunkSize = 10_000_000) {
         this.file = file;
         this.chunkSize = chunkSize;
 
         this.fileSize = file.size;
         this.fileName = file.name.substring(0, 64) // limit filename to 64 characters
+        this.targetDirectoryUUID = targetDirectoryUUID;
 
         this.fileChunksCount = Math.ceil(this.fileSize / chunkSize);
     }
@@ -68,6 +69,7 @@ class FileChunksUploader {
                 "X-Is-JS-Request": true,
                 "X-File-UUID": fileUUID,
                 "X-File-Name": this.fileName,
+                "X-Target-Directory-UUID": this.targetDirectoryUUID,
                 "X-Is-Last-Chunk": chunkData.size < this.chunkSize ? 1 : 0,
             },
             body: chunkData

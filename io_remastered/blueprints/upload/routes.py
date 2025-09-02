@@ -49,6 +49,9 @@ def upload_handler():
     current_user = authentication_manager.current_user
 
     file_uuid = secure_filename(request.headers["X-File-UUID"])
+    req_target_directory_uuid = request.headers.get(
+        "X-Target-Directory-UUID", None)
+
     is_last_chunk = int(request.headers.get("X-Is-Last-Chunk", 0))
 
     tmp_file_name = files_utils.get_filename_for_tmp_upload(
@@ -92,6 +95,14 @@ def upload_handler():
             file_object = models.File(uuid=file_uuid, name=file_name,
                                       extension=file_extension, size=final_file_size,
                                       owner_id=current_user.id, sha256_sum=sha256sum)
+
+            if req_target_directory_uuid is not None:
+                target_directory = models.Directory.query(
+                    models.Directory.select().filter_by(uuid=req_target_directory_uuid,
+                                                        owner_id=current_user.id)).first()
+
+                if target_directory is not None:
+                    file_object.directory_id = target_directory.id
 
             db.add(file_object)
 
