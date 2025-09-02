@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, abort, redirect, flash
 from werkzeug.utils import secure_filename
 from io_remastered.authentication.decorators import login_required
-from io_remastered.consts import FlashConsts
+from io_remastered.consts import FlashConsts, DirectoriesConsts
 from io_remastered.io_csrf import csrf_protected, CSRF
 from io_remastered import authentication_manager, models, forms, i18n, db
 from io_remastered.db.pagination import Pagination, pageable_content
@@ -90,6 +90,12 @@ def add_directory():
     if form.is_valid():
         dirname = form.get_field_value("name")
         name = secure_filename(filename=dirname if dirname else "")
+
+        if name in DirectoriesConsts.FORBIDDEN_NAMES:
+            flash(i18n.t('create_directory_modal.forbidden_name'),
+                  FlashConsts.TYPE_ERROR)
+            
+            return redirect(location=request.referrer)
 
         directory_with_same_name_query = models.Directory.select().filter(
             models.Directory.name.icontains(name), models.Directory.owner_id == current_user.id)

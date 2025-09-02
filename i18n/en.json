@@ -87,7 +87,8 @@
         "add": "add",
         "unexpeted_error": "An unexpeted error has occured",
         "directory_created": "directory has been created",
-        "directory_already_exists": "Directory named {dir_name} already exists"
+        "directory_already_exists": "Directory named {dir_name} already exists",
+        "forbidden_name": "forbidden directory name"
     },
     "files_page": {
         "title": "Files",
