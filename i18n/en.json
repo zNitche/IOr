@@ -124,5 +124,12 @@
     "change_directory_name": {
         "success": "Directory has been successfully renamed",
         "error": "An unexpeted error has occured"
+    },
+    "file_upload_backend": {
+        "messages": {
+            "storage_size_exceeded": "max storage size exceeded",
+            "error_writing_data": "error while writing file data",
+            "uploaded_successfully": "'{file_name}' has been uploaded successfully"
+        }
     }
 }

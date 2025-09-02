@@ -6,7 +6,7 @@ from flask import Blueprint, render_template, jsonify, current_app, request, Res
 from werkzeug.utils import secure_filename
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
-from io_remastered import models, authentication_manager, db
+from io_remastered import models, authentication_manager, db, i18n
 from io_remastered.utils import files_utils
 from io_remastered.blueprints.upload import helpers
 
@@ -32,7 +32,7 @@ def upload_handler_preflight():
         user=current_user, file_size=file_size)
 
     if storage_size_exceeded:
-        return jsonify({"message": "max storage size exceeded"}), 400
+        return jsonify({"message": i18n.t("file_upload_backend.messages.storage_size_exceeded")}), 400
 
     uuid = secrets.token_hex(nbytes=64)
     tmp_files_path = current_app.config["STORAGE_TMP_ROOT_PATH"]
@@ -70,7 +70,7 @@ def upload_handler():
             user=current_user, file_size=current_file_size)
 
         if storage_size_exceeded:
-            return jsonify({"message": "max storage size exceeded"}), 400
+            return jsonify({"message": i18n.t("file_upload_backend.messages.storage_size_exceeded")}), 400
 
         if is_last_chunk:
             file_name = secure_filename(request.headers["X-File-Name"])
@@ -106,7 +106,8 @@ def upload_handler():
 
             db.add(file_object)
 
-            return jsonify({"message": f"'{file_name}' has been uploaded successfully"}), 200
+            return jsonify({"message": i18n.t("file_upload_backend.messages.uploaded_successfully",
+                                              format={"file_name": file_name})}), 200
 
     except Exception as e:
         current_app.logger.exception(e)
@@ -115,6 +116,6 @@ def upload_handler():
         if os.path.exists(tmp_file_path):
             os.remove(tmp_file_path)
 
-        return jsonify({"message": "error while writing file data"}), 500
+        return jsonify({"message": i18n.t("file_upload_backend.messages.error_writing_data")}), 500
 
     return Response(status=200)
