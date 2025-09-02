@@ -68,7 +68,7 @@
     },
     "file_upload": {
         "upload_has_failed": "upload has failed: ",
-        "cant_access_file": "can't access selected file",
+        "cant_access_file": "can`t access selected file",
         "no_response_from_server": "no response from server",
         "error_occured": "an error has occured"
     },

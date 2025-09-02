@@ -8,8 +8,9 @@ function setupFileUploadPage() {
     toggleElementVisibility("file-upload-name", false);
 }
 
-function setupI18n(translations) {
-    i18n.setTranslations(translations);
+function setupI18n(translationsStr) {
+    const rawData = translationsStr.replaceAll("\'", '"');
+    i18n.setTranslations(JSON.parse(rawData));
 }
 
 function getInputFile() {
