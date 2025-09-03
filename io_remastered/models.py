@@ -73,9 +73,15 @@ class Directory(Base):
     created_at = mapped_column(
         DATETIME, nullable=False, default=lambda: datetime.datetime.now())
     
+    share_uuid = mapped_column(String(32), unique=True, nullable=True)
+    
     files = relationship("File", backref="directory", lazy=False)
 
     owner_id = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
 
     def get_size(self):
         return sum([file.size for file in self.files])
+    
+    @property
+    def is_shared(self):
+        return self.share_uuid is not None
