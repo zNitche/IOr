@@ -34,6 +34,7 @@
 <link rel="stylesheet" href="{{ get_static_resource('css/components/modals/modal_base.css') }}">
 <link rel="stylesheet" href="{{ get_static_resource('css/components/modals/remove_directory_modal.css') }}">
 <link rel="stylesheet" href="{{ get_static_resource('css/components/modals/change_storage_item_name_modal.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/modals/share_directory_modal.css') }}">
 
 <link rel="stylesheet" href="{{ get_static_resource('css/components/storage_item_details_row.css') }}">
 {% endblock %}
@@ -47,7 +48,12 @@
 form=rename_directory_form %}
 {% include "components/modals/change_storage_item_name_modal.html" %}
 {% endwith %}
+{% with modal_id='share_directory_modal', item=directory %}
+{% include "components/modals/share_directory_modal.html" %}
+{% endwith %}
 {% endblock %}
+
+{% set sharing_icon = "share_icon.svg" if not directory.is_shared else "share_enabled_icon.svg" %}
 
 {% block page_content %}
 <div class="directory-preview-page">
@@ -56,7 +62,8 @@ form=rename_directory_form %}
             <img src="{{ get_static_resource('icons/directory_icon.svg') }}" class="header-icon-img">
         </div>
         <div class="header-actions">
-            <img src="{{get_static_resource('icons/share_icon.svg')}}" class="actions-icon" />
+            <img src="{{get_static_resource('icons/' + sharing_icon)}}" class="actions-icon"
+                onclick="toggleElementVisibility('share_directory_modal', true)" />
             <img src="{{get_static_resource('icons/trash_icon.svg')}}" class="actions-icon"
                 onclick="toggleElementVisibility('remove_directory_modal', true)" />
         </div>

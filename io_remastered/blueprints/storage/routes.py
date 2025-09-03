@@ -1,4 +1,5 @@
 import os
+from uuid import uuid4
 from flask import Blueprint, render_template, abort, send_file, current_app, url_for, redirect, request, flash
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
@@ -215,5 +216,30 @@ def change_directory_name(uuid: str):
 
     else:
         flash(i18n.t('change_directory_name.error'), FlashConsts.TYPE_ERROR)
+
+    return redirect(location=request.referrer)
+
+
+@storage.route("/directory/<directory_uuid>/toggle-sharing", methods=["POST"])
+@csrf_protected()
+@login_required
+def toggle_directory_sharing(directory_uuid: str):
+    current_user = authentication_manager.current_user
+    directory = models.Directory.query(models.Directory.select().filter_by(
+        owner_id=current_user.id, uuid=directory_uuid)).first()
+
+    if not directory:
+        abort(404)
+
+    if directory.share_uuid is None:
+        directory.share_uuid = uuid4().hex
+
+        flash(i18n.t('toggle_directory_sharing.success_enabled'), FlashConsts.TYPE_SUCCESS)
+    else:
+        directory.share_uuid = None
+
+        flash(i18n.t('toggle_directory_sharing.success_disabled'), FlashConsts.TYPE_SUCCESS)
+    
+    db.commit()
 
     return redirect(location=request.referrer)

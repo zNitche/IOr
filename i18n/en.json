@@ -126,11 +126,19 @@
         "success": "Directory has been successfully renamed",
         "error": "An unexpeted error has occured"
     },
+    "toggle_directory_sharing": {
+        "success_enabled": "Directory sharing has been enabled",
+        "success_disabled": "Directory sharing has been disabled"
+    },
     "file_upload_backend": {
         "messages": {
             "storage_size_exceeded": "max storage size exceeded",
             "error_writing_data": "error while writing file data",
             "uploaded_successfully": "'{file_name}' has been uploaded successfully"
         }
+    },
+    "share_directory_modal": {
+        "enable_sharing": "enable sharing",
+        "disable_sharing": "disable sharing"
     }
 }
