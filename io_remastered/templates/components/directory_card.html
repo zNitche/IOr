@@ -1,5 +1,8 @@
 <div class="directory-card">
     <img src="{{ get_static_resource('icons/directory_icon.svg') }}" class="icon" />
+    {% if directory.is_shared %}
+    <img src="{{get_static_resource('icons/share_enabled_icon.svg')}}" class="preview-icon" />
+    {% endif %}
     <span class="title">{{directory.name}}</span>
     <span class="creation-date">{{directory.created_at.strftime('%d-%m-%Y')}}</span>
     <a href="{{url_for('storage.directory_preview', uuid=directory.uuid)}}" class="preview-anchor"><img
