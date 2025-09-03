@@ -1,0 +1,21 @@
+{% extends "components/modals/modal_base.html" %}
+{% block modal_content %}
+<div class="share-directory-modal">
+    {% if directory.is_shared %}
+    <div class="share-url">
+        {{directory.share_uuid}}
+    </div>
+    {% endif %}
+    <form action="{{url_for('storage.toggle_directory_sharing', directory_uuid=directory.uuid)}}"
+        class="share-directory-form" method="post">
+        {{csrf_hidden_input(get_csrf_token())}}
+        <button class="submit-button {%if directory.is_shared%}disable{%endif%}" type="submit">
+            {% if not directory.is_shared  %}
+            {{i18n('share_directory_modal.enable_sharing')}}
+            {% else %}
+            {{i18n('share_directory_modal.disable_sharing')}}
+            {% endif %}
+        </button>
+    </form>
+</div>
+{% endblock %}
