@@ -1,5 +1,9 @@
 {% extends "content_page.html" %}
 
+<!-- {% set only_shared = request.args.get("only_shared", 0)|int %} -->
+{% set only_shared_reversed = 0 if only_shared else 1 %}
+{% set sharing_icon = "share_icon.svg" if not only_shared else "share_enabled_icon.svg" %}
+
 {% block head_links %}
 {{super()}}
 <link rel="stylesheet" href="{{ get_static_resource('css/pages/directories.css') }}">
@@ -26,12 +30,21 @@
 <div class="directories-page">
     <div class="title">
         <span>{{i18n('directories_page.title')}}</span>
-        <img src="{{ get_static_resource('icons/add_icon.svg') }}"
-            onclick="toggleElementVisibility('create_directory_modal', true)" class="add-icon" />
+        <div class="actions">
+            <img src="{{ get_static_resource('icons/add_icon.svg') }}"
+                onclick="toggleElementVisibility('create_directory_modal', true)" class="action-icon" />
+        </div>
     </div>
-    {% with route=url_for('core.directories'), form=search_form %}
-    {% include "components/forms/search_bar.html" %}
-    {% endwith %}
+    <div class="search-form-wrapper">
+        <a
+            href="{{ url_for(request.endpoint, only_shared=only_shared_reversed, **unpack_dict(request.args, ['only_shared'])) }}">
+            <img src="{{get_static_resource('icons/' + sharing_icon)}}" class="action-icon" />
+        </a>
+
+        {% with route=url_for('core.directories'), form=search_form %}
+        {% include "components/forms/search_bar.html" %}
+        {% endwith %}
+    </div>
     {% if directories|length > 0 %}
     <div class="user-directories">
         {% for directory in directories %}

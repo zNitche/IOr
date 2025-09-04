@@ -57,12 +57,19 @@ def files(page_id: int):
 def directories(page_id: int):
     current_user = authentication_manager.current_user
 
+    only_shared = int(request.args.get("only_shared", 0))
     search_string = request.args.get("search", "")
+
     search_form = forms.SearchBarForm(search_phrase=search_string)
 
     dirs_query = models.Directory.select().filter(models.Directory.name.icontains(
-        search_string), models.Directory.owner_id ==
-        current_user.id).order_by(models.Directory.created_at.desc())
+        search_string), models.Directory.owner_id == current_user.id)
+
+    if only_shared:
+        dirs_query = dirs_query.filter(
+            models.Directory.is_shared == bool(only_shared))
+
+    dirs_query = dirs_query.order_by(models.Directory.created_at.desc())
 
     directories_pagination = Pagination(
         db_model=models.Directory, query=dirs_query, page_id=page_id)
@@ -77,7 +84,8 @@ def directories(page_id: int):
                            directories_pagination=directories_pagination,
                            directories=directories_pagination.items,
                            search_form=search_form,
-                           create_directory_form=create_directory_form)
+                           create_directory_form=create_directory_form,
+                           only_shared=only_shared)
 
 
 @core.route("/add-directory", methods=["POST"])
@@ -94,7 +102,7 @@ def add_directory():
         if name in DirectoriesConsts.FORBIDDEN_NAMES:
             flash(i18n.t('create_directory_modal.forbidden_name'),
                   FlashConsts.TYPE_ERROR)
-            
+
             return redirect(location=request.referrer)
 
         directory_with_same_name_query = models.Directory.select().filter(

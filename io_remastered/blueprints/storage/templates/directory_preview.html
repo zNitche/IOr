@@ -18,6 +18,8 @@
 "content": directory.created_at.strftime('%d-%m-%Y %H:%M:%S')
 }] %}
 
+{% set sharing_icon = "share_icon.svg" if not directory.is_shared else "share_enabled_icon.svg" %}
+
 {% block head_links %}
 {{super()}}
 <link rel="stylesheet" href="{{ get_static_resource('css/pages/directory_preview.css') }}">
@@ -52,8 +54,6 @@ form=rename_directory_form %}
 {% include "components/modals/share_directory_modal.html" %}
 {% endwith %}
 {% endblock %}
-
-{% set sharing_icon = "share_icon.svg" if not directory.is_shared else "share_enabled_icon.svg" %}
 
 {% block page_content %}
 <div class="directory-preview-page">

@@ -19,11 +19,21 @@
     color: var(--white);
 }
 
+.title .actions {
+    display: flex;
+    gap: 24px;
+}
 
-.title .add-icon {
+.directories-page .action-icon {
     width: 25px;
     height: 25px;
     cursor: pointer;
+}
+
+.directories-page  .search-form-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 24px;
 }
 
 .user-directories {
