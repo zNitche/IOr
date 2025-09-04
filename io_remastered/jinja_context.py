@@ -25,6 +25,9 @@ def setup_constext_processor(app: Flask):
     
     app.context_processor(
         lambda: {"unpack_dict": app_helpers.context_processor_funcs.unpack_dict})
+    
+    app.context_processor(
+        lambda: {"is_viewed_by_owner": app_helpers.context_processor_funcs.is_viewed_by_owner})
 
 
 def setup_template_filters(app: Flask):

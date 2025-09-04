@@ -18,9 +18,9 @@ def icon_for_file_extension(extension: str):
     icon_type_for_extension = common_files_extensions.get(extension, None)
 
     if icon_type_for_extension and icon_type_for_extension in icon_per_type.keys():
-        return url_for('static', filename=f"icons/{icon_per_type.get(icon_type_for_extension)}") 
+        return url_for('static', filename=f"icons/{icon_per_type.get(icon_type_for_extension)}")
 
-    return url_for('static', filename=f"icons/{defaut_icon}") 
+    return url_for('static', filename=f"icons/{defaut_icon}")
 
 
 def unpack_dict(input_dict: dict, ommited_keys: list[str]):
@@ -31,3 +31,10 @@ def unpack_dict(input_dict: dict, ommited_keys: list[str]):
             output_dict[key] = input_dict[key]
 
     return output_dict
+
+
+def is_viewed_by_owner(obj: object, owner_id: int, owner_id_attr_name: str = "owner_id"):
+    if hasattr(obj, owner_id_attr_name):
+        return getattr(obj, owner_id_attr_name) == owner_id
+
+    return False
