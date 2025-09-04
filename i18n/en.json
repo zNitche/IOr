@@ -127,8 +127,9 @@
         "error": "An unexpeted error has occured"
     },
     "toggle_directory_sharing": {
-        "success_enabled": "Directory sharing has been enabled",
-        "success_disabled": "Directory sharing has been disabled"
+        "toggled": "Directory sharing has been {status}",
+        "enabled": "enabled",
+        "disabled": "disabled"
     },
     "file_upload_backend": {
         "messages": {

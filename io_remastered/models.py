@@ -1,7 +1,7 @@
 import datetime
 import uuid
 import json
-from sqlalchemy import Integer, String, DATETIME, ForeignKey
+from sqlalchemy import Integer, String, DATETIME, ForeignKey, Boolean
 from sqlalchemy.orm import mapped_column, relationship
 from io_remastered.db import Base
 
@@ -73,7 +73,7 @@ class Directory(Base):
     created_at = mapped_column(
         DATETIME, nullable=False, default=lambda: datetime.datetime.now())
     
-    share_uuid = mapped_column(String(32), unique=True, nullable=True)
+    is_shared = mapped_column(Boolean, default=False)
     
     files = relationship("File", backref="directory", lazy=False)
 
@@ -81,7 +81,3 @@ class Directory(Base):
 
     def get_size(self):
         return sum([file.size for file in self.files])
-    
-    @property
-    def is_shared(self):
-        return self.share_uuid is not None

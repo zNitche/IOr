@@ -208,8 +208,9 @@ def change_directory_name(uuid: str):
             directory.name = directory_name
             db.commit()
 
-            flash(i18n.t('change_directory_name.success'), FlashConsts.TYPE_SUCCESS)
-            
+            flash(i18n.t('change_directory_name.success'),
+                  FlashConsts.TYPE_SUCCESS)
+
         else:
             flash(i18n.t('create_directory_modal.forbidden_name'),
                   FlashConsts.TYPE_ERROR)
@@ -231,15 +232,12 @@ def toggle_directory_sharing(directory_uuid: str):
     if not directory:
         abort(404)
 
-    if directory.share_uuid is None:
-        directory.share_uuid = uuid4().hex
+    directory.is_shared = not directory.is_shared
 
-        flash(i18n.t('toggle_directory_sharing.success_enabled'), FlashConsts.TYPE_SUCCESS)
-    else:
-        directory.share_uuid = None
+    flash(i18n.t('toggle_directory_sharing.toggled',
+                 format={"status": i18n.t('toggle_directory_sharing.enabled') if directory.is_shared else i18n.t('toggle_directory_sharing.disabled')}),
+          FlashConsts.TYPE_SUCCESS)
 
-        flash(i18n.t('toggle_directory_sharing.success_disabled'), FlashConsts.TYPE_SUCCESS)
-    
     db.commit()
 
     return redirect(location=request.referrer)
