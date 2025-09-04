@@ -1,9 +1,11 @@
 {% extends "content_page.html" %}
 
+{% set is_viewed_by_owner = is_viewed_by_owner(file, current_user().id) %}
+
 {% set details_items = [{
 "title": i18n('file_preview_page.name'),
 "content": file.name,
-"on_edit": "toggleElementVisibility('edit_file_name_modal', true)"
+"on_edit": "toggleElementVisibility('edit_file_name_modal', true)" if is_viewed_by_owner else None
 },
 {
 "title": i18n('file_preview_page.extension'),
@@ -13,7 +15,7 @@
 "title": i18n('file_preview_page.directory'),
 "content": "/" if not file.directory else file.directory.name,
 "on_content_click": url_for('storage.directory_preview', uuid=file.directory.uuid) if file.directory else "",
-"on_edit": "toggleElementVisibility('edit_file_directory_modal', true)"
+"on_edit": "toggleElementVisibility('edit_file_directory_modal', true)" if is_viewed_by_owner else None
 },
 {
 "title": i18n('file_preview_page.size'),
@@ -38,14 +40,17 @@
 
 <link rel="stylesheet" href="{{ get_static_resource('css/components/forms/form.css') }}">
 
+{% if is_viewed_by_owner %}
 <link rel="stylesheet" href="{{ get_static_resource('css/components/modals/modal_base.css') }}">
 <link rel="stylesheet" href="{{ get_static_resource('css/components/modals/remove_file_modal.css') }}">
 <link rel="stylesheet" href="{{ get_static_resource('css/components/modals/edit_file_directory_modal.css') }}">
 <link rel="stylesheet" href="{{ get_static_resource('css/components/modals/change_storage_item_name_modal.css') }}">
+{% endif %}
 
 <link rel="stylesheet" href="{{ get_static_resource('css/components/storage_item_details_row.css') }}">
 {% endblock %}
 
+{% if is_viewed_by_owner %}
 {% block page_outer_content %}
 {{super()}}
 {% with modal_id='remove-file-modal', file_uuid=file.uuid, file_name=file.name %}
@@ -58,6 +63,7 @@
 {% include "components/modals/change_storage_item_name_modal.html" %}
 {% endwith %}
 {% endblock %}
+{% endif %}
 
 {% block page_content %}
 <div class="file-preview-page">
@@ -77,8 +83,10 @@
                 {{i18n('file_preview_page.bottom.download_button')}}
             </button>
         </a>
+        {% if is_viewed_by_owner %}
         <button onclick="toggleElementVisibility('remove-file-modal', true)"
             class="remove-file-button">{{i18n('file_preview_page.bottom.remove_button')}}</button>
+        {% endif %}
     </div>
 </div>
 
