@@ -23,9 +23,9 @@ class User(Base):
 
     files = relationship("File", backref="owner",
                          cascade="all, delete-orphan", lazy=False)
-    
+
     directories = relationship("Directory", backref="owner",
-                         cascade="all, delete-orphan", lazy=False)
+                               cascade="all, delete-orphan", lazy=False)
 
     def __str__(self):
         struct = {
@@ -39,6 +39,28 @@ class User(Base):
 
     def get_max_storage_size_in_bytes(self):
         return self.max_storage_size * 1_000_000_000
+
+
+class Directory(Base):
+    __tablename__ = "directories"
+
+    id = mapped_column(Integer, primary_key=True)
+    uuid = mapped_column(String(32), unique=True,
+                         nullable=False, default=lambda: uuid.uuid4().hex)
+
+    name = mapped_column(String(64), unique=False, nullable=False)
+
+    created_at = mapped_column(
+        DATETIME, nullable=False, default=lambda: datetime.datetime.now())
+
+    is_shared = mapped_column(Boolean, default=False)
+
+    files = relationship("File", backref="__directory", lazy=False)
+
+    owner_id = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
+
+    def get_size(self):
+        return sum([file.size for file in self.files])
 
 
 class File(Base):
@@ -58,26 +80,10 @@ class File(Base):
         DATETIME, nullable=False, default=lambda: datetime.datetime.now())
 
     owner_id = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
-    directory_id = mapped_column(Integer, ForeignKey("directories.id"), nullable=True)
+    directory_id = mapped_column(
+        Integer, ForeignKey("directories.id"), nullable=True)
 
-
-class Directory(Base):
-    __tablename__ = "directories"
-
-    id = mapped_column(Integer, primary_key=True)
-    uuid = mapped_column(String(32), unique=True,
-                         nullable=False, default=lambda: uuid.uuid4().hex)
-
-    name = mapped_column(String(64), unique=False, nullable=False)
-
-    created_at = mapped_column(
-        DATETIME, nullable=False, default=lambda: datetime.datetime.now())
-    
-    is_shared = mapped_column(Boolean, default=False)
-    
-    files = relationship("File", backref="directory", lazy=False)
-
-    owner_id = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
-
-    def get_size(self):
-        return sum([file.size for file in self.files])
+    # handle File.__directory orm backref for proper typehints
+    @property
+    def directory(self) -> None | Directory:
+        return getattr(self, "__directory")
