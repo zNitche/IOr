@@ -18,12 +18,10 @@ storage = Blueprint("storage", __name__, template_folder="templates",
 def file_preview(uuid: str):
     current_user = authentication_manager.current_user
 
-    file = models.File.query(models.File.select().filter_by(uuid=uuid)).first()
+    file = models.File.query(models.File.select().filter_by(
+        uuid=uuid, owner_id=current_user.id)).first()
 
     if not file:
-        abort(404)
-
-    if not files_accessibility_utils.is_file_accessible(file, current_user):
         abort(404)
 
     directories = models.Directory.query(models.Directory.select().filter(
@@ -42,12 +40,10 @@ def file_preview(uuid: str):
 @login_required
 def download_file(uuid: str):
     current_user = authentication_manager.current_user
-    file = models.File.query(models.File.select().filter_by(uuid=uuid)).first()
+    file = models.File.query(models.File.select().filter_by(
+        uuid=uuid, owner_id=current_user.id)).first()
 
     if not file:
-        abort(404)
-
-    if not files_accessibility_utils.is_file_accessible(file, current_user):
         abort(404)
 
     user_storage_path = os.path.join(
@@ -141,18 +137,16 @@ def directory_preview(page_id: int, uuid: str):
     current_user = authentication_manager.current_user
 
     directory = models.Directory.query(
-        models.Directory.select().filter_by(uuid=uuid)).first()
+        models.Directory.select().filter_by(uuid=uuid, owner_id=current_user.id)).first()
 
     if not directory:
-        abort(404)
-
-    if not files_accessibility_utils.is_directory_accessible(directory, current_user):
         abort(404)
 
     search_string = request.args.get("search", "")
     search_form = forms.SearchBarForm(search_phrase=search_string)
 
     files_query = models.File.select().filter(models.File.name.icontains(search_string),
+                                              models.File.owner_id == current_user.id,
                                               models.File.directory_id == directory.id).order_by(models.File.upload_date.desc())
 
     files_pagination = Pagination(
@@ -242,11 +236,13 @@ def toggle_directory_sharing(directory_uuid: str):
     if directory.is_shared:
         directory.toggle_sharing(state=False)
 
-        flash(i18n.t('toggle_directory_sharing.disabled'), FlashConsts.TYPE_SUCCESS)
+        flash(i18n.t('toggle_directory_sharing.disabled'),
+              FlashConsts.TYPE_SUCCESS)
     else:
         directory.toggle_sharing(state=True)
 
-        flash(i18n.t('toggle_directory_sharing.enabled'), FlashConsts.TYPE_SUCCESS)
+        flash(i18n.t('toggle_directory_sharing.enabled'),
+              FlashConsts.TYPE_SUCCESS)
 
     db.commit()
 
