@@ -1,12 +1,18 @@
+{% set current_user = current_user() %}
+
 <div class="navigation-bar">
     <div class="left">
         <a href="{{url_for('core.home')}}" class="navigation-bar-icon">
             <img src="{{ get_static_resource('icons/ior_logo.svg') }}" class="navigation-bar-icon io-logo" />
         </a>
     </div>
+    {% if current_user is not none %}
     <div class="right">
         <img src="{{ get_static_resource('icons/burger_icon.svg') }}" class="navigation-bar-icon burger-icon"
             onclick="toggleElementVisibility('more-menu', true)" />
     </div>
+    {% endif %}
 </div>
+{% if current_user is not none %}
 {% include "components/more_menu.html" %}
+{% endif %}
