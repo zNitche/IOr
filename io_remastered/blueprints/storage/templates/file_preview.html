@@ -63,6 +63,9 @@
 <div class="file-preview-page">
     <div class="file-header">
         <img src="{{ icon_for_file_extension(file.extension) }}" class="file-type-icon">
+        {% if file.is_shared %}
+        <img src="{{get_static_resource('icons/share_enabled_icon.svg')}}" class="sharing-enabled-icon" />
+        {% endif %}
     </div>
     <div class="file-details">
         {% for item in details_items %}
