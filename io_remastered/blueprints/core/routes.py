@@ -67,7 +67,7 @@ def directories(page_id: int):
 
     if only_shared:
         dirs_query = dirs_query.filter(
-            models.Directory.shared_uuid.is_not(None)) # type: ignore
+            models.Directory.share_uuid.is_not(None)) # type: ignore
 
     dirs_query = dirs_query.order_by(models.Directory.created_at.desc())
 
