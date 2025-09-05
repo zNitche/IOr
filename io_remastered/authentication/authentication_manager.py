@@ -1,7 +1,6 @@
 import secrets
 from flask import g, session
 from io_remastered import models
-from io_remastered.db import Database
 from io_remastered.extra_modules import RedisCacheDatabase
 
 
