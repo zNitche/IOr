@@ -8,6 +8,16 @@ function closeFlashMessage(event) {
     }
 }
 
+function autoCloseFlashMessage(uuid) {
+    const container = document.getElementById(`flash-message-${uuid}`);
+
+    if (container) {
+        setTimeout(() => {
+            container.remove();
+        }, 3000);
+    }
+}
+
 function disableButtonById(buttonId) {
     const button = document.getElementById(buttonId);
 

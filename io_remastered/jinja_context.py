@@ -1,3 +1,4 @@
+from uuid import uuid4
 from flask import Flask
 from io_remastered import app_helpers
 from io_remastered import authentication_manager, __version__
@@ -28,6 +29,9 @@ def setup_constext_processor(app: Flask):
     
     app.context_processor(
         lambda: {"is_viewed_by_owner": app_helpers.context_processor_funcs.is_viewed_by_owner})
+    
+    app.context_processor(
+        lambda: {"get_uuid": lambda: uuid4().hex})
 
 
 def setup_template_filters(app: Flask):

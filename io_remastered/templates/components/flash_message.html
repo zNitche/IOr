@@ -1,4 +1,7 @@
-<div class="flashed-message flashed-message-{{ category }}">
+<div class="flashed-message flashed-message-{{ category }}" id="flash-message-{{ flash_message_uuid }}">
+    <script>
+        autoCloseFlashMessage('{{flash_message_uuid}}');
+    </script>
     <div class="flashed-message-text">
         {{ message }}
     </div>
