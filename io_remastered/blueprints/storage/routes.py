@@ -183,14 +183,15 @@ def remove_directory(uuid: str):
     if not directory:
         abort(404)
 
-    remove_all_directory_files = request.form.get("remove-all-files")
-    remove_all_directory_files = remove_all_directory_files == "on"
+    remove_all_directory_files = request.form.get("remove-all-files") == "on"
 
     if remove_all_directory_files:
         for file in directory.files:
             db.remove(file)
 
     db.remove(directory)
+
+    flash(i18n.t('remove_directory.success'), FlashConsts.TYPE_SUCCESS)
 
     return redirect(url_for("core.home"))
 

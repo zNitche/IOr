@@ -127,9 +127,8 @@
         "error": "An unexpeted error has occured"
     },
     "toggle_directory_sharing": {
-        "toggled": "Directory sharing has been {status}",
-        "enabled": "enabled",
-        "disabled": "disabled"
+        "enabled": "Directory sharing has been enabled",
+        "disabled": "Directory sharing has been disabled"
     },
     "file_upload_backend": {
         "messages": {
@@ -141,5 +140,8 @@
     "share_directory_modal": {
         "enable_sharing": "enable sharing",
         "disable_sharing": "disable sharing"
+    },
+    "remove_directory": {
+        "success": "Directory has been successfully removed"
     }
 }
