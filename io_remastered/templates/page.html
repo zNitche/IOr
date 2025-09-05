@@ -13,7 +13,7 @@
     {% if messages %}
     <div class="flashed-messages-wrapper">
         {% for category, message in messages %}
-        {% with message=message, category=category %}
+        {% with message=message, category=category, flash_message_uuid=get_uuid() %}
         {% include "components/flash_message.html" %}
         {% endwith %}
         {% endfor %}
