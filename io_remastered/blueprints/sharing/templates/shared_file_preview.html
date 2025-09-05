@@ -1,0 +1,60 @@
+{% extends "content_page.html" %}
+
+{% set details_items = [{
+"title": i18n('file_preview_page.name'),
+"content": file.name,
+},
+{
+"title": i18n('file_preview_page.extension'),
+"content": file.extension
+},
+{
+"title": i18n('file_preview_page.directory'),
+"content": "/" if not file.directory else file.directory.name,
+"on_content_click": url_for('sharing.directory_preview', share_uuid=file.directory.share_uuid) if
+file.directory.is_shared else "",
+},
+{
+"title": i18n('file_preview_page.size'),
+"content": file.size|formatted_file_size
+},
+{
+"title": i18n('file_preview_page.upload_date'),
+"content": file.upload_date.strftime('%d-%m-%Y %H:%M:%S')
+},
+{
+"title": i18n('file_preview_page.sha256sum'),
+"content": file.sha256_sum
+}] %}
+
+{% block head_links %}
+{{super()}}
+<link rel="stylesheet" href="{{ get_static_resource('css/pages/file_preview.css') }}">
+
+<link rel="stylesheet" href="{{ get_static_resource('css/components/forms/form.css') }}">
+
+<link rel="stylesheet" href="{{ get_static_resource('css/components/storage_item_details_row.css') }}">
+{% endblock %}
+
+{% block page_content %}
+<div class="file-preview-page">
+    <div class="file-header">
+        <img src="{{ icon_for_file_extension(file.extension) }}" class="file-type-icon">
+    </div>
+    <div class="file-details">
+        {% for item in details_items %}
+        {% with item=item %}
+        {% include "components/storage_item_details_row.html" %}
+        {% endwith %}
+        {% endfor %}
+    </div>
+    <div class="file-actions">
+        <a href="{{url_for('sharing.download_file', share_uuid=file.share_uuid)}}">
+            <button>
+                {{i18n('file_preview_page.bottom.download_button')}}
+            </button>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

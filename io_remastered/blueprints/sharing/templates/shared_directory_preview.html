@@ -1,0 +1,69 @@
+{% extends "content_page.html" %}
+
+{% set details_items = [{
+"title": i18n('directory_preview_page.details.name'),
+"content": directory.name,
+},
+{
+"title": i18n('directory_preview_page.details.size'),
+"content": directory.get_size()|formatted_file_size
+},
+{
+"title": i18n('directory_preview_page.details.files_count'),
+"content": directory.files|length
+},
+{
+"title": i18n('directory_preview_page.details.creation_date'),
+"content": directory.created_at.strftime('%d-%m-%Y %H:%M:%S')
+}] %}
+
+{% block head_links %}
+{{super()}}
+<link rel="stylesheet" href="{{ get_static_resource('css/pages/directory_preview.css') }}">
+
+<link rel="stylesheet" href="{{ get_static_resource('css/components/forms/form.css') }}">
+
+<link rel="stylesheet" href="{{ get_static_resource('css/components/file_card.css') }}">
+
+<link rel="stylesheet" href="{{ get_static_resource('css/components/forms/form.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/forms/search_bar.css') }}">
+
+<link rel="stylesheet" href="{{ get_static_resource('css/components/pagination_controls.css') }}">
+
+<link rel="stylesheet" href="{{ get_static_resource('css/components/storage_item_details_row.css') }}">
+{% endblock %}
+
+{% block page_content %}
+<div class="directory-preview-page">
+    <div class="header">
+        <div class="header-icon">
+            <img src="{{ get_static_resource('icons/directory_icon.svg') }}" class="header-icon-img">
+        </div>
+    </div>
+    <div class="directory-details">
+        {% for item in details_items %}
+        {% with item=item %}
+        {% include "components/storage_item_details_row.html" %}
+        {% endwith %}
+        {% endfor %}
+    </div>
+    {% with route=url_for('sharing.directory_preview', share_uuid=directory.share_uuid), form=search_form %}
+    {% include "components/forms/search_bar.html" %}
+    {% endwith %}
+    {% if files_pagination.items|length > 0 %}
+    <div class="directory-files">
+        {% for file in files_pagination.items %}
+        {% with file=file, is_shared=True %}
+        {% include "components/file_card.html" %}
+        {% endwith %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <span>{{i18n('directory_preview.no_content')}}</span>
+    {% endif %}
+    {% with pagination=files_pagination %}
+    {% include "components/pagination_controls.html" %}
+    {% endwith %}
+</div>
+
+{% endblock %}
