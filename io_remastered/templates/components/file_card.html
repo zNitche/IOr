@@ -1,7 +1,10 @@
+{% set preview_url = url_for('sharing.file_preview', share_uuid=file.share_uuid) if is_shared else
+url_for('storage.file_preview', uuid=file.uuid) %}
+
 <div class="file-card">
     <img src="{{ icon_for_file_extension(file.extension) }}" class="file-type-icon" />
     <span class="title">{{file.name}}</span>
     <span class="upload-date">{{file.upload_date.strftime('%d-%m-%Y')}}</span>
-    <a href="{{url_for('storage.file_preview', uuid=file.uuid)}}" class="open-file-preview-anchor"><img
+    <a href="{{ preview_url }}" class="open-file-preview-anchor"><img
             src="{{ get_static_resource('icons/preview_icon.svg') }}" class="open-file-preview-icon" /></a>
 </div>
