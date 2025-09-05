@@ -1,9 +1,10 @@
 import datetime
 import uuid
 import json
-from sqlalchemy import Integer, String, DATETIME, ForeignKey, Boolean
+from sqlalchemy import Integer, String, DATETIME, ForeignKey
 from sqlalchemy.orm import mapped_column, relationship
 from io_remastered.db import Base
+from io_remastered.utils import sharing_utils
 
 
 class User(Base):
@@ -66,14 +67,14 @@ class Directory(Base):
     @property
     def is_shared(self):
         return self.share_uuid is not None
-    
+
     def toggle_sharing(self, state: bool):
-        setter = lambda: None if not state else uuid.uuid4().hex
-        
-        self.share_uuid = setter()
+        def uuid_setter(): return None if not state else sharing_utils.generate_sharing_uuid()
+
+        self.share_uuid = uuid_setter()
 
         for file in self.files:
-            file.share_uuid = setter()
+            file.share_uuid = uuid_setter()
 
 
 class File(Base):

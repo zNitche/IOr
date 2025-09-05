@@ -1,5 +1,4 @@
 import os
-from uuid import uuid4
 from flask import Blueprint, render_template, abort, send_file, current_app, url_for, redirect, request, flash
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
@@ -7,6 +6,7 @@ from io_remastered.consts import DirectoriesConsts
 from io_remastered import authentication_manager, models, db, i18n, forms, CSRF
 from io_remastered.db.pagination import Pagination, pageable_content
 from io_remastered.consts import FlashConsts
+from io_remastered.utils import sharing_utils
 
 
 storage = Blueprint("storage", __name__, template_folder="templates",
@@ -96,7 +96,7 @@ def change_file_directory(file_uuid: str):
         file.share_uuid = None
 
         if directory is not None and directory.is_shared:
-            file.share_uuid = uuid4().hex
+            file.share_uuid = sharing_utils.generate_sharing_uuid()
 
         db.commit()
 
