@@ -39,12 +39,7 @@ class AuthenticationManager:
 
     @property
     def current_user(self) -> models.User:
-        user = g.get("current_user", None)
-
-        if not user:
-            raise Exception("current user is none")
-
-        return user
+        return g.get("current_user", None)
 
     def user_for_token(self, token: str | None) -> models.User | None:
         if not token:
