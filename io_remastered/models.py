@@ -53,7 +53,8 @@ class Directory(Base):
     created_at = mapped_column(
         DATETIME, nullable=False, default=lambda: datetime.datetime.now())
 
-    is_shared = mapped_column(Boolean, default=False)
+    shared_uuid = mapped_column(
+        String(32), unique=True, nullable=True, default=None)
 
     files = relationship("File", backref="__directory", lazy=False)
 
@@ -61,6 +62,18 @@ class Directory(Base):
 
     def get_size(self):
         return sum([file.size for file in self.files])
+
+    @property
+    def is_shared(self):
+        return self.shared_uuid is not None
+    
+    def toggle_sharing(self, state: bool):
+        setter = lambda: None if not state else uuid.uuid4().hex
+        
+        self.shared_uuid = setter()
+
+        for file in self.files:
+            file.shared_uuid = setter()
 
 
 class File(Base):
@@ -79,6 +92,9 @@ class File(Base):
     upload_date = mapped_column(
         DATETIME, nullable=False, default=lambda: datetime.datetime.now())
 
+    shared_uuid = mapped_column(
+        String(32), unique=True, nullable=True, default=None)
+
     owner_id = mapped_column(Integer, ForeignKey("users.id"), nullable=False)
     directory_id = mapped_column(
         Integer, ForeignKey("directories.id"), nullable=True)
@@ -87,3 +103,7 @@ class File(Base):
     @property
     def directory(self) -> None | Directory:
         return getattr(self, "__directory")
+
+    @property
+    def is_shared(self):
+        return self.shared_uuid is not None

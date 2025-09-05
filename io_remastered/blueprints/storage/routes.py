@@ -1,5 +1,4 @@
 import os
-from uuid import uuid4
 from flask import Blueprint, render_template, abort, send_file, current_app, url_for, redirect, request, flash
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
@@ -240,11 +239,14 @@ def toggle_directory_sharing(directory_uuid: str):
     if not directory:
         abort(404)
 
-    directory.is_shared = not directory.is_shared
+    if directory.is_shared:
+        directory.toggle_sharing(state=False)
 
-    flash(i18n.t('toggle_directory_sharing.toggled',
-                 format={"status": i18n.t('toggle_directory_sharing.enabled') if directory.is_shared else i18n.t('toggle_directory_sharing.disabled')}),
-          FlashConsts.TYPE_SUCCESS)
+        flash(i18n.t('toggle_directory_sharing.disabled'), FlashConsts.TYPE_SUCCESS)
+    else:
+        directory.toggle_sharing(state=True)
+
+        flash(i18n.t('toggle_directory_sharing.enabled'), FlashConsts.TYPE_SUCCESS)
 
     db.commit()
 
