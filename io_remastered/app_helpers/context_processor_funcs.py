@@ -1,4 +1,5 @@
 from flask import url_for
+from io_remastered.models import User
 from io_remastered.app_helpers.common_files_extensions import MEDIA_FILE, IMAGE_FILE, CODE_FILE, DOCUMENT_FILE, common_files_extensions
 
 
@@ -33,8 +34,11 @@ def unpack_dict(input_dict: dict, ommited_keys: list[str]):
     return output_dict
 
 
-def is_viewed_by_owner(obj: object, owner_id: int, owner_id_attr_name: str = "owner_id"):
+def is_viewed_by_owner(obj: object, owner: User | None, owner_id_attr_name: str = "owner_id"):
+    if owner is None:
+        return
+
     if hasattr(obj, owner_id_attr_name):
-        return getattr(obj, owner_id_attr_name) == owner_id
+        return getattr(obj, owner_id_attr_name) == owner.id
 
     return False
