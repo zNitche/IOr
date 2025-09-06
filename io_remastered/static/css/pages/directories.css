@@ -30,7 +30,7 @@
     cursor: pointer;
 }
 
-.directories-page  .search-form-wrapper {
+.directories-page .search-form-wrapper {
     display: flex;
     align-items: center;
     gap: 24px;

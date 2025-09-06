@@ -34,12 +34,19 @@ def home():
 def files(page_id: int):
     current_user = authentication_manager.current_user
 
+    only_shared = int(request.args.get("only_shared", 0))
     search_string = request.args.get("search", "")
-    search_form = forms.SearchBarForm(search_phrase=search_string)
 
+    search_form = forms.SearchBarForm(search_phrase=search_string)
+    
     files_query = models.File.select().filter(models.File.name.icontains(
-        search_string), models.File.owner_id ==
-        current_user.id).order_by(models.File.upload_date.desc())
+        search_string), models.File.owner_id == current_user.id)
+
+    if only_shared:
+        files_query = files_query.filter(
+            models.File.share_uuid.is_not(None)) # type: ignore
+
+    files_query = files_query.order_by(models.File.upload_date.desc())
 
     files_pagination = Pagination(
         db_model=models.File, query=files_query, page_id=page_id)
@@ -48,7 +55,8 @@ def files(page_id: int):
         abort(404)
 
     return render_template("files.html", files_pagination=files_pagination,
-                           files=files_pagination.items, search_form=search_form)
+                           files=files_pagination.items, search_form=search_form,
+                           only_shared=only_shared)
 
 
 @core.route("/directories", methods=["GET"])

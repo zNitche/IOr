@@ -19,6 +19,18 @@
     color: var(--white);
 }
 
+.files-page .search-form-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.files-page .action-icon {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
 .user-files {
     display: flex;
     flex-direction: column;

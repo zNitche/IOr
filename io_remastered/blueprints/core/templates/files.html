@@ -1,5 +1,8 @@
 {% extends "content_page.html" %}
 
+{% set only_shared_reversed = 0 if only_shared else 1 %}
+{% set sharing_icon = "share_icon.svg" if not only_shared else "share_enabled_icon.svg" %}
+
 {% block head_links %}
 {{super()}}
 <link rel="stylesheet" href="{{ get_static_resource('css/pages/files.css') }}">
@@ -17,9 +20,16 @@
     <div class="title">
         <span>{{i18n('files_page.title')}}</span>
     </div>
-    {% with route=url_for('core.files'), form=search_form %}
-    {% include "components/forms/search_bar.html" %}
-    {% endwith %}
+    <div class="search-form-wrapper">
+        <a
+            href="{{ url_for(request.endpoint, only_shared=only_shared_reversed, **unpack_dict(request.args, ['only_shared'])) }}">
+            <img src="{{get_static_resource('icons/' + sharing_icon)}}" class="action-icon" />
+        </a>
+
+        {% with route=url_for('core.files'), form=search_form %}
+        {% include "components/forms/search_bar.html" %}
+        {% endwith %}
+    </div>
     {% if files|length > 0 %}
     <div class="user-files">
         {% for file in files %}
