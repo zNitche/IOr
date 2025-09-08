@@ -28,6 +28,7 @@ def register_blueprints(app: Flask):
     app.register_blueprint(blueprints.upload)
     app.register_blueprint(blueprints.storage)
     app.register_blueprint(blueprints.sharing)
+    app.register_blueprint(blueprints.account)
 
 
 def setup_app_modules(app: Flask):

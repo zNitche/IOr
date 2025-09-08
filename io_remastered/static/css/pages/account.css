@@ -1,0 +1,11 @@
+.account-page {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sessions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
