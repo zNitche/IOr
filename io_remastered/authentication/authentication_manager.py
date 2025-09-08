@@ -80,3 +80,20 @@ class AuthenticationManager:
             pattern=f"user:{user_id}:*:")
 
         return tokens
+
+    def get_user_sessions(self, user_id):
+        keys = self.__auth_db.get_all_keys_for_pattern(
+            pattern=f"user:{user_id}:*:")
+
+        sessions = []
+
+        for key in keys:
+            creation_date = self.__auth_db.get_value(key=key)
+
+            if creation_date:
+                sessions.append({
+                    "token": key,
+                    "creation_date": creation_date
+                })
+
+        return sessions
