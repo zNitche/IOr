@@ -17,7 +17,9 @@ def login_required(f):
             abort(401)
 
         setattr(g, "current_user", current_user)
-        authentication_manager.refresh(auth_token)
+
+        authentication_manager.refresh(
+            token=auth_token, user_id=current_user.id)
 
         return f(*args, **kwargs)
     return decorated_function

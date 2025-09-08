@@ -43,26 +43,48 @@ class RedisCacheDatabase:
         with self.db_session() as session:
             session.flushdb()
 
-    def update_ttl(self, name: str, ttl: int):
+    def update_ttl(self, key: str, ttl: int):
         with self.db_session() as session:
-            session.getex(name, ex=ttl)
+            session.getex(key, ex=ttl)
 
     def set_value(self, key: str, value: dict | str | int | bool, ttl=60):
         with self.db_session() as session:
             session.set(key, json.dumps(value), ex=ttl)
 
-    def get_value(self, key: str):
+    def get_value(self, key: str | None = None, pattern: str | None = None):
         with self.db_session() as session:
-            data = session.get(key)
+            if key is not None:
+                data = session.get(key)
 
-        return json.loads(str(data)) if data else None
+                return json.loads(str(data)) if data else None
 
-    def get_keys(self):
+            elif pattern is not None:
+                for inner_key in session.scan_iter(pattern):
+                    if inner_key:
+                        data = session.get(inner_key)
+                        return json.loads(str(data)) if data else None
+
+        return None
+    
+    def get_key_for_pattern(self, pattern: str) -> str | None:
         with self.db_session() as session:
-            keys = session.scan_iter("*")
+            for key in session.scan_iter(pattern):
+                return key
+
+    def delete_key(self, key: str | None = None, pattern: str | None = None):
+        with self.db_session() as session:
+            if key is not None:
+                session.delete(key)
+
+            elif pattern is not None:
+                for inner_key in session.scan_iter(pattern):
+                    session.delete(inner_key)
+
+    def get_all_keys_for_pattern(self, pattern: str):
+        keys = []
+
+        with self.db_session() as session:
+            for key in session.scan_iter(pattern):
+                keys.append(key)
 
         return keys
-
-    def delete_key(self, key: str):
-        with self.db_session() as session:
-            session.delete(key)

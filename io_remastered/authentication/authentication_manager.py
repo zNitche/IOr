@@ -1,4 +1,5 @@
 import secrets
+from datetime import datetime
 from flask import g, session
 from io_remastered import models
 from io_remastered.extra_modules import RedisCacheDatabase
@@ -14,27 +15,41 @@ class AuthenticationManager:
         if default_auth_token_ttl is not None:
             self.__default_auth_token_ttl = default_auth_token_ttl
 
+    def get_auth_db_key(self, user_id: int | str, token: str):
+        return f"user:{user_id}:{token}:"
+
+    def get_auth_db_token_key_pattern(self, token: str):
+        return f"user:*:{token}:"
+
     def login(self, user_id: int):
         token = secrets.token_hex(128)
+        now = datetime.now().isoformat()
+
+        auth_db_key = self.get_auth_db_key(user_id=user_id, token=token)
+
         self.__auth_db.set_value(
-            token, user_id, ttl=self.__default_auth_token_ttl)
+            key=auth_db_key, value=now, ttl=self.__default_auth_token_ttl)
 
         session["auth_token"] = token
 
-    def refresh(self, token: str):
-        self.__auth_db.update_ttl(token, ttl=self.__default_auth_token_ttl)
+    def refresh(self, token: str, user_id: int):
+        auth_db_key = self.get_auth_db_key(user_id=user_id, token=token)
+        self.__auth_db.update_ttl(
+            key=auth_db_key, ttl=self.__default_auth_token_ttl)
 
     def logout(self):
         token = session.get("auth_token")
 
         if token is not None:
-            self.__auth_db.delete_key(token)
+            self.__auth_db.delete_key(
+                pattern=self.get_auth_db_token_key_pattern(token))
             session.pop("auth_token")
 
     def token_exists(self, token: str):
-        user_id = self.__auth_db.get_value(token)
+        key = self.__auth_db.get_value(
+            pattern=self.get_auth_db_token_key_pattern(token))
 
-        return True if user_id is not None else False
+        return True if key is not None else False
 
     @property
     def current_user(self) -> models.User:
@@ -44,10 +59,13 @@ class AuthenticationManager:
         if not token:
             return None
 
-        user_id = self.__auth_db.get_value(token)
+        auth_key = self.__auth_db.get_key_for_pattern(
+            pattern=self.get_auth_db_token_key_pattern(token))
 
-        if user_id is None:
+        if not auth_key:
             return None
+
+        user_id = int(auth_key.replace(f":{token}:", "").replace("user:", ""))
 
         user = models.User.query(
             models.User.select().filter_by(id=user_id)).first()
@@ -56,3 +74,9 @@ class AuthenticationManager:
 
     def get_auth_token_for_current_session(self):
         return session.get("auth_token")
+
+    def get_active_tokens_for_user(self, user_id: int):
+        tokens = self.__auth_db.get_all_keys_for_pattern(
+            pattern=f"user:{user_id}:*:")
+
+        return tokens
