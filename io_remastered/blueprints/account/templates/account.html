@@ -11,7 +11,7 @@
    <div class="sessions">
         <div>Current sessions ({{user_sessions|length}}):</div>
         {% for user_session in user_sessions %}
-        <div>{{user_session.creation_date}}</div>
+        <div>{{user_session}}</div>
         {% endfor %}
    </div>
 </div>
