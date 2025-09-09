@@ -97,10 +97,12 @@ class AuthenticationManager:
 
         for key in keys:
             data = self.__auth_db.get_value(key=key)
+            ttl = self.__auth_db.get_ttl(key)
 
             if data:
                 sessions.append({
                     "key": key,
+                    "ttl": ttl,
                     "value": AuthDbItem(**data)
                 })
 
