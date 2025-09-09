@@ -15,7 +15,7 @@ upload = Blueprint("upload", __name__, template_folder="templates",
                    static_folder="static", url_prefix="/upload")
 
 
-@upload.route("/", methods=["GET"])
+@upload.route("", methods=["GET"])
 @login_required
 def view():
     return render_template("upload.html")
