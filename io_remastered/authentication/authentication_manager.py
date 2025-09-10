@@ -13,6 +13,14 @@ class AuthDbItem:
     id: str
 
 
+@dataclass
+class UserSessionsDetails:
+    key: str
+    ttl: int
+    value: AuthDbItem
+    is_current: bool
+
+
 class AuthenticationManager:
     def __init__(self, auth_db: RedisCacheDatabase):
         self.__default_auth_token_ttl = 600
@@ -95,15 +103,18 @@ class AuthenticationManager:
 
         sessions = []
 
+        current_token = self.get_auth_token_for_current_session()
+        current_auth_key = self.get_auth_db_key_pattern(
+            token=current_token, user_id=user_id)
+
         for key in keys:
             data = self.__auth_db.get_value(key=key)
             ttl = self.__auth_db.get_ttl(key)
 
             if data:
-                sessions.append({
-                    "key": key,
-                    "ttl": ttl,
-                    "value": AuthDbItem(**data)
-                })
+                sessions.append(UserSessionsDetails(key=key,
+                                                    ttl=int(ttl) if ttl else 0,
+                                                    value=AuthDbItem(**data),
+                                                    is_current=key == current_auth_key))
 
         return sessions

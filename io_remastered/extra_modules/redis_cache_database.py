@@ -47,9 +47,9 @@ class RedisCacheDatabase:
         with self.db_session() as session:
             session.getex(key, ex=ttl)
 
-    def get_ttl(self, key: str):
+    def get_ttl(self, key: str) -> int | None:
         with self.db_session() as session:
-            return session.ttl(key)
+            return session.ttl(key) # type: ignore
 
     def set_value(self, key: str, value: dict | str | int | bool, ttl=60):
         with self.db_session() as session:
