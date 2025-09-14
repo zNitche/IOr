@@ -58,7 +58,7 @@
     {% if files_pagination.items|length > 0 %}
     <div class="directory-files">
         {% for file in files_pagination.items %}
-        {% with file=file, is_shared=True %}
+        {% with file=file, is_sharing_preview=True %}
         {% include "components/file_card.html" %}
         {% endwith %}
         {% endfor %}

@@ -1,4 +1,4 @@
-{% set preview_url = url_for('sharing.file_preview', share_uuid=file.share_uuid) if is_shared else
+{% set preview_url = url_for('sharing.file_preview', share_uuid=file.share_uuid) if is_sharing_preview else
 url_for('storage.file_preview', uuid=file.uuid) %}
 
 <div class="file-card">
