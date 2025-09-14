@@ -114,7 +114,7 @@ def add_directory():
             return redirect(location=request.referrer)
 
         directory_with_same_name_query = models.Directory.select().filter(
-            models.Directory.name.icontains(name), models.Directory.owner_id == current_user.id)
+            models.Directory.name == name, models.Directory.owner_id == current_user.id)
         directory_with_same_name = models.Directory.query(
             directory_with_same_name_query).first()
 
