@@ -1,6 +1,7 @@
 import os
 from flask import Blueprint, render_template, abort, send_file, current_app, request
 from io_remastered import models, forms
+from io_remastered.utils import requests_utils
 from io_remastered.db.pagination import Pagination, pageable_content
 
 
@@ -64,3 +65,18 @@ def directory_preview(page_id: int, share_uuid: str):
                            directory=directory,
                            search_form=search_form,
                            files_pagination=files_pagination)
+
+
+@sharing.route("/directory/<share_uuid>/download", methods=["GET"])
+def download_directory(share_uuid: str):
+    directory = models.Directory.query(
+        models.Directory.select().filter_by(share_uuid=share_uuid)).first()
+
+    if not directory:
+        abort(404)
+
+    user_storage_path = os.path.join(
+        current_app.config["STORAGE_ROOT_PATH"], str(directory.owner_id))
+
+    return requests_utils.send_directory_as_zip(directory=directory,
+                                                user_storage_path=user_storage_path)

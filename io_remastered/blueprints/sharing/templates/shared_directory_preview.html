@@ -39,6 +39,11 @@
         <div class="header-icon">
             <img src="{{ get_static_resource('icons/directory_icon.svg') }}" class="header-icon-img">
         </div>
+        <div class="header-actions">
+            <a href="{{url_for('sharing.download_directory', share_uuid=directory.share_uuid)}}">
+                <img src="{{get_static_resource('icons/download_icon.svg')}}" class="actions-icon" />
+            </a>
+        </div>
     </div>
     <div class="directory-details">
         {% for item in details_items %}
