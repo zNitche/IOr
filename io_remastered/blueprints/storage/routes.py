@@ -1,5 +1,6 @@
 import os
-from flask import Blueprint, render_template, abort, send_file, current_app, url_for, redirect, request, flash
+from flask import Blueprint, render_template, abort, send_file, current_app, \
+    url_for, redirect, request, flash, Response
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
 from io_remastered.consts import DirectoriesConsts
@@ -7,6 +8,7 @@ from io_remastered import authentication_manager, models, db, i18n, forms, CSRF
 from io_remastered.db.pagination import Pagination, pageable_content
 from io_remastered.consts import FlashConsts
 from io_remastered.utils import sharing_utils
+from io_remastered.extra_modules.zip_on_the_fly import ZipFileItemDetails, ZipGenerator
 
 
 storage = Blueprint("storage", __name__, template_folder="templates",
@@ -192,6 +194,35 @@ def remove_directory(uuid: str):
     flash(i18n.t('remove_directory.success'), FlashConsts.TYPE_SUCCESS)
 
     return redirect(url_for("core.home"))
+
+
+@storage.route("/directory/<uuid>/download", methods=["GET"])
+@login_required
+def download_directory(uuid: str):
+    current_user = authentication_manager.current_user
+    directory = models.Directory.query(models.Directory.select().filter_by(
+        owner_id=current_user.id, uuid=uuid)).first()
+
+    if not directory:
+        abort(404)
+
+    user_storage_path = os.path.join(
+        current_app.config["STORAGE_ROOT_PATH"], str(current_user.id))
+
+    files_details = []
+
+    for file in directory.files:
+        file_details = ZipFileItemDetails(path=os.path.join(
+            user_storage_path, file.uuid), name=file.name)
+
+        files_details.append(file_details)
+
+    zip_generator = ZipGenerator(files=files_details)
+    generator = zip_generator.generator()
+
+    return Response(generator, mimetype="application/zip", headers={
+        "Content-Disposition": f"attachment; filename={directory.name}.zip"
+    })
 
 
 @storage.route("/directory/<uuid>/change-name", methods=["POST"])

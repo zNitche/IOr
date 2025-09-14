@@ -21,6 +21,12 @@
     gap: 24px;
 }
 
+.header .header-actions a {
+    display: flex;
+    height: max-content;
+    width: max-content;
+}
+
 .header-icon {
     display: flex;
 }

@@ -70,6 +70,9 @@ form=rename_directory_form %}
                 onclick="toggleElementVisibility('share_directory_modal', true)" />
             <img src="{{get_static_resource('icons/trash_icon.svg')}}" class="actions-icon"
                 onclick="toggleElementVisibility('remove_directory_modal', true)" />
+            <a href="{{url_for('storage.download_directory', uuid=directory.uuid)}}">
+                <img src="{{get_static_resource('icons/download_icon.svg')}}" class="actions-icon" />
+            </a>
         </div>
     </div>
     <div class="directory-details">

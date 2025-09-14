@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="23.486876mm"
+   height="23.999994mm"
+   viewBox="0 0 23.486876 23.999994"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="Triangle"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       markerWidth="1.2"
+       markerHeight="1.1"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="none"
+       markerUnits="userSpaceOnUse">
+      <path
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:0.5pt"
+         d="M 2.885,0 -1.44,2.5 v -5 z"
+         id="path135" />
+    </marker>
+  </defs>
+  <g
+     id="layer1"
+     transform="translate(-80.25656,-129)">
+    <path
+       style="fill:#00ff00;stroke:#ffffff;stroke-width:3.44663;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.7;stroke-opacity:1;paint-order:stroke fill markers"
+       d="M 81.979875,151.27668 H 102.02012"
+       id="path1" />
+    <path
+       style="fill:#00ff00;stroke:#ffffff;stroke-width:3;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:1;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle);paint-order:stroke fill markers"
+       d="m 91.516787,130.5 v 12.61166"
+       id="path2" />
+  </g>
+</svg>
