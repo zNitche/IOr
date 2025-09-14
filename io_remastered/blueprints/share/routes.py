@@ -5,11 +5,11 @@ from io_remastered.utils import requests_utils
 from io_remastered.db.pagination import Pagination, pageable_content
 
 
-sharing = Blueprint("sharing", __name__, template_folder="templates",
-                    static_folder="static", url_prefix="/sharing")
+share = Blueprint("share", __name__, template_folder="templates",
+                  static_folder="static", url_prefix="/share")
 
 
-@sharing.route("/file/<share_uuid>", methods=["GET"])
+@share.route("/file/<share_uuid>", methods=["GET"])
 def file_preview(share_uuid: str):
     file = models.File.query(models.File.select().filter_by(
         share_uuid=share_uuid)).first()
@@ -20,7 +20,7 @@ def file_preview(share_uuid: str):
     return render_template("shared_file_preview.html", file=file)
 
 
-@sharing.route("/file/<share_uuid>/download", methods=["GET"])
+@share.route("/file/<share_uuid>/download", methods=["GET"])
 def download_file(share_uuid: str):
     file = models.File.query(models.File.select().filter_by(
         share_uuid=share_uuid)).first()
@@ -39,7 +39,7 @@ def download_file(share_uuid: str):
                      download_name=filename, max_age=None)
 
 
-@sharing.route("/directory/<share_uuid>", methods=["GET"])
+@share.route("/directory/<share_uuid>", methods=["GET"])
 @pageable_content
 def directory_preview(page_id: int, share_uuid: str):
     directory = models.Directory.query(
@@ -67,7 +67,7 @@ def directory_preview(page_id: int, share_uuid: str):
                            files_pagination=files_pagination)
 
 
-@sharing.route("/directory/<share_uuid>/download", methods=["GET"])
+@share.route("/directory/<share_uuid>/download", methods=["GET"])
 def download_directory(share_uuid: str):
     directory = models.Directory.query(
         models.Directory.select().filter_by(share_uuid=share_uuid)).first()

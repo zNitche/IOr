@@ -40,7 +40,7 @@
             <img src="{{ get_static_resource('icons/directory_icon.svg') }}" class="header-icon-img">
         </div>
         <div class="header-actions">
-            <a href="{{url_for('sharing.download_directory', share_uuid=directory.share_uuid)}}">
+            <a href="{{url_for('share.download_directory', share_uuid=directory.share_uuid)}}">
                 <img src="{{get_static_resource('icons/download_icon.svg')}}" class="actions-icon" />
             </a>
         </div>
@@ -52,7 +52,7 @@
         {% endwith %}
         {% endfor %}
     </div>
-    {% with route=url_for('sharing.directory_preview', share_uuid=directory.share_uuid), form=search_form %}
+    {% with route=url_for('share.directory_preview', share_uuid=directory.share_uuid), form=search_form %}
     {% include "components/forms/search_bar.html" %}
     {% endwith %}
     {% if files_pagination.items|length > 0 %}

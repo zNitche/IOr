@@ -11,7 +11,7 @@
 {
 "title": i18n('file_preview_page.directory'),
 "content": "/" if not file.directory else file.directory.name,
-"on_content_click": url_for('sharing.directory_preview', share_uuid=file.directory.share_uuid) if
+"on_content_click": url_for('share.directory_preview', share_uuid=file.directory.share_uuid) if
 file.directory.is_shared else "",
 },
 {
@@ -49,7 +49,7 @@ file.directory.is_shared else "",
         {% endfor %}
     </div>
     <div class="file-actions">
-        <a href="{{url_for('sharing.download_file', share_uuid=file.share_uuid)}}">
+        <a href="{{url_for('share.download_file', share_uuid=file.share_uuid)}}">
             <button>
                 {{i18n('file_preview_page.bottom.download_button')}}
             </button>

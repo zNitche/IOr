@@ -3,7 +3,7 @@
 <div class="share-directory-modal">
     {% if directory.is_shared %}
     <div class="share-url">
-        {{url_for('sharing.directory_preview', share_uuid=directory.share_uuid, _external=True)}}
+        {{url_for('share.directory_preview', share_uuid=directory.share_uuid, _external=True)}}
     </div>
     {% endif %}
     <form action="{{url_for('storage.toggle_directory_sharing', directory_uuid=directory.uuid)}}"
