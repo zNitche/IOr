@@ -1,14 +1,13 @@
 import os
 from flask import Blueprint, render_template, abort, send_file, current_app, \
-    url_for, redirect, request, flash, Response
+    url_for, redirect, request, flash
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
 from io_remastered.consts import DirectoriesConsts
 from io_remastered import authentication_manager, models, db, i18n, forms, CSRF
 from io_remastered.db.pagination import Pagination, pageable_content
 from io_remastered.consts import FlashConsts
-from io_remastered.utils import sharing_utils
-from io_remastered.extra_modules.zip_on_the_fly import ZipFileItemDetails, ZipGenerator
+from io_remastered.utils import sharing_utils, requests_utils
 
 
 storage = Blueprint("storage", __name__, template_folder="templates",
@@ -209,20 +208,8 @@ def download_directory(uuid: str):
     user_storage_path = os.path.join(
         current_app.config["STORAGE_ROOT_PATH"], str(current_user.id))
 
-    files_details = []
-
-    for file in directory.files:
-        file_details = ZipFileItemDetails(path=os.path.join(
-            user_storage_path, file.uuid), name=file.name)
-
-        files_details.append(file_details)
-
-    zip_generator = ZipGenerator(files=files_details)
-    generator = zip_generator.generator()
-
-    return Response(generator, mimetype="application/zip", headers={
-        "Content-Disposition": f"attachment; filename={directory.name}.zip"
-    })
+    return requests_utils.send_directory_as_zip(directory=directory,
+                                                user_storage_path=user_storage_path)
 
 
 @storage.route("/directory/<uuid>/change-name", methods=["POST"])
