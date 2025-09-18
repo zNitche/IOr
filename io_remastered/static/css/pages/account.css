@@ -1,11 +1,52 @@
 .account-page {
     display: flex;
     flex-direction: column;
+    gap: 32px;
+}
+
+.account-page .header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     gap: 12px;
 }
 
-.sessions {
+.header .profile-icon {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+}
+
+.header .username {
+    font-size: var(--font-size-l);
+}
+
+.account-page .content {
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+.content .nav-row {
+    gap: 4px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 4px;
+    background: var(--background-3);
+    height: 42px;
+}
+
+.content .nav-row a {
+    display: flex;
+}
+
+.nav-row .name {
+    flex: 1;
+}
+
+.nav-row .href-icon {
+    width: 15px;
+    height: 15px;
 }
