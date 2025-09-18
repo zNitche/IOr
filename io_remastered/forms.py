@@ -68,3 +68,42 @@ class RenameStorageItemForm(Form):
             DataRequiredValidator(error_message=i18n.t("rename_storage_item_form.validation.field_required")))
 
         self.add_field(name_input)
+
+
+class ChangePasswordForm(Form):
+    def __init__(self, csrf_token: str | None = None, form_data: dict[str, str] | None = None):
+        super().__init__(csrf_token=csrf_token, form_data=form_data)
+
+    def setup(self):
+        max_password_length = 64
+
+        data_required_validator = DataRequiredValidator(
+            error_message=i18n.t("change_password_page.validation.field_required"))
+        max_length_validator = MaxLengthValidator(
+            error_message=i18n.t("change_password_page.validation.max_length_error",
+                                 {"characters_count": max_password_length}), length=max_password_length)
+
+        password_input = PasswordInput(id="password", props={"maxlength": max_password_length},
+                                       field_name="password", required=True,
+                                       placeholder=i18n.t("change_password_page.password"))
+
+        new_password_input = PasswordInput(id="new_password", props={"maxlength": max_password_length},
+                                           field_name="new_password", required=True,
+                                           placeholder=i18n.t("change_password_page.new_password"))
+
+        confirm_new_password_input = PasswordInput(id="confirm_password", props={"maxlength": max_password_length},
+                                                   field_name="confirm_password", required=True,
+                                                   placeholder=i18n.t("change_password_page.confirm_password"))
+
+        password_input.add_validator(data_required_validator)
+        password_input.add_validator(max_length_validator)
+
+        new_password_input.add_validator(data_required_validator)
+        new_password_input.add_validator(max_length_validator)
+
+        confirm_new_password_input.add_validator(data_required_validator)
+        confirm_new_password_input.add_validator(max_length_validator)
+
+        self.add_field(password_input)
+        self.add_field(new_password_input)
+        self.add_field(confirm_new_password_input)

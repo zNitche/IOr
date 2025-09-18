@@ -144,5 +144,22 @@
     },
     "remove_directory": {
         "success": "Directory has been successfully removed"
+    },
+    "account_page": {
+        "change_password_page": "Change password"
+    },
+    "change_password_page": {
+        "title": "Change password",
+        "password": "Current password",
+        "new_password": "New password",
+        "confirm_password": "Confirm new password",
+        "submit_button": "Change password",
+        "validation": {
+            "field_required": "field required",
+            "max_length_error": "can't exceed {characters_count} characters"
+        },
+        "invalid_current_password": "current password is invalid",
+        "passwords_dont_match": "passwords don`t match",
+        "password_changed_successfully": "password has been changed successfully"
     }
 }
