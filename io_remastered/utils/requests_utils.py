@@ -1,7 +1,7 @@
 import os
 from flask import Request, Response
 from io_remastered import models
-from io_remastered.extra_modules.zip_on_the_fly import ZipFileItemDetails, ZipGenerator
+from io_remastered.extra_modules.zip_on_the_fly import ZipFileItemDetails, ZipOnTheFly
 
 
 def is_js_request(request: Request):
@@ -17,8 +17,8 @@ def send_directory_as_zip(directory: models.Directory, user_storage_path: str):
 
         files_details.append(file_details)
 
-    zip_generator = ZipGenerator(files=files_details)
+    zip_on_the_fly = ZipOnTheFly(files=files_details)
 
-    return Response(zip_generator.generator(), mimetype="application/zip", headers={
+    return Response(zip_on_the_fly.generator(), mimetype="application/zip", headers={
         "Content-Disposition": f"attachment; filename={directory.name}.zip"
     })

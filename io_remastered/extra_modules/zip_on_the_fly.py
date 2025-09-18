@@ -29,7 +29,7 @@ class ZipFileStream(BufferedIOBase):
         return chunk
 
 
-class ZipGenerator():
+class ZipOnTheFly():
     def __init__(self, files: list[ZipFileItemDetails], chunk_size=1_000_000):
         self.files = files
         self.chunk_size = chunk_size
