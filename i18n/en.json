@@ -167,6 +167,7 @@
         "title": "Active login sessions",
         "created_at": "created at",
         "ttl": "ttl",
-        "ip": "ip"
+        "ip": "ip",
+        "session_removed": "session has been removed successfully"
     }
 }

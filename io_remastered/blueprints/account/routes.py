@@ -84,4 +84,7 @@ def remove_login_sessions(id: str):
         authentication_manager.remove_auth_token(
             token=user_session_for_id.key, user_id=current_user.id, via_pattern=False)
 
+        flash(i18n.t("login_sessions_page.session_removed"),
+              FlashConsts.TYPE_SUCCESS)
+
     return redirect(location=request.referrer)
