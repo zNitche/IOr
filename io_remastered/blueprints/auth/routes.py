@@ -32,7 +32,8 @@ def login_submit():
             models.User.select().filter_by(username=username)).first()
 
         if user and password and check_password_hash(user.password, password):
-            authentication_manager.login(user.id)
+            authentication_manager.login(
+                user.id, remote_addr=request.remote_addr)
 
             return redirect(url_for("core.home"))
 

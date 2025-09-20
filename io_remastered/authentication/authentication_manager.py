@@ -11,6 +11,7 @@ from io_remastered.extra_modules import RedisCacheDatabase
 class AuthDbItem:
     created_at: str
     id: str
+    ip_address: str | None
 
 
 @dataclass
@@ -34,13 +35,13 @@ class AuthenticationManager:
     def get_auth_db_key_pattern(self, token: str | None = None, user_id: int | None = None):
         return f"user:{'*' if user_id is None else user_id}:{'*' if token is None else token}:"
 
-    def login(self, user_id: int):
+    def login(self, user_id: int, remote_addr: str | None = None):
         token = secrets.token_hex(128)
 
         auth_db_key = self.get_auth_db_key_pattern(
             user_id=user_id, token=token)
-        value = AuthDbItem(
-            created_at=datetime.now().isoformat(), id=uuid4().hex)
+        value = AuthDbItem(created_at=datetime.now().isoformat(),
+                           id=uuid4().hex, ip_address=remote_addr)
 
         self.__auth_db.set_value(
             key=auth_db_key, value=value.__dict__, ttl=self.__default_auth_token_ttl)
