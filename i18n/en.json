@@ -169,5 +169,17 @@
         "ttl": "ttl",
         "ip": "ip",
         "session_removed": "session has been removed successfully"
+    },
+    "password_authentication_page": {
+        "title": "Password authentication",
+        "description": "action needs to be authenticated using account password",
+        "password": "password",
+        "validation": {
+            "field_required": "field required",
+            "max_length_error": "{field} can't exceed {characters_count} characters"
+        },
+        "submit_button": "Submit",
+        "auth_error": "authentication has failed",
+        "auth_success": "authentication success"
     }
 }

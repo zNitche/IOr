@@ -107,3 +107,20 @@ class ChangePasswordForm(Form):
         self.add_field(password_input)
         self.add_field(new_password_input)
         self.add_field(confirm_new_password_input)
+
+
+class PasswordAuthenticationForm(Form):
+    def __init__(self, csrf_token: str | None = None, form_data: dict[str, str] | None = None):
+        super().__init__(csrf_token=csrf_token, form_data=form_data)
+
+    def setup(self):
+        password_input = PasswordInput(id="password", props={"maxlength": 64}, field_name="password",
+                                       required=True, placeholder=i18n.t("password_authentication_page.password"))
+
+        password_input.add_validator(
+            DataRequiredValidator(error_message=i18n.t("password_authentication_page.validation.field_required")))
+        password_input.add_validator(MaxLengthValidator(
+            error_message=i18n.t("password_authentication_page.validation.max_length_error",
+                                 {"field": "password", "characters_count": 64}), length=64))
+
+        self.add_field(password_input)

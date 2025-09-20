@@ -48,3 +48,40 @@ def login_submit():
 def logout():
     authentication_manager.logout()
     return redirect(url_for("core.home"))
+
+
+@auth.route("/password-authentication", methods=["GET"])
+@login_required
+def password_authentication():
+    auth_origin_url = authentication_manager.get_password_authentication_origin()
+    print(auth_origin_url)
+
+    if not auth_origin_url:
+        return redirect(url_for("core.home"))
+
+    form = forms.PasswordAuthenticationForm(csrf_token=CSRF.generate_token())
+    return render_template("password_authentication.html", form=form)
+
+
+@auth.route("/password-authentication/submit", methods=["POST"])
+@login_required
+def password_authentication_submit():
+    auth_origin_url = authentication_manager.get_password_authentication_origin()
+    form = forms.PasswordAuthenticationForm(form_data=request.form)
+
+    if form.is_valid():
+        password = form.get_field_value("password")
+        current_user = authentication_manager.current_user
+
+        if check_password_hash(current_user.password, password):  # type: ignore
+            if auth_origin_url:
+                authentication_manager.set_last_password_authentication()
+
+                flash(i18n.t("password_authentication_page.auth_success"),
+                      FlashConsts.TYPE_SUCCESS)
+
+                return redirect(auth_origin_url)
+
+    flash(i18n.t("password_authentication_page.auth_error"), FlashConsts.TYPE_ERROR)
+
+    return redirect(auth_origin_url) if auth_origin_url else redirect(url_for("core.home"))
