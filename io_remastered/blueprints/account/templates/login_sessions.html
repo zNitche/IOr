@@ -18,7 +18,7 @@
                     {% if session_item.is_current %}<div class="current-session"></div>{% endif %}
                     <span class="title">{{session_item.value.id}}</span>
                 </div>
-                <a href="{{url_for('auth.logout')}}" class="remove-session">
+                <a href="{{url_for('account.remove_login_sessions', id=session_item.value.id)}}" class="remove-session">
                     <img src="{{ get_static_resource('icons/logout_icon.svg') }}" class="icon" />
                 </a>
             </div>

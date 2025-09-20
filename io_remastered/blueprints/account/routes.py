@@ -71,3 +71,17 @@ def login_sessions():
         user_id=current_user.id)
 
     return render_template("login_sessions.html", user_sessions=user_sessions)
+
+
+@account.route("/sessions/<id>/remove", methods=["GET"])
+@login_required
+def remove_login_sessions(id: str):
+    current_user = authentication_manager.current_user
+    user_session_for_id = authentication_manager.get_user_session_by_id(
+        user_id=current_user.id, id=id)
+
+    if user_session_for_id:
+        authentication_manager.remove_auth_token(
+            user_session_for_id.key, via_pattern=False)
+
+    return redirect(location=request.referrer)

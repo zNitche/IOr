@@ -58,9 +58,14 @@ class AuthenticationManager:
         token = session.get("auth_token")
 
         if token is not None:
-            self.__auth_db.delete_key(
-                pattern=self.get_auth_db_key_pattern(token=token))
+            self.remove_auth_token(token=token)
             session.pop("auth_token")
+
+    def remove_auth_token(self, token: str, via_pattern: bool = True):
+        if via_pattern:
+            token = self.get_auth_db_key_pattern(token=token)
+
+        self.__auth_db.delete_key(token)
 
     def token_exists(self, token: str):
         key = self.__auth_db.get_value(
@@ -98,7 +103,7 @@ class AuthenticationManager:
 
         return tokens
 
-    def get_user_sessions(self, user_id):
+    def get_user_sessions(self, user_id: int):
         keys = self.__auth_db.get_all_keys_for_pattern(
             pattern=self.get_auth_db_key_pattern(user_id=user_id))
 
@@ -119,3 +124,30 @@ class AuthenticationManager:
                                                     is_current=key == current_auth_key))
 
         return sessions
+
+    def get_user_session_by_id(self, user_id: int, id: str):
+        s = None
+
+        keys = self.__auth_db.get_all_keys_for_pattern(
+            pattern=self.get_auth_db_key_pattern(user_id=user_id))
+
+        current_token = self.get_auth_token_for_current_session()
+        current_auth_key = self.get_auth_db_key_pattern(
+            token=current_token, user_id=user_id)
+
+        for key in keys:
+            data = self.__auth_db.get_value(key=key)
+            ttl = self.__auth_db.get_ttl(key)
+
+            if data:
+                value = AuthDbItem(**data)
+
+                if value.id == id:
+                    s = UserSessionsDetails(key=key,
+                                            ttl=int(ttl) if ttl else 0,
+                                            value=value,
+                                            is_current=key == current_auth_key)
+
+                    break
+
+        return s
