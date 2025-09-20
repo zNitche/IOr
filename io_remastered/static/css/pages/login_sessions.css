@@ -1,0 +1,80 @@
+.login-sessions-page {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.login-sessions-page .header {
+    display: flex;
+    font-size: var(--font-size-l);
+}
+
+.login-sessions-page .content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.session-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.session-card .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--background-3);
+    padding: 8px;
+}
+
+.session-card .current-session {
+    display: flex;
+    width: 8px;
+    height: 8px;
+    background-color: var(--green);
+    border-radius: 100px;
+}
+
+.header .start {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.header .title {
+    font-size: var(--font-size-m);
+}
+
+.remove-session {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-session .icon {
+    width: 18px;
+    height: 18px;
+}
+
+.session-card .content {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: var(--background-2);
+}
+
+.content-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.content-row .name {
+    font-size: var(--font-size-l);
+}
+
+.content-row .value {
+    text-align: end;
+}

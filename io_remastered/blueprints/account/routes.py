@@ -13,10 +13,6 @@ account = Blueprint("account", __name__, template_folder="templates",
 @account.route("", methods=["GET"])
 @login_required
 def home():
-    #     current_user = authentication_manager.current_user
-    # user_sessions = authentication_manager.get_user_sessions(
-    #     user_id=current_user.id)
-
     return render_template("account.html")
 
 
@@ -44,13 +40,13 @@ def handle_change_password():
         if not check_password_hash(current_user.password, password):  # type: ignore
             flash(i18n.t("change_password_page.invalid_current_password"),
                   FlashConsts.TYPE_ERROR)
-            
+
             return redirect(url_for("account.change_password"))
 
         if new_password != confirm_new_password:
             flash(i18n.t("change_password_page.passwords_dont_match"),
                   FlashConsts.TYPE_ERROR)
-            
+
             return redirect(url_for("account.change_password"))
 
         user = models.User.query(
@@ -65,3 +61,13 @@ def handle_change_password():
                   FlashConsts.TYPE_SUCCESS)
 
     return redirect(url_for("account.change_password"))
+
+
+@account.route("/sessions", methods=["GET"])
+@login_required
+def login_sessions():
+    current_user = authentication_manager.current_user
+    user_sessions = authentication_manager.get_user_sessions(
+        user_id=current_user.id)
+
+    return render_template("login_sessions.html", user_sessions=user_sessions)

@@ -146,7 +146,8 @@
         "success": "Directory has been successfully removed"
     },
     "account_page": {
-        "change_password_page": "Change password"
+        "change_password_page": "Change password",
+        "login_sessions_page": "Login sessions"
     },
     "change_password_page": {
         "title": "Change password",
@@ -161,5 +162,11 @@
         "invalid_current_password": "current password is invalid",
         "passwords_dont_match": "passwords don`t match",
         "password_changed_successfully": "password has been changed successfully"
+    },
+    "login_sessions_page": {
+        "title": "Active login sessions",
+        "created_at": "created at",
+        "ttl": "ttl",
+        "ip": "ip"
     }
 }
