@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 from io_remastered.io_csrf import CSRF, csrf_protected
-from io_remastered.authentication.decorators import login_required
+from io_remastered.authentication.decorators import login_required, password_authentication_required
 from io_remastered import authentication_manager, forms, i18n, models, db
 from io_remastered.consts import FlashConsts
 
@@ -75,16 +75,21 @@ def login_sessions():
 
 @account.route("/sessions/<id>/remove", methods=["GET"])
 @login_required
+@password_authentication_required
 def remove_login_sessions(id: str):
     current_user = authentication_manager.current_user
     user_session_for_id = authentication_manager.get_user_session_by_id(
         user_id=current_user.id, id=id)
 
     if user_session_for_id:
-        authentication_manager.remove_auth_token(
-            token=user_session_for_id.key, user_id=current_user.id, via_pattern=False)
+        if user_session_for_id.is_current:
+            authentication_manager.logout()
+
+        else:
+            authentication_manager.remove_auth_token(
+                token=user_session_for_id.key, user_id=current_user.id, via_pattern=False)
 
         flash(i18n.t("login_sessions_page.session_removed"),
               FlashConsts.TYPE_SUCCESS)
 
-    return redirect(location=request.referrer)
+    return redirect(url_for("account.login_sessions"))
