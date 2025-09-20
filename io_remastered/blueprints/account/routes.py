@@ -82,6 +82,6 @@ def remove_login_sessions(id: str):
 
     if user_session_for_id:
         authentication_manager.remove_auth_token(
-            user_session_for_id.key, via_pattern=False)
+            token=user_session_for_id.key, user_id=current_user.id, via_pattern=False)
 
     return redirect(location=request.referrer)

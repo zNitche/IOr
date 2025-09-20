@@ -56,14 +56,15 @@ class AuthenticationManager:
 
     def logout(self):
         token = session.get("auth_token")
+        current_user = self.current_user
 
-        if token is not None:
-            self.remove_auth_token(token=token)
+        if token is not None and current_user:
+            self.remove_auth_token(token=token, user_id=current_user.id)
             session.pop("auth_token")
 
-    def remove_auth_token(self, token: str, via_pattern: bool = True):
+    def remove_auth_token(self, token: str, user_id: int | None = None, via_pattern: bool = True):
         if via_pattern:
-            token = self.get_auth_db_key_pattern(token=token)
+            token = self.get_auth_db_key_pattern(token=token, user_id=user_id)
 
         self.__auth_db.delete_key(token)
 
