@@ -1,5 +1,6 @@
 from functools import wraps
-from flask import redirect, url_for, session, abort, g
+from datetime import datetime
+from flask import redirect, url_for, session, abort, g, request
 from io_remastered import authentication_manager
 
 
@@ -32,6 +33,28 @@ def anonymous_only(f):
 
         if auth_token and authentication_manager.token_exists(auth_token):
             return redirect(url_for("core.home"))
+
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def password_authentication_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        origin_url = request.base_url
+        password_auth_page_url = url_for("auth.password_authentication")
+        last_auth = authentication_manager.get_last_password_authentication()
+
+        if not last_auth:
+            authentication_manager.set_password_authentication_origin(url=origin_url)
+            return redirect(password_auth_page_url)
+
+        now = datetime.now().timestamp()
+        last_auth = last_auth.timestamp() + 300
+
+        if last_auth <= now:
+            authentication_manager.set_password_authentication_origin(url=origin_url)
+            return redirect(password_auth_page_url)
 
         return f(*args, **kwargs)
     return decorated_function
