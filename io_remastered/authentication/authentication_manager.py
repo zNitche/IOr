@@ -60,7 +60,7 @@ class AuthenticationManager:
 
         if token is not None and current_user:
             self.remove_auth_token(token=token, user_id=current_user.id)
-            session.pop("auth_token")
+            session.clear()
 
     def remove_auth_token(self, token: str, user_id: int | None = None, via_pattern: bool = True):
         if via_pattern:
