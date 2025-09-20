@@ -104,15 +104,21 @@ class AuthenticationManager:
 
         return tokens
 
-    def get_user_sessions(self, user_id: int):
+    def __get_auth_db_user_metadata(self, user_id: int):
         keys = self.__auth_db.get_all_keys_for_pattern(
             pattern=self.get_auth_db_key_pattern(user_id=user_id))
-
-        sessions = []
 
         current_token = self.get_auth_token_for_current_session()
         current_auth_key = self.get_auth_db_key_pattern(
             token=current_token, user_id=user_id)
+
+        return keys, current_token, current_auth_key
+
+    def get_user_sessions(self, user_id: int):
+        sessions = []
+
+        keys, current_token, current_auth_key = self.__get_auth_db_user_metadata(
+            user_id=user_id)
 
         for key in keys:
             data = self.__auth_db.get_value(key=key)
@@ -129,12 +135,8 @@ class AuthenticationManager:
     def get_user_session_by_id(self, user_id: int, id: str):
         s = None
 
-        keys = self.__auth_db.get_all_keys_for_pattern(
-            pattern=self.get_auth_db_key_pattern(user_id=user_id))
-
-        current_token = self.get_auth_token_for_current_session()
-        current_auth_key = self.get_auth_db_key_pattern(
-            token=current_token, user_id=user_id)
+        keys, current_token, current_auth_key = self.__get_auth_db_user_metadata(
+            user_id=user_id)
 
         for key in keys:
             data = self.__auth_db.get_value(key=key)
