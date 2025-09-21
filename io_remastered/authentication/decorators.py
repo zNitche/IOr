@@ -42,18 +42,24 @@ def password_authentication_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         origin_url = request.base_url
+        referrer_url = request.referrer
+
+        def set_password_authentication_origin():
+            return authentication_manager.set_password_authentication_origin(origin_url=origin_url,
+                                                                             referrer_url=referrer_url)
+
         password_auth_page_url = url_for("auth.password_authentication")
         last_auth = authentication_manager.get_last_password_authentication()
 
         if not last_auth:
-            authentication_manager.set_password_authentication_origin(url=origin_url)
+            set_password_authentication_origin()
             return redirect(password_auth_page_url)
 
         now = datetime.now().timestamp()
         last_auth = last_auth.timestamp() + 300
 
         if last_auth <= now:
-            authentication_manager.set_password_authentication_origin(url=origin_url)
+            set_password_authentication_origin()
             return redirect(password_auth_page_url)
 
         return f(*args, **kwargs)

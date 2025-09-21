@@ -53,11 +53,10 @@ def logout():
 @auth.route("/password-authentication", methods=["GET"])
 @login_required
 def password_authentication():
-    auth_origin_url = authentication_manager.get_password_authentication_origin()
-    print(auth_origin_url)
+    origin_url, referrer_url = authentication_manager.get_password_authentication_origin()
 
-    if not auth_origin_url:
-        return redirect(url_for("core.home"))
+    if not origin_url:
+        return redirect(url_for("core.home") if not referrer_url else referrer_url)
 
     form = forms.PasswordAuthenticationForm(csrf_token=CSRF.generate_token())
     return render_template("password_authentication.html", form=form)
@@ -66,7 +65,7 @@ def password_authentication():
 @auth.route("/password-authentication/submit", methods=["POST"])
 @login_required
 def password_authentication_submit():
-    auth_origin_url = authentication_manager.get_password_authentication_origin()
+    origin_url, referrer_url = authentication_manager.get_password_authentication_origin()
     form = forms.PasswordAuthenticationForm(form_data=request.form)
 
     if form.is_valid():
@@ -74,14 +73,14 @@ def password_authentication_submit():
         current_user = authentication_manager.current_user
 
         if check_password_hash(current_user.password, password):  # type: ignore
-            if auth_origin_url:
+            if origin_url:
                 authentication_manager.set_last_password_authentication()
 
                 flash(i18n.t("password_authentication_page.auth_success"),
                       FlashConsts.TYPE_SUCCESS)
 
-                return redirect(auth_origin_url)
+                return redirect(origin_url)
 
     flash(i18n.t("password_authentication_page.auth_error"), FlashConsts.TYPE_ERROR)
 
-    return redirect(auth_origin_url) if auth_origin_url else redirect(url_for("core.home"))
+    return redirect(referrer_url) if referrer_url else redirect(url_for("core.home"))

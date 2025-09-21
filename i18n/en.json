@@ -172,7 +172,7 @@
     },
     "password_authentication_page": {
         "title": "Password authentication",
-        "description": "action needs to be authenticated using account password",
+        "description": "action needs to be authenticated your password",
         "password": "password",
         "validation": {
             "field_required": "field required",

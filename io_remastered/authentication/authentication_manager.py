@@ -97,7 +97,7 @@ class AuthenticationManager:
 
     def get_auth_token_for_current_session(self):
         return session.get("auth_token")
-    
+
     def get_last_password_authentication(self):
         iso_string = session.get("last_password_authentication")
 
@@ -105,18 +105,23 @@ class AuthenticationManager:
             iso_string = datetime.fromisoformat(iso_string)
 
         return iso_string
-    
-    def set_password_authentication_origin(self, url: str | None):
-        session["password_authentication_origin"] = url
+
+    def set_password_authentication_origin(self, origin_url: str | None, referrer_url: str | None):
+        session["password_authentication_origin"] = origin_url
+        session["password_authentication_referrer"] = referrer_url
 
     def get_password_authentication_origin(self):
-        return session.get("password_authentication_origin")
-    
+        origin_url = session.get("password_authentication_origin")
+        referrer_url = session.get("password_authentication_referrer")
+
+        return origin_url, referrer_url
+
     def set_last_password_authentication(self):
         now = datetime.now().isoformat()
         session["last_password_authentication"] = now
 
-        self.set_password_authentication_origin(url=None)
+        self.set_password_authentication_origin(
+            origin_url=None, referrer_url=None)
 
     def get_active_tokens_for_user(self, user_id: int):
         tokens = self.__auth_db.get_all_keys_for_pattern(
