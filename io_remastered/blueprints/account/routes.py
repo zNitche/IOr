@@ -93,3 +93,9 @@ def remove_login_sessions(id: str):
               FlashConsts.TYPE_SUCCESS)
 
     return redirect(url_for("account.login_sessions"))
+
+
+@account.route("/storage-statistics", methods=["GET"])
+@login_required
+def storage_stats():
+    return render_template("storage_statistics.html")

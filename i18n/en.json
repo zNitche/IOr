@@ -147,7 +147,8 @@
     },
     "account_page": {
         "change_password_page": "Change password",
-        "login_sessions_page": "Login sessions"
+        "login_sessions_page": "Login sessions",
+        "storage_stats_page": "Storage statistics"
     },
     "change_password_page": {
         "title": "Change password",
@@ -181,5 +182,8 @@
         "submit_button": "Submit",
         "auth_error": "authentication has failed",
         "auth_success": "authentication success"
+    },
+    "storage_stats_page": {
+        "title": "Storage statistics"
     }
 }

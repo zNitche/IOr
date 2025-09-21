@@ -1,0 +1,16 @@
+.storage-statistics-page {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.storage-statistics-page .header {
+    display: flex;
+    font-size: var(--font-size-l);
+}
+
+.storage-statistics-page .content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
