@@ -2,11 +2,12 @@
 {% set max_storage_size = current_user.max_storage_size %}
 {% set taken_space = get_taken_user_storage() %}
 {% set taken_space_percentage = taken_space * 100 / max_storage_size %}
+{% set inner_class = "over90" if taken_space_percentage > 90 else "over50" if taken_space_percentage > 50 else "" %}
 
 <div class="storage-space-bar">
     <div class="storage-space-bar-text">{{taken_space|round(1)}}GB</div>
     <div class="storage-space-bar-bar">
-        <div class="storage-space-bar-inner" style="width: {{taken_space_percentage}}%;"></div>
+        <div class="storage-space-bar-inner {{inner_class}}" style="width: {{taken_space_percentage}}%;"></div>
     </div>
     <div class="storage-space-bar-text">{{current_user.max_storage_size}}GB</div>
 </div>

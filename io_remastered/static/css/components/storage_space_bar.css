@@ -27,3 +27,11 @@
     background: var(--green-3);
     transition: 100ms width ease;
 }
+
+.storage-space-bar-inner.over50 {
+    background: var(--orange);
+}
+
+.storage-space-bar-inner.over90 {
+    background: var(--red);
+}
