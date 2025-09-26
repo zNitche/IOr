@@ -25,7 +25,7 @@
 
             {% set content_items = [{
             "name": i18n('login_sessions_page.created_at'),
-            "value": session_item.value.created_at
+            "value": parse_iso_date(session_item.value.created_at).strftime('%d-%m-%Y %H:%M:%S')
             },{
             "name": i18n('login_sessions_page.ttl'),
             "value": session_item.ttl
