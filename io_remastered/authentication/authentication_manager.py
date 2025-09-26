@@ -60,7 +60,8 @@ class AuthenticationManager:
 
         if token is not None and current_user:
             self.remove_auth_token(token=token, user_id=current_user.id)
-            session.clear()
+
+        session.clear()
 
     def remove_auth_token(self, token: str, user_id: int | None = None, via_pattern: bool = True):
         if via_pattern:
@@ -82,13 +83,23 @@ class AuthenticationManager:
         if not token:
             return None
 
+        if ":" in token:
+            raise Exception("':' not allowed in auth token")
+
         auth_key = self.__auth_db.get_key_for_pattern(
             pattern=self.get_auth_db_key_pattern(token=token))
 
         if not auth_key:
             return None
 
-        user_id = int(auth_key.split(":")[1])
+        # remove last empty string
+        split_key =  auth_key.split(":").pop()
+
+        # some extra check
+        if len(split_key) != 3:
+            return None
+
+        user_id = int(split_key[1])
 
         user = models.User.query(
             models.User.select().filter_by(id=user_id)).first()

@@ -15,6 +15,7 @@ def login_required(f):
         current_user = authentication_manager.user_for_token(auth_token)
 
         if not current_user:
+            authentication_manager.logout()
             abort(401)
 
         setattr(g, "current_user", current_user)
