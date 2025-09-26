@@ -32,6 +32,9 @@ def setup_constext_processor(app: Flask):
     
     app.context_processor(
         lambda: {"get_uuid": lambda: uuid4().hex})
+    
+    app.context_processor(
+        lambda: {"parse_iso_date": app_helpers.context_processor_funcs.parse_iso_date})
 
 
 def setup_template_filters(app: Flask):

@@ -1,4 +1,5 @@
 from flask import url_for
+from datetime import datetime
 from io_remastered.models import User
 from io_remastered.app_helpers.common_files_extensions import MEDIA_FILE, IMAGE_FILE, CODE_FILE, DOCUMENT_FILE, common_files_extensions
 
@@ -42,3 +43,7 @@ def is_viewed_by_owner(obj: object, owner: User | None, owner_id_attr_name: str 
         return getattr(obj, owner_id_attr_name) == owner.id
 
     return False
+
+
+def parse_iso_date(date_str: str):
+    return datetime.fromisoformat(date_str)
