@@ -1,3 +1,5 @@
+{% set files_count_by_extension = stats["files_count_by_extension"] %}
+
 {% extends "content_page.html" %}
 
 {% block head_links %}
@@ -13,6 +15,43 @@
     </div>
     <div class="content">
         {% include "components/storage_space_bar.html" %}
+        <div class="content-rows-wrapper">
+            <div class="content-row">
+                <div class="total-items">
+                    <span class="total-items-name">{{i18n('storage_stats_page.files')}}</span>
+                    <span class="total-items-value">{{stats["files_count"]}}</span>
+                </div>
+                <div class="total-items">
+                    <span class="total-items-name">{{i18n('storage_stats_page.directories')}}</span>
+                    <span class="total-items-value">{{stats["directories_count"]}}</span>
+                </div>
+            </div>
+            <div class="content-row">
+                <div class="total-items">
+                    <span class="total-items-name">{{i18n('storage_stats_page.shared_files')}}</span>
+                    <span class="total-items-value">{{stats["shared_files"]}}</span>
+                </div>
+                <div class="total-items">
+                    <span class="total-items-name">{{i18n('storage_stats_page.shared_directories')}}</span>
+                    <span class="total-items-value">{{stats["shared_directories"]}}</span>
+                </div>
+            </div>
+        </div>
+        {% if files_count_by_extension.keys()|length > 0 %}
+        <div class="section">
+            <div class="section-header">
+                {{i18n('storage_stats_page.files_count_by_extension')}}
+            </div>
+            <div class="section-content">
+                {% for ext in files_count_by_extension %}
+                <div class="files-count-by-extension">
+                    <span class="title">{{ext}}</span>
+                    <span class="value">{{files_count_by_extension[ext]}}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 

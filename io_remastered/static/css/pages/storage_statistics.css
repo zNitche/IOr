@@ -12,5 +12,70 @@
 .storage-statistics-page .content {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 24px;
+}
+
+.content-rows-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.content-row {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.total-items {
+    padding: 4px;
+    border-radius: 4px;
+    background: var(--background-3);
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: space-between;
+}
+
+.total-items-name {
+    font-size: var(--font-size-m);
+}
+
+.total-items-value {
+    font-size: var(--font-size-l);
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.section-header {
+    font-size: var(--font-size-l);
+}
+
+.section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.files-count-by-extension {
+    padding: 4px;
+    border-radius: 4px;
+    background: var(--background-3);
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: space-between;
+}
+
+.files-count-by-extension .title {
+    font-size: var(--font-size-l);
+}
+
+.files-count-by-extension .value {
+    font-size: var(--font-size-l);
 }

@@ -184,6 +184,11 @@
         "auth_success": "authentication success"
     },
     "storage_stats_page": {
-        "title": "Storage statistics"
+        "title": "Storage statistics",
+        "files": "Files",
+        "directories": "Directories",
+        "shared_files": "Shared Files",
+        "shared_directories": "Shared Directories",
+        "files_count_by_extension": "Files count by extension"
     }
 }
