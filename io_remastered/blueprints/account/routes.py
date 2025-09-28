@@ -98,4 +98,36 @@ def remove_login_sessions(id: str):
 @account.route("/storage-statistics", methods=["GET"])
 @login_required
 def storage_stats():
-    return render_template("storage_statistics.html")
+    current_user = authentication_manager.current_user
+
+    stats = {}
+
+    user_files_query = models.File.select().filter(
+        models.File.owner_id == current_user.id)
+    user_dirs_query = models.Directory.select().filter(
+        models.Directory.owner_id == current_user.id)
+
+    stats["files_count"] = models.File.count(user_files_query)
+    stats["directories_count"] = models.Directory.count(user_dirs_query)
+    stats["shared_files"] = models.File.count(user_files_query.filter(
+        models.File.share_uuid.is_not(None)))  # type: ignore
+    stats["shared_directories"] = models.Directory.count(
+        user_dirs_query.filter(models.Directory.share_uuid.is_not(None))) # type: ignore
+
+    files_count_by_extension = {}
+
+    for file in models.File.query(user_files_query).all():
+        ext = file.extension
+
+        if ext not in files_count_by_extension.keys():
+            files_count_by_extension[ext] = 0
+
+        files_count_by_extension[ext] += 1
+
+    sorted_files_count_by_extension = sorted(
+        files_count_by_extension.items(), key=lambda x: x[1])
+    sorted_files_count_by_extension.reverse()
+
+    stats["files_count_by_extension"] = dict(sorted_files_count_by_extension)
+
+    return render_template("storage_statistics.html", stats=stats)
