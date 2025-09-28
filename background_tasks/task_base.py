@@ -17,7 +17,7 @@ class TaskBase:
         self.db.create_all()
 
     def setup_logger(self):
-        raise NotImplementedError()
+        pass
     
     def mainloop(self):
         raise NotImplementedError()
