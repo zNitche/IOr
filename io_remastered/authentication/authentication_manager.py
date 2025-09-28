@@ -92,8 +92,9 @@ class AuthenticationManager:
         if not auth_key:
             return None
 
+        split_key =  auth_key.split(":")
         # remove last empty string
-        split_key =  auth_key.split(":").pop()
+        split_key.pop()
 
         # some extra check
         if len(split_key) != 3:
