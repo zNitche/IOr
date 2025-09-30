@@ -31,9 +31,6 @@ class I18n:
             raise Exception(
                 "i18n context processor called outside app context")
 
-        if len(session.keys()) == 0:
-            session["lang"] = self.default_lang
-
         language_key = session.get("lang")
 
         if not language_key:
