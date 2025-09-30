@@ -61,7 +61,7 @@ class AuthenticationManager:
         if token is not None and current_user:
             self.remove_auth_token(token=token, user_id=current_user.id)
 
-        session.clear()
+        self.clear_session()
 
     def remove_auth_token(self, token: str, user_id: int | None = None, via_pattern: bool = True):
         if via_pattern:
@@ -191,3 +191,13 @@ class AuthenticationManager:
                     break
 
         return s
+    
+    def clear_session(self, complete_wipe = False):
+        if complete_wipe:
+            session.clear()
+
+        else:
+            lang = session.get("lang")
+            session.clear()
+
+            session["lang"] = lang
