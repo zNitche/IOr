@@ -20,12 +20,12 @@ def init_migrations(migrations_dir: str, db_engine: Engine):
         cfg = get_config(migrations_dir, db_engine)
 
         command.init(cfg, migrations_dir)
-        command.stamp(cfg, "head")
 
         env_template_path = os.path.join(
-            "io_remastered", "db", "alembic_template", "env.template.py")
-        shutil.copy2(os.path.join(PROJECT_ROOT, env_template_path),
-                     os.path.join(migrations_dir, "env.py"))
+            PROJECT_ROOT, "io_remastered", "db", "alembic_template", "env.template.py")
+        shutil.copy2(env_template_path, os.path.join(migrations_dir, "env.py"))
+
+        command.stamp(cfg, "head", purge=True)
 
 
 def migrate(migrations_dir: str, db_engine: Engine):
