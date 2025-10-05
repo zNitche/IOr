@@ -256,17 +256,12 @@ def toggle_directory_sharing(directory_uuid: str):
     if not directory:
         abort(404)
 
-    if directory.is_shared:
-        directory.toggle_sharing(state=False)
+    next_state = not directory.is_shared
 
-        flash(i18n.t('toggle_directory_sharing.disabled'),
-              FlashTypeEnum.Success.value)
-    else:
-        directory.toggle_sharing(state=True)
-
-        flash(i18n.t('toggle_directory_sharing.enabled'),
-              FlashTypeEnum.Success.value)
-
+    directory.toggle_sharing(state=next_state)
     db.commit()
+
+    flash(i18n.t(f'toggle_directory_sharing.{'disabled' if not next_state else "enabled"}'),
+          FlashTypeEnum.Success.value)
 
     return redirect(location=request.referrer)
