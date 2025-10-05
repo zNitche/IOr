@@ -65,7 +65,7 @@ def setup_cache_databases(app: Flask):
 
 
 def create_app(config_class: type[AppConfig]):
-    app = Flask(__name__, instance_relative_config=False)
+    app = Flask(__name__, instance_relative_config=False, static_folder=None)
 
     app.config.from_object(config_class)
     app.secret_key = secrets.token_hex(
