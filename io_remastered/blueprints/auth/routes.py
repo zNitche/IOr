@@ -3,7 +3,7 @@ from werkzeug.security import check_password_hash
 from io_remastered.io_csrf import CSRF, csrf_protected
 from io_remastered.authentication.decorators import login_required, anonymous_only
 from io_remastered import forms, authentication_manager, models, i18n
-from io_remastered.consts import FlashConsts
+from io_remastered.types import FlashTypeEnum
 
 
 auth = Blueprint("auth", __name__, template_folder="templates",
@@ -38,7 +38,7 @@ def login_submit():
             return redirect(url_for("core.home"))
 
         else:
-            flash(i18n.t("login_page.auth_error"), FlashConsts.TYPE_ERROR)
+            flash(i18n.t("login_page.auth_error"), FlashTypeEnum.Error.value)
 
     return redirect(url_for("auth.login"))
 
@@ -77,10 +77,11 @@ def password_authentication_submit():
                 authentication_manager.set_last_password_authentication()
 
                 flash(i18n.t("password_authentication_page.auth_success"),
-                      FlashConsts.TYPE_SUCCESS)
+                      FlashTypeEnum.Success.value)
 
                 return redirect(origin_url)
 
-    flash(i18n.t("password_authentication_page.auth_error"), FlashConsts.TYPE_ERROR)
+    flash(i18n.t("password_authentication_page.auth_error"),
+          FlashTypeEnum.Error.value)
 
     return redirect(referrer_url) if referrer_url else redirect(url_for("core.home"))

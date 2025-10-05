@@ -6,7 +6,7 @@ from io_remastered.io_csrf.decorators import csrf_protected
 from io_remastered.consts import DirectoriesConsts
 from io_remastered import authentication_manager, models, db, i18n, forms, CSRF
 from io_remastered.db.pagination import Pagination, pageable_content
-from io_remastered.consts import FlashConsts
+from io_remastered.types import FlashTypeEnum
 from io_remastered.utils import sharing_utils, requests_utils
 
 
@@ -102,10 +102,10 @@ def change_file_directory(file_uuid: str):
         db.commit()
 
         flash(i18n.t('change_file_directory.success', format={"dir_name": dir_name}),
-              FlashConsts.TYPE_SUCCESS)
+              FlashTypeEnum.Success.value)
 
     else:
-        flash(i18n.t('change_file_directory.error'), FlashConsts.TYPE_ERROR)
+        flash(i18n.t('change_file_directory.error'), FlashTypeEnum.Error.value)
 
     return redirect(location=request.referrer)
 
@@ -128,10 +128,10 @@ def change_file_name(uuid: str):
 
         db.commit()
 
-        flash(i18n.t('change_file_name.success'), FlashConsts.TYPE_SUCCESS)
+        flash(i18n.t('change_file_name.success'), FlashTypeEnum.Success.value)
 
     else:
-        flash(i18n.t('change_file_name.error'), FlashConsts.TYPE_ERROR)
+        flash(i18n.t('change_file_name.error'), FlashTypeEnum.Error.value)
 
     return redirect(location=request.referrer)
 
@@ -190,7 +190,7 @@ def remove_directory(uuid: str):
 
     db.remove(directory)
 
-    flash(i18n.t('remove_directory.success'), FlashConsts.TYPE_SUCCESS)
+    flash(i18n.t('remove_directory.success'), FlashTypeEnum.Success.value)
 
     return redirect(url_for("core.home"))
 
@@ -233,14 +233,14 @@ def change_directory_name(uuid: str):
             db.commit()
 
             flash(i18n.t('change_directory_name.success'),
-                  FlashConsts.TYPE_SUCCESS)
+                  FlashTypeEnum.Success.value)
 
         else:
             flash(i18n.t('create_directory_modal.forbidden_name'),
-                  FlashConsts.TYPE_ERROR)
+                  FlashTypeEnum.Error.value)
 
     else:
-        flash(i18n.t('change_directory_name.error'), FlashConsts.TYPE_ERROR)
+        flash(i18n.t('change_directory_name.error'), FlashTypeEnum.Error.value)
 
     return redirect(location=request.referrer)
 
@@ -260,12 +260,12 @@ def toggle_directory_sharing(directory_uuid: str):
         directory.toggle_sharing(state=False)
 
         flash(i18n.t('toggle_directory_sharing.disabled'),
-              FlashConsts.TYPE_SUCCESS)
+              FlashTypeEnum.Success.value)
     else:
         directory.toggle_sharing(state=True)
 
         flash(i18n.t('toggle_directory_sharing.enabled'),
-              FlashConsts.TYPE_SUCCESS)
+              FlashTypeEnum.Success.value)
 
     db.commit()
 

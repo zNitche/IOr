@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, abort, redirect, flash
 from werkzeug.utils import secure_filename
 from io_remastered.authentication.decorators import login_required
-from io_remastered.consts import FlashConsts, DirectoriesConsts
+from io_remastered.consts import DirectoriesConsts
+from io_remastered.types import FlashTypeEnum
 from io_remastered.io_csrf import csrf_protected, CSRF
 from io_remastered import authentication_manager, models, forms, i18n, db
 from io_remastered.db.pagination import Pagination, pageable_content
@@ -38,13 +39,13 @@ def files(page_id: int):
     search_string = request.args.get("search", "")
 
     search_form = forms.SearchBarForm(search_phrase=search_string)
-    
+
     files_query = models.File.select().filter(models.File.name.icontains(
         search_string), models.File.owner_id == current_user.id)
 
     if only_shared:
         files_query = files_query.filter(
-            models.File.share_uuid.is_not(None)) # type: ignore
+            models.File.share_uuid.is_not(None))  # type: ignore
 
     files_query = files_query.order_by(models.File.upload_date.desc())
 
@@ -75,7 +76,7 @@ def directories(page_id: int):
 
     if only_shared:
         dirs_query = dirs_query.filter(
-            models.Directory.share_uuid.is_not(None)) # type: ignore
+            models.Directory.share_uuid.is_not(None))  # type: ignore
 
     dirs_query = dirs_query.order_by(models.Directory.created_at.desc())
 
@@ -109,7 +110,7 @@ def add_directory():
 
         if name in DirectoriesConsts.FORBIDDEN_NAMES:
             flash(i18n.t('create_directory_modal.forbidden_name'),
-                  FlashConsts.TYPE_ERROR)
+                  FlashTypeEnum.Error.value)
 
             return redirect(location=request.referrer)
 
@@ -123,14 +124,14 @@ def add_directory():
             db.add(directory)
 
             flash(i18n.t('create_directory_modal.directory_created'),
-                  FlashConsts.TYPE_SUCCESS)
+                  FlashTypeEnum.Success.value)
 
         else:
             flash(i18n.t('create_directory_modal.directory_already_exists', format={"dir_name": name}),
-                  FlashConsts.TYPE_ERROR)
+                  FlashTypeEnum.Error.value)
 
     else:
         flash(i18n.t('create_directory_modal.unexpeted_error'),
-              FlashConsts.TYPE_ERROR)
+              FlashTypeEnum.Error.value)
 
     return redirect(location=request.referrer)
