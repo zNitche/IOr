@@ -112,15 +112,15 @@ class File(Base):
     def is_shared(self):
         return self.share_uuid is not None
 
-    class Log(Base):
-        __tablename__ = "logs"
+class Log(Base):
+    __tablename__ = "logs"
 
-        id = mapped_column(Integer, primary_key=True)
+    id = mapped_column(Integer, primary_key=True)
 
-        type = mapped_column(String(16), unique=False, nullable=False)
-        message = mapped_column(String, unique=False, nullable=False)
-        created_at = mapped_column(
-            DATETIME, nullable=False, default=lambda: datetime.datetime.now())
+    type = mapped_column(String(16), unique=False, nullable=False)
+    message = mapped_column(String, unique=False, nullable=False)
+    created_at = mapped_column(
+        DATETIME, nullable=False, default=lambda: datetime.datetime.now())
 
-        user_id = mapped_column(
-            Integer, ForeignKey("users.id"), nullable=False)
+    user_id = mapped_column(
+        Integer, ForeignKey("users.id"), nullable=False)
