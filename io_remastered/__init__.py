@@ -18,6 +18,10 @@ authentication_manager = AuthenticationManager(auth_db=authentication_cache_db)
 
 i18n = I18n(translations_path="./i18n")
 
+def generate_secret(is_debug=False):
+    return secrets.token_hex(
+        nbytes=32) if not is_debug else "debug_secret"
+
 
 def register_blueprints(app: Flask):
     from io_remastered import blueprints
@@ -68,8 +72,7 @@ def create_app(config_class: type[AppConfig]):
     app = Flask(__name__, instance_relative_config=False, static_folder=None)
 
     app.config.from_object(config_class)
-    app.secret_key = secrets.token_hex(
-        nbytes=32) if not app.debug else "debug_secret"
+    app.secret_key = generate_secret(is_debug=app.debug)
 
     setup_app_modules(app)
     setup_cache_databases(app)

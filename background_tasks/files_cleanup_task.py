@@ -104,4 +104,4 @@ class FilesCleanupTask(TaskBase):
             self.process_tmp()
             self.process_users_files()
 
-            time.sleep(300)
+            time.sleep(60)
