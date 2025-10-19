@@ -39,3 +39,4 @@ def setup_constext_processor(app: Flask):
 
 def setup_template_filters(app: Flask):
     app.jinja_env.filters["formatted_file_size"] = app_helpers.jinja_filters.formatted_file_size
+    app.jinja_env.filters["convert_to_dict"] = app_helpers.jinja_filters.convert_to_dict
