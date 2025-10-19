@@ -1,0 +1,8 @@
+<select name="{{name}}" id="{{id}}" class="generic-select">
+    {% if default %}
+    <option value="{{default.value}}">{{default.name}}</option>
+    {% endif %}
+    {% for option in options %}
+    <option value="{{option.value}}">{{option.name}}</option>
+    {% endfor %}
+</select>
