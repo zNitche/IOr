@@ -148,7 +148,8 @@
     "account_page": {
         "change_password_page": "Change password",
         "login_sessions_page": "Login sessions",
-        "storage_stats_page": "Storage statistics"
+        "storage_stats_page": "Storage statistics",
+        "logs_preview": "Logs"
     },
     "change_password_page": {
         "title": "Change password",
@@ -190,5 +191,31 @@
         "shared_files": "Shared Files",
         "shared_directories": "Shared Directories",
         "files_count_by_extension": "Files count by extension"
+    },
+    "logs_preview_page": {
+        "title": "Logs",
+        "description": "from past 28 days",
+        "no_content": "no logs has been found"
+    },
+    "system_logs": {
+        "security": {
+            "name": "Security",
+            "items": {
+                "logged_in": "Logged in",
+                "logout": "Logged out",
+                "login_failed": "Failed login attempt",
+                "password_authentication_requested": "password_authentication_requested from: {referrer_url}, for {origin_url}",
+                "password_authenticated": "Password authenticated for url: {origin_url}",
+                "removed_login_session": "Removed login session",
+                "password_changed": "Password has been changed",
+                "password_change_failed": "Password change failed"
+            }
+        },
+        "action": {
+            "name": "Action",
+            "items": {
+                "file_uploaded": "{uuid}, file has been uploaded"
+            }
+        }
     }
 }

@@ -118,9 +118,14 @@ class Log(Base):
     id = mapped_column(Integer, primary_key=True)
 
     type = mapped_column(String(16), unique=False, nullable=False)
-    message = mapped_column(String, unique=False, nullable=False)
+    message_obj = mapped_column(String, unique=False, nullable=False)
+
     created_at = mapped_column(
         DATETIME, nullable=False, default=lambda: datetime.datetime.now())
 
     user_id = mapped_column(
         Integer, ForeignKey("users.id"), nullable=False)
+    
+    @property
+    def body(self):
+        return json.loads(self.message_obj)
