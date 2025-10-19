@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, abort
 from werkzeug.security import check_password_hash, generate_password_hash
+from io_remastered.db.pagination import Pagination, pageable_content
 from io_remastered.io_csrf import CSRF, csrf_protected
 from io_remastered.authentication.decorators import login_required, password_authentication_required
 from io_remastered import authentication_manager, forms, i18n, models, db
 from io_remastered.types import FlashTypeEnum
+from io_remastered.utils import system_logs_utils
 
 
 account = Blueprint("account", __name__, template_folder="templates",
@@ -41,6 +43,9 @@ def handle_change_password():
             flash(i18n.t("change_password_page.invalid_current_password"),
                   FlashTypeEnum.Error.value)
 
+            system_logs_utils.log_security(
+                message_key="password_change_failed")
+
             return redirect(url_for("account.change_password"))
 
         if new_password != confirm_new_password:
@@ -59,6 +64,8 @@ def handle_change_password():
 
             flash(i18n.t("change_password_page.password_changed_successfully"),
                   FlashTypeEnum.Success.value)
+
+            system_logs_utils.log_security(message_key="password_changed")
 
     return redirect(url_for("account.change_password"))
 
@@ -88,6 +95,8 @@ def remove_login_sessions(id: str):
         else:
             authentication_manager.remove_auth_token(
                 token=user_session_for_id.key, user_id=current_user.id, via_pattern=False)
+
+            system_logs_utils.log_security(message_key="removed_login_session")
 
         flash(i18n.t("login_sessions_page.session_removed"),
               FlashTypeEnum.Success.value)
@@ -131,3 +140,25 @@ def storage_stats():
     stats["files_count_by_extension"] = dict(sorted_files_count_by_extension)
 
     return render_template("storage_statistics.html", stats=stats)
+
+
+@account.route("/logs", methods=["GET"])
+@login_required
+@pageable_content
+def logs_preview(page_id: int = 1):
+    current_user = authentication_manager.current_user
+
+    logs_query = models.Log.select().filter(
+        models.Log.user_id == current_user.id)
+    logs_query = logs_query.order_by(models.Log.created_at.desc())
+
+    logs_pagination = Pagination(
+        db_model=models.Log,
+        query=logs_query,
+        page_id=page_id,
+        items_per_page=50)
+
+    if not logs_pagination.is_page_id_valid:
+        abort(404)
+
+    return render_template("logs_preview.html", logs_pagination=logs_pagination)

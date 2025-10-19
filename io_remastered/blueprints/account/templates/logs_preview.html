@@ -1,0 +1,45 @@
+{% extends "content_page.html" %}
+
+{% block head_links %}
+{{super()}}
+<link rel="stylesheet" href="{{ get_static_resource('css/pages/logs_preview.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/pagination_controls.css') }}">
+{% endblock %}
+
+{% block page_content %}
+<div class="logs-preview-page">
+    <div class="header">
+        <span>{{i18n('logs_preview_page.title')}}</span>
+        <span class="description">
+            ({{i18n('logs_preview_page.description')}})
+        </span>
+    </div>
+    <div class="content">
+        {% if logs_pagination.items|length > 0 %}
+        {% for log in logs_pagination.items %}
+        {% set log_body = log.body %}
+        <div class="log-card">
+            <div class="header">
+                <span class="type {{log.type}}">
+                    {{i18n("system_logs.{type}.name".format(type=log.type))}}
+                </span>
+                <span>
+                    {{log.created_at.strftime('%d-%m-%Y %H:%M:%S')}}
+                </span>
+            </div>
+            <div class="content">
+                {{i18n("system_logs.{type}.items.{key}".format(type=log.type, key=log_body['key']),
+                format=log_body.get("formats"))}}
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <span>{{i18n('logs_preview_page.no_content')}}</span>
+        {% endif %}
+        {% with pagination=logs_pagination %}
+        {% include "components/pagination_controls.html" %}
+        {% endwith %}
+    </div>
+</div>
+
+{% endblock %}

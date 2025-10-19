@@ -43,7 +43,7 @@
 
 .login-form-submit-button:disabled {
     cursor: unset;
-    background: var(--green-1);
+    background: var(--green-2);
 }
 
 .app-version {

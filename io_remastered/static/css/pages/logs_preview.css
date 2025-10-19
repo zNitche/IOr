@@ -1,0 +1,52 @@
+.logs-preview-page {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.logs-preview-page .header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: var(--font-size-l);
+}
+
+.logs-preview-page .header .description {
+    font-size: var(--font-size-m);
+}
+
+.logs-preview-page .content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.log-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.log-card .header {
+    font-size: var(--font-size-m);
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    padding: 8px;
+    background: var(--background-3);
+}
+
+.log-card .type.security {
+    color: var(--green-4);
+}
+
+.log-card .type.action {
+    color: var(--orange);
+}
+
+.log-card .content {
+    padding: 8px;
+    background: var(--background-2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
