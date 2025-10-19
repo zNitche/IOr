@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
 from io_remastered import models, authentication_manager, db, i18n
-from io_remastered.utils import files_utils
+from io_remastered.utils import files_utils, system_logs_utils
 from io_remastered.blueprints.upload import helpers
 
 
@@ -105,6 +105,10 @@ def upload_handler():
                     file_object.directory_id = target_directory.id
 
             db.add(file_object)
+
+            system_logs_utils.log_action(message_key="file_uploaded", formats={
+                "uuid": file_uuid
+            })
 
             return jsonify({"message": i18n.t("file_upload_backend.messages.uploaded_successfully",
                                               format={"file_name": file_name})}), 200

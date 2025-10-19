@@ -4,6 +4,7 @@ from io_remastered.io_csrf import CSRF, csrf_protected
 from io_remastered.authentication.decorators import login_required, anonymous_only
 from io_remastered import forms, authentication_manager, models, i18n
 from io_remastered.types import FlashTypeEnum
+from io_remastered.utils import system_logs_utils
 
 
 auth = Blueprint("auth", __name__, template_folder="templates",
@@ -35,9 +36,15 @@ def login_submit():
             authentication_manager.login(
                 user.id, remote_addr=request.remote_addr)
 
+            system_logs_utils.log_security(
+                message_key="logged_in", user_id=user.id)
+
             return redirect(url_for("core.home"))
 
         else:
+            system_logs_utils.log_security(
+                message_key="login_failed", user_id=user.id if user else None)
+
             flash(i18n.t("login_page.auth_error"), FlashTypeEnum.Error.value)
 
     return redirect(url_for("auth.login"))
@@ -46,6 +53,8 @@ def login_submit():
 @auth.route("/logout", methods=["GET"])
 @login_required
 def logout():
+    system_logs_utils.log_security(message_key="logout")
+
     authentication_manager.logout()
     return redirect(url_for("core.home"))
 
@@ -53,10 +62,17 @@ def logout():
 @auth.route("/password-authentication", methods=["GET"])
 @login_required
 def password_authentication():
+    current_user = authentication_manager.current_user
     origin_url, referrer_url = authentication_manager.get_password_authentication_origin()
 
     if not origin_url:
         return redirect(url_for("core.home") if not referrer_url else referrer_url)
+
+    system_logs_utils.log_security(
+        message_key="password_authentication_requested", user_id=current_user.id, formats={
+            "origin_url": origin_url,
+            "referrer_url": referrer_url
+        })
 
     form = forms.PasswordAuthenticationForm(csrf_token=CSRF.generate_token())
     return render_template("password_authentication.html", form=form)
@@ -73,6 +89,10 @@ def password_authentication_submit():
         current_user = authentication_manager.current_user
 
         if check_password_hash(current_user.password, password):  # type: ignore
+            system_logs_utils.log_security(message_key="password_authenticated", formats={
+                "origin_url": origin_url
+            })
+
             if origin_url:
                 authentication_manager.set_last_password_authentication()
 
