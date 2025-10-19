@@ -3,7 +3,7 @@ from werkzeug.security import check_password_hash
 from io_remastered.io_csrf import CSRF, csrf_protected
 from io_remastered.authentication.decorators import login_required, anonymous_only
 from io_remastered import forms, authentication_manager, models, i18n
-from io_remastered.types import FlashTypeEnum
+from io_remastered.types import FlashTypeEnum, SecurityLogKeyEnum
 from io_remastered.utils import system_logs_utils
 
 
@@ -37,13 +37,13 @@ def login_submit():
                 user.id, remote_addr=request.remote_addr)
 
             system_logs_utils.log_security(
-                message_key="logged_in", user_id=user.id)
+                key=SecurityLogKeyEnum.LoggedIn, user_id=user.id)
 
             return redirect(url_for("core.home"))
 
         else:
             system_logs_utils.log_security(
-                message_key="login_failed", user_id=user.id if user else None)
+                key=SecurityLogKeyEnum.LoginFailed, user_id=user.id if user else None)
 
             flash(i18n.t("login_page.auth_error"), FlashTypeEnum.Error.value)
 
@@ -53,7 +53,7 @@ def login_submit():
 @auth.route("/logout", methods=["GET"])
 @login_required
 def logout():
-    system_logs_utils.log_security(message_key="logout")
+    system_logs_utils.log_security(key=SecurityLogKeyEnum.Logout)
 
     authentication_manager.logout()
     return redirect(url_for("core.home"))
@@ -69,7 +69,7 @@ def password_authentication():
         return redirect(url_for("core.home") if not referrer_url else referrer_url)
 
     system_logs_utils.log_security(
-        message_key="password_authentication_requested", user_id=current_user.id, formats={
+        key=SecurityLogKeyEnum.PasswordAuthenticationRequested, user_id=current_user.id, formats={
             "origin_url": origin_url,
             "referrer_url": referrer_url
         })
@@ -89,7 +89,7 @@ def password_authentication_submit():
         current_user = authentication_manager.current_user
 
         if check_password_hash(current_user.password, password):  # type: ignore
-            system_logs_utils.log_security(message_key="password_authenticated", formats={
+            system_logs_utils.log_security(key=SecurityLogKeyEnum.PasswordAuthenticated, formats={
                 "origin_url": origin_url
             })
 

@@ -1,2 +1,4 @@
 from io_remastered.types.flash_type_enum import FlashTypeEnum
 from io_remastered.types.log_type_enum import LogTypeEnum
+from io_remastered.types.action_log_key_enum import ActionLogKeyEnum
+from io_remastered.types.security_log_key_enum import SecurityLogKeyEnum

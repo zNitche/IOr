@@ -4,7 +4,7 @@ from io_remastered.db.pagination import Pagination, pageable_content
 from io_remastered.io_csrf import CSRF, csrf_protected
 from io_remastered.authentication.decorators import login_required, password_authentication_required
 from io_remastered import authentication_manager, forms, i18n, models, db
-from io_remastered.types import FlashTypeEnum
+from io_remastered.types import FlashTypeEnum, SecurityLogKeyEnum
 from io_remastered.utils import system_logs_utils
 
 
@@ -43,8 +43,7 @@ def handle_change_password():
             flash(i18n.t("change_password_page.invalid_current_password"),
                   FlashTypeEnum.Error.value)
 
-            system_logs_utils.log_security(
-                message_key="password_change_failed")
+            system_logs_utils.log_security(key=SecurityLogKeyEnum.LoggedIn)
 
             return redirect(url_for("account.change_password"))
 
@@ -65,7 +64,8 @@ def handle_change_password():
             flash(i18n.t("change_password_page.password_changed_successfully"),
                   FlashTypeEnum.Success.value)
 
-            system_logs_utils.log_security(message_key="password_changed")
+            system_logs_utils.log_security(
+                key=SecurityLogKeyEnum.PasswordChanged)
 
     return redirect(url_for("account.change_password"))
 
@@ -96,7 +96,8 @@ def remove_login_sessions(id: str):
             authentication_manager.remove_auth_token(
                 token=user_session_for_id.key, user_id=current_user.id, via_pattern=False)
 
-            system_logs_utils.log_security(message_key="removed_login_session")
+            system_logs_utils.log_security(
+                key=SecurityLogKeyEnum.RemovedLoginSession)
 
         flash(i18n.t("login_sessions_page.session_removed"),
               FlashTypeEnum.Success.value)

@@ -9,6 +9,7 @@ from io_remastered.io_csrf.decorators import csrf_protected
 from io_remastered import models, authentication_manager, db, i18n
 from io_remastered.utils import files_utils, system_logs_utils
 from io_remastered.blueprints.upload import helpers
+from io_remastered.types import ActionLogKeyEnum
 
 
 upload = Blueprint("upload", __name__, template_folder="templates",
@@ -106,7 +107,7 @@ def upload_handler():
 
             db.add(file_object)
 
-            system_logs_utils.log_action(message_key="file_uploaded", formats={
+            system_logs_utils.log_action(key=ActionLogKeyEnum.FileUploaded, formats={
                 "uuid": file_uuid
             })
 

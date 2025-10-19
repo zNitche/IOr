@@ -2,20 +2,20 @@ import json
 from typing import Any
 from io_remastered import db, authentication_manager
 from io_remastered.models import Log
-from io_remastered.types import LogTypeEnum
+from io_remastered.types import LogTypeEnum, ActionLogKeyEnum, SecurityLogKeyEnum
 
 
-def log_security(message_key: str, formats: dict[str, Any] | None = None,
+def log_security(key: SecurityLogKeyEnum, formats: dict[str, Any] | None = None,
                  user_id: int | None = None):
     create_log(type=LogTypeEnum.Security, message_obj={
-        "key": message_key,
+        "key": key.value,
         "formats": formats
     }, user_id=user_id)
 
 
-def log_action(message_key: str, formats: dict[str, Any] | None = None):
+def log_action(key: ActionLogKeyEnum, formats: dict[str, Any] | None = None):
     create_log(type=LogTypeEnum.Action, message_obj={
-        "key": message_key,
+        "key": key.value,
         "formats": formats
     })
 
