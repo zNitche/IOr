@@ -5,6 +5,7 @@
 {% block head_links %}
 {{super()}}
 <link rel="stylesheet" href="{{ get_static_resource('css/pages/upload.css') }}">
+<link rel="stylesheet" href="{{ get_static_resource('css/components/generic_select.css') }}">
 
 <script src="{{ get_static_resource('js/i18n.js') }}"></script>
 
@@ -26,12 +27,10 @@
         <div id="file-upload-name" class="file-upload-name"></div>
         {% if directories|length > 0 %}
         <div id="file-upload-target-directory" class="file-upload-target-directory">
-            <select name="target-directory" id="target-directory-select" class="target-directory-select">
-                <option value="/">/</option>
-                {% for directory in directories %}
-                <option value="{{directory.uuid}}">{{directory.name}}</option>
-                {% endfor %}
-            </select>
+            {% with name="target-directory", id="target-directory-select", options=directories|convert_to_dict({'value':
+            'uuid', 'name': 'name'}), default={"name": "/", "value": ""} %}
+            {% include "components/generic_select.html" %}
+            {% endwith %}
         </div>
         {% endif %}
 

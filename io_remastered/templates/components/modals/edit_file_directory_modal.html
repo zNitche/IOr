@@ -10,12 +10,10 @@
         method="post">
         <div class="content">
             {% if dirs_available %}
-            <select name="new-directory" id="new-directory" class="dirs-content">
-                <option value="/">/</option>
-                {% for directory in directories %}
-                <option value="{{directory.uuid}}">{{directory.name}}</option>
-                {% endfor %}
-            </select>
+            {% with name="new-directory", id="new-directory", options=directories|convert_to_dict({'value':
+            'uuid', 'name': 'name'}), default={"name": "/", "value": ""} %}
+            {% include "components/generic_select.html" %}
+            {% endwith %}
             {% else %}
             <div>{{i18n('edit_file_directory_modal.no_dirs_available')}}</div>
             {% endif %}
