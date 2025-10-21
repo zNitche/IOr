@@ -7,7 +7,8 @@ from io_remastered.consts import DirectoriesConsts
 from io_remastered import authentication_manager, models, db, i18n, forms, CSRF
 from io_remastered.db.pagination import Pagination, pageable_content
 from io_remastered.types import FlashTypeEnum
-from io_remastered.utils import sharing_utils, requests_utils
+from io_remastered.types.action_log_key_enum import ActionLogKeyEnum
+from io_remastered.utils import sharing_utils, requests_utils, system_logs_utils
 
 
 storage = Blueprint("storage", __name__, template_folder="templates",
@@ -68,6 +69,11 @@ def remove_file(uuid: str):
 
     if not file:
         abort(404)
+
+    system_logs_utils.log_action(key=ActionLogKeyEnum.FileRemoved, formats={
+        "uuid": file.uuid,
+        "filename": file.name
+    })
 
     db.remove(file)
 

@@ -214,7 +214,8 @@
         "action": {
             "name": "Action",
             "items": {
-                "file_uploaded": "{uuid}, file has been uploaded"
+                "file_uploaded": "{uuid}, file has been uploaded",
+                "file_removed": "{uuid} ({filename}), has been removed"
             }
         }
     }
