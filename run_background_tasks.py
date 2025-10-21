@@ -1,6 +1,6 @@
 import multiprocessing
 from io_remastered.io_logging import Logger
-from background_tasks import TaskBase, FilesCleanupTask
+from background_tasks import TaskBase, FilesCleanupTask, UsersSecurityLogsCleanupTask
 
 
 class BackgroundTasksRunner:
@@ -14,7 +14,7 @@ class BackgroundTasksRunner:
                          logs_filename="background_tasks_runner.log", logs_path="logs/")
 
     def get_tasks(self) -> list[type[TaskBase]]:
-        return [FilesCleanupTask]
+        return [FilesCleanupTask, UsersSecurityLogsCleanupTask]
 
     def run(self):
         self.logger.info("starting background tasks...")
