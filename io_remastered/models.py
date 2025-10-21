@@ -28,8 +28,8 @@ class User(Base):
     directories = relationship("Directory", backref="owner",
                                cascade="all, delete-orphan", lazy=False)
 
-    logs = relationship("Log", backref="user",
-                        cascade="all, delete-orphan", lazy=False)
+    user_security_logs = relationship("UserSecurityLog", backref="user",
+                                      cascade="all, delete-orphan", lazy=False)
 
     def __str__(self):
         struct = {
@@ -112,8 +112,9 @@ class File(Base):
     def is_shared(self):
         return self.share_uuid is not None
 
-class Log(Base):
-    __tablename__ = "logs"
+
+class UserSecurityLog(Base):
+    __tablename__ = "user_security_log"
 
     id = mapped_column(Integer, primary_key=True)
 
@@ -125,7 +126,7 @@ class Log(Base):
 
     user_id = mapped_column(
         Integer, ForeignKey("users.id"), nullable=False)
-    
+
     @property
     def body(self):
         return json.loads(self.message_obj)

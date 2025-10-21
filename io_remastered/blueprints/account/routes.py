@@ -149,12 +149,12 @@ def storage_stats():
 def logs_preview(page_id: int = 1):
     current_user = authentication_manager.current_user
 
-    logs_query = models.Log.select().filter(
-        models.Log.user_id == current_user.id)
-    logs_query = logs_query.order_by(models.Log.created_at.desc())
+    logs_query = models.UserSecurityLog.select().filter(
+        models.UserSecurityLog.user_id == current_user.id)
+    logs_query = logs_query.order_by(models.UserSecurityLog.created_at.desc())
 
     logs_pagination = Pagination(
-        db_model=models.Log,
+        db_model=models.UserSecurityLog,
         query=logs_query,
         page_id=page_id,
         items_per_page=50)
