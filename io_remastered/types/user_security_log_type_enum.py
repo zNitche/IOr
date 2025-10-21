@@ -1,5 +1,5 @@
 from enum import Enum
 
-class LogTypeEnum(Enum):
+class UserSecurityLogTypeEnum(Enum):
     Security = "security"
     Action = "action"
