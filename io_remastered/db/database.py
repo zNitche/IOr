@@ -47,19 +47,23 @@ class Database:
 
         self.commit()
 
-    def add(self, obj):
+    def add(self, obj, commit_on_completion=True):
         if self.session is None:
             raise Exception("session doesn't exist!")
 
         self.session.add(obj)
-        self.commit()
 
-    def remove(self, obj):
+        if commit_on_completion:
+            self.commit()
+
+    def remove(self, obj, commit_on_completion=True):
         if self.session is None:
             raise Exception("session doesn't exist!")
 
         self.session.delete(obj)
-        self.commit()
+
+        if commit_on_completion:
+            self.commit()
 
     def commit(self):
         if self.session is None:
