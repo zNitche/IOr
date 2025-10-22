@@ -25,18 +25,23 @@ class UsersSecurityLogsCleanupTask(TaskBase):
 
             self.logger.info(f"checking, found: {logs_count} logs...")
 
+            removed_logs_count = 0
+
             for log in users_security_logs:
                 time_difference = date_now - log.created_at
 
                 if time_difference.days >= 28:
-                    self.logger.info(f"log {log.id} is older than 28 days, removing...")
-                    self.db.remove(log)
+                    self.db.remove(log, commit_on_completion=False)
+                    removed_logs_count += 1
 
-                self.db.commit()
+            self.db.commit()
 
-            self.logger.info("done, waiting...")
+            self.logger.info(f"removed {removed_logs_count} logs")
 
         except:
             self.logger.exception("an exception occured while processing mainloop")
 
-        time.sleep(3600 * 12)
+        self.logger.info("done, sleeping.")
+
+        # every 6 hours
+        time.sleep(3600 * 6)
