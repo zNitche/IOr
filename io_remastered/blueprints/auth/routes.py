@@ -100,6 +100,9 @@ def password_authentication_submit():
                       FlashTypeEnum.Success.value)
 
                 return redirect(origin_url)
+            
+        else:
+            system_logs_utils.log_security(key=SecurityLogKeyEnum.PasswordAuthenticationFailed)
 
     flash(i18n.t("password_authentication_page.auth_error"),
           FlashTypeEnum.Error.value)

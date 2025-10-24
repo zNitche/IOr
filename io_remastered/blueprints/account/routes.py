@@ -33,6 +33,9 @@ def handle_change_password():
     form = forms.ChangePasswordForm(form_data=request.form)
 
     if form.is_valid():
+        system_logs_utils.log_security(
+            key=SecurityLogKeyEnum.PasswordChangeRequested)
+
         password = form.get_field_value("password")
         new_password = form.get_field_value("new_password")
         confirm_new_password = form.get_field_value("confirm_password")
@@ -42,8 +45,6 @@ def handle_change_password():
         if not check_password_hash(current_user.password, password):  # type: ignore
             flash(i18n.t("change_password_page.invalid_current_password"),
                   FlashTypeEnum.Error.value)
-
-            system_logs_utils.log_security(key=SecurityLogKeyEnum.LoggedIn)
 
             return redirect(url_for("account.change_password"))
 

@@ -6,6 +6,8 @@ from io_remastered.types import FlashTypeEnum
 from io_remastered.io_csrf import csrf_protected, CSRF
 from io_remastered import authentication_manager, models, forms, i18n, db
 from io_remastered.db.pagination import Pagination, pageable_content
+from io_remastered.types import ActionLogKeyEnum
+from io_remastered.utils import system_logs_utils
 
 
 core = Blueprint("core", __name__, template_folder="templates",
@@ -125,6 +127,11 @@ def add_directory():
 
             flash(i18n.t('create_directory_modal.directory_created'),
                   FlashTypeEnum.Success.value)
+            
+            system_logs_utils.log_action(key=ActionLogKeyEnum.DirectoryCreated, metadata={
+                "name": directory.name,
+                "uuid": directory.uuid
+            })
 
         else:
             flash(i18n.t('create_directory_modal.directory_already_exists', format={"dir_name": name}),

@@ -6,6 +6,7 @@ class SecurityLogKeyEnum(Enum):
     LoginFailed = "login_failed"
     PasswordAuthenticationRequested = "password_authentication_requested"
     PasswordAuthenticated = "password_authenticated"
+    PasswordAuthenticationFailed = "password_authentication_failed"
     RemovedLoginSession = "removed_login_session"
     PasswordChanged = "password_changed"
-    PasswordChangeFailed = "password_change_failed"
+    PasswordChangeRequested = "password_change_requested"

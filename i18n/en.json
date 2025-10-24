@@ -208,14 +208,20 @@
                 "password_authenticated": "Password authenticated for url: {origin_url}",
                 "removed_login_session": "Removed login session",
                 "password_changed": "Password has been changed",
-                "password_change_failed": "Password change failed"
+                "password_change_requested": "Password change requested",
+                "password_authentication_failed": "Password authentication failed"
             }
         },
         "action": {
             "name": "Action",
             "items": {
                 "file_uploaded": "{uuid}, file has been uploaded",
-                "file_removed": "{uuid} ({filename}), has been removed"
+                "file_removed": "{uuid} ({filename}), has been removed",
+                "directory_created": "Directory {uuid} ({name}) has been created",
+                "file_renamed": "File ({uuid}) has been renamed from {old_name} to {new_name}",
+                "directory_removed": "Directory {uuid} ({name}) has been removed, removed all files: {removed_all_files}",
+                "directory_renamed": "Directory ({uuid}) has been renamed from {old_name} to {new_name}",
+                "toggled_directory_sharing": "Toggled directory {uuid} ({name}) sharing to {state}"
             }
         }
     }

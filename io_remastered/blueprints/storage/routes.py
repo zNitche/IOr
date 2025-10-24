@@ -130,11 +130,18 @@ def change_file_name(uuid: str):
     form = forms.RenameStorageItemForm(name=request.form.get("name"))
 
     if form.is_valid():
+        old_file_name = file.name
         file.name = form.get_field_value("name")
 
         db.commit()
 
         flash(i18n.t('change_file_name.success'), FlashTypeEnum.Success.value)
+
+        system_logs_utils.log_action(key=ActionLogKeyEnum.FileRenamed, metadata={
+            "uuid": file.uuid,
+            "old_name": old_file_name,
+            "new_name": file.name
+        })
 
     else:
         flash(i18n.t('change_file_name.error'), FlashTypeEnum.Error.value)
@@ -198,6 +205,12 @@ def remove_directory(uuid: str):
 
     flash(i18n.t('remove_directory.success'), FlashTypeEnum.Success.value)
 
+    system_logs_utils.log_action(key=ActionLogKeyEnum.DirectoryRemoved, metadata={
+        "uuid": directory.uuid,
+        "name": directory.name,
+        "removed_all_files": remove_all_directory_files
+    })
+
     return redirect(url_for("core.home"))
 
 
@@ -235,11 +248,19 @@ def change_directory_name(uuid: str):
         directory_name = form.get_field_value("name")
 
         if directory_name not in DirectoriesConsts.FORBIDDEN_NAMES:
+            old_directory_name = directory.name
             directory.name = directory_name
+
             db.commit()
 
             flash(i18n.t('change_directory_name.success'),
                   FlashTypeEnum.Success.value)
+
+            system_logs_utils.log_action(key=ActionLogKeyEnum.DirectoryRenamed, metadata={
+                "uuid": directory.uuid,
+                "old_name": old_directory_name,
+                "new_name": directory.name
+            })
 
         else:
             flash(i18n.t('create_directory_modal.forbidden_name'),
@@ -269,5 +290,11 @@ def toggle_directory_sharing(directory_uuid: str):
 
     flash(i18n.t(f'toggle_directory_sharing.{'disabled' if not next_state else "enabled"}'),
           FlashTypeEnum.Success.value)
+    
+    system_logs_utils.log_action(key=ActionLogKeyEnum.ToggledDirectorySharing, metadata={
+        "uuid": directory.uuid,
+        "name": directory.name,
+        "state": next_state
+    })
 
     return redirect(location=request.referrer)
