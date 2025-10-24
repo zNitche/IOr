@@ -7,7 +7,7 @@
     <div class="content">
         {{i18n('remove_file_modal.text', {"file_name": file_name})}}
     </div>
-    <form action="{{url_for('storage.files.remove_file', uuid=file_uuid)}}" class="actions" method="post">
+    <form action="{{url_for('storage.files.remove', uuid=file_uuid)}}" class="actions" method="post">
         {{csrf_hidden_input(get_csrf_token())}}
         <button class="remove-file-button" type="submit">{{i18n('remove_file_modal.remove')}}</button>
     </form>

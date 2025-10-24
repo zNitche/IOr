@@ -15,7 +15,7 @@ files_blueprint = Blueprint("files", __name__, template_folder="templates",
 
 @files_blueprint.route("/<uuid>", methods=["GET"])
 @login_required
-def file_preview(uuid: str):
+def preview(uuid: str):
     current_user = authentication_manager.current_user
 
     file = models.File.query(models.File.select().filter_by(
@@ -38,7 +38,7 @@ def file_preview(uuid: str):
 
 @files_blueprint.route("/<uuid>/download", methods=["GET"])
 @login_required
-def download_file(uuid: str):
+def download(uuid: str):
     current_user = authentication_manager.current_user
     file = models.File.query(models.File.select().filter_by(
         uuid=uuid, owner_id=current_user.id)).first()
@@ -60,7 +60,7 @@ def download_file(uuid: str):
 @files_blueprint.route("/<uuid>/remove", methods=["POST"])
 @csrf_protected()
 @login_required
-def remove_file(uuid: str):
+def remove(uuid: str):
     current_user = authentication_manager.current_user
     file = models.File.query(models.File.select().filter_by(
         owner_id=current_user.id, uuid=uuid)).first()
@@ -81,7 +81,7 @@ def remove_file(uuid: str):
 @files_blueprint.route("/<file_uuid>/change-directory", methods=["POST"])
 @csrf_protected()
 @login_required
-def change_file_directory(file_uuid: str):
+def change_directory(file_uuid: str):
     current_user = authentication_manager.current_user
     file = models.File.query(models.File.select().filter_by(
         owner_id=current_user.id, uuid=file_uuid)).first()
@@ -117,7 +117,7 @@ def change_file_directory(file_uuid: str):
 @files_blueprint.route("/<uuid>/change-name", methods=["POST"])
 @csrf_protected()
 @login_required
-def change_file_name(uuid: str):
+def change_name(uuid: str):
     current_user = authentication_manager.current_user
     file = models.File.query(models.File.select().filter_by(
         owner_id=current_user.id, uuid=uuid)).first()

@@ -1,5 +1,5 @@
 {% set preview_url = url_for('share.file_preview', share_uuid=file.share_uuid) if is_sharing_preview else
-url_for('storage.files.file_preview', uuid=file.uuid) %}
+url_for('storage.files.preview', uuid=file.uuid) %}
 
 <div class="file-card">
     <img src="{{ icon_for_file_extension(file.extension) }}" class="file-type-icon" />

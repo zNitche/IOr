@@ -17,7 +17,7 @@ directories_blueprint = Blueprint("directories", __name__, template_folder="temp
 @directories_blueprint.route("/<uuid>", methods=["GET"])
 @login_required
 @pageable_content
-def directory_preview(page_id: int, uuid: str):
+def preview(page_id: int, uuid: str):
     current_user = authentication_manager.current_user
 
     directory = models.Directory.query(
@@ -52,7 +52,7 @@ def directory_preview(page_id: int, uuid: str):
 @directories_blueprint.route("/<uuid>/remove", methods=["POST"])
 @csrf_protected()
 @login_required
-def remove_directory(uuid: str):
+def remove(uuid: str):
     current_user = authentication_manager.current_user
     directory = models.Directory.query(models.Directory.select().filter_by(
         owner_id=current_user.id, uuid=uuid)).first()
@@ -81,7 +81,7 @@ def remove_directory(uuid: str):
 
 @directories_blueprint.route("/<uuid>/download", methods=["GET"])
 @login_required
-def download_directory(uuid: str):
+def download(uuid: str):
     current_user = authentication_manager.current_user
     directory = models.Directory.query(models.Directory.select().filter_by(
         owner_id=current_user.id, uuid=uuid)).first()
@@ -99,7 +99,7 @@ def download_directory(uuid: str):
 @directories_blueprint.route("/<uuid>/change-name", methods=["POST"])
 @csrf_protected()
 @login_required
-def change_directory_name(uuid: str):
+def change_name(uuid: str):
     current_user = authentication_manager.current_user
     directory = models.Directory.query(models.Directory.select().filter_by(
         owner_id=current_user.id, uuid=uuid)).first()
@@ -140,7 +140,7 @@ def change_directory_name(uuid: str):
 @directories_blueprint.route("/<directory_uuid>/toggle-sharing", methods=["POST"])
 @csrf_protected()
 @login_required
-def toggle_directory_sharing(directory_uuid: str):
+def toggle_sharing(directory_uuid: str):
     current_user = authentication_manager.current_user
     directory = models.Directory.query(models.Directory.select().filter_by(
         owner_id=current_user.id, uuid=directory_uuid)).first()

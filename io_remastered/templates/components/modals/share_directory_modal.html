@@ -6,7 +6,7 @@
         {{url_for('share.directory_preview', share_uuid=directory.share_uuid, _external=True)}}
     </div>
     {% endif %}
-    <form action="{{url_for('storage.directories.toggle_directory_sharing', directory_uuid=directory.uuid)}}"
+    <form action="{{url_for('storage.directories.toggle_sharing', directory_uuid=directory.uuid)}}"
         class="share-directory-form" method="post">
         {{csrf_hidden_input(get_csrf_token())}}
         <button class="submit-button {%if directory.is_shared%}disable{%endif%}" type="submit">
