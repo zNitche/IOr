@@ -29,7 +29,7 @@
             </div>
             <div class="content">
                 {{i18n("system_logs.{type}.items.{key}".format(type=log.type, key=log_body['key']),
-                format=log_body.get("formats"))}}
+                format=log_body.get("metadata"))}}
             </div>
         </div>
         {% endfor %}

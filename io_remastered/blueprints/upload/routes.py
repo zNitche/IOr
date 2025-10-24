@@ -107,7 +107,7 @@ def upload_handler():
 
             db.add(file_object)
 
-            system_logs_utils.log_action(key=ActionLogKeyEnum.FileUploaded, formats={
+            system_logs_utils.log_action(key=ActionLogKeyEnum.FileUploaded, metadata={
                 "uuid": file_uuid
             })
 

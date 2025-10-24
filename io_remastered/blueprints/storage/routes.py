@@ -70,7 +70,7 @@ def remove_file(uuid: str):
     if not file:
         abort(404)
 
-    system_logs_utils.log_action(key=ActionLogKeyEnum.FileRemoved, formats={
+    system_logs_utils.log_action(key=ActionLogKeyEnum.FileRemoved, metadata={
         "uuid": file.uuid,
         "filename": file.name
     })

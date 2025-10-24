@@ -69,7 +69,7 @@ def password_authentication():
         return redirect(url_for("core.home") if not referrer_url else referrer_url)
 
     system_logs_utils.log_security(
-        key=SecurityLogKeyEnum.PasswordAuthenticationRequested, user_id=current_user.id, formats={
+        key=SecurityLogKeyEnum.PasswordAuthenticationRequested, user_id=current_user.id, metadata={
             "origin_url": origin_url,
             "referrer_url": referrer_url
         })
@@ -89,7 +89,7 @@ def password_authentication_submit():
         current_user = authentication_manager.current_user
 
         if check_password_hash(current_user.password, password):  # type: ignore
-            system_logs_utils.log_security(key=SecurityLogKeyEnum.PasswordAuthenticated, formats={
+            system_logs_utils.log_security(key=SecurityLogKeyEnum.PasswordAuthenticated, metadata={
                 "origin_url": origin_url
             })
 

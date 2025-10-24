@@ -5,18 +5,18 @@ from io_remastered.models import UserSecurityLog
 from io_remastered.types import UserSecurityLogTypeEnum, ActionLogKeyEnum, SecurityLogKeyEnum
 
 
-def log_security(key: SecurityLogKeyEnum, formats: dict[str, Any] | None = None,
+def log_security(key: SecurityLogKeyEnum, metadata: dict[str, Any] | None = None,
                  user_id: int | None = None):
     __create_log(type=UserSecurityLogTypeEnum.Security, message_obj={
         "key": key.value,
-        "formats": formats
+        "metadata": metadata
     }, user_id=user_id)
 
 
-def log_action(key: ActionLogKeyEnum, formats: dict[str, Any] | None = None):
+def log_action(key: ActionLogKeyEnum, metadata: dict[str, Any] | None = None):
     __create_log(type=UserSecurityLogTypeEnum.Action, message_obj={
         "key": key.value,
-        "formats": formats
+        "metadata": metadata
     })
 
 
