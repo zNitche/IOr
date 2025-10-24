@@ -6,7 +6,7 @@
     <div class="title">
         {{i18n('edit_file_directory_modal.title')}}
     </div>
-    <form action="{{url_for('storage.change_file_directory', file_uuid=file_uuid)}}" class="content-wrapper"
+    <form action="{{url_for('storage.files.change_file_directory', file_uuid=file_uuid)}}" class="content-wrapper"
         method="post">
         <div class="content">
             {% if dirs_available %}
