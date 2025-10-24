@@ -26,13 +26,13 @@ def generate_secret(is_debug=False):
 def register_blueprints(app: Flask):
     from io_remastered import blueprints
 
-    app.register_blueprint(blueprints.errors)
-    app.register_blueprint(blueprints.auth)
-    app.register_blueprint(blueprints.core)
-    app.register_blueprint(blueprints.upload)
-    app.register_blueprint(blueprints.storage)
-    app.register_blueprint(blueprints.share)
-    app.register_blueprint(blueprints.account)
+    app.register_blueprint(blueprints.errors_blueprint)
+    app.register_blueprint(blueprints.auth_blueprint)
+    app.register_blueprint(blueprints.core_blueprint)
+    app.register_blueprint(blueprints.upload_blueprint)
+    app.register_blueprint(blueprints.storage_blueprint)
+    app.register_blueprint(blueprints.share_blueprint)
+    app.register_blueprint(blueprints.account_blueprint)
 
 
 def setup_app_modules(app: Flask):

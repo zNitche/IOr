@@ -5,11 +5,11 @@ from io_remastered import authentication_manager, models, forms
 from io_remastered.db.pagination import Pagination, pageable_content
 
 
-core = Blueprint("core", __name__, template_folder="templates",
+core_blueprint = Blueprint("core", __name__, template_folder="templates",
                  static_folder="static", url_prefix="/")
 
 
-@core.route("", methods=["GET"])
+@core_blueprint.route("", methods=["GET"])
 @login_required
 def home():
     current_user = authentication_manager.current_user
@@ -26,7 +26,7 @@ def home():
     return render_template("home.html", files=files, directories=directories)
 
 
-@core.route("/files")
+@core_blueprint.route("/files")
 @login_required
 @pageable_content
 def files(page_id: int):
@@ -57,7 +57,7 @@ def files(page_id: int):
                            only_shared=only_shared)
 
 
-@core.route("/directories", methods=["GET"])
+@core_blueprint.route("/directories", methods=["GET"])
 @login_required
 @pageable_content
 def directories(page_id: int):

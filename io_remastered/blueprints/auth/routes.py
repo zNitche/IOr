@@ -7,11 +7,11 @@ from io_remastered.types import FlashTypeEnum, SecurityLogKeyEnum
 from io_remastered.utils import system_logs_utils
 
 
-auth = Blueprint("auth", __name__, template_folder="templates",
-                 static_folder="static", url_prefix="/auth")
+auth_blueprint = Blueprint("auth", __name__, template_folder="templates",
+                           static_folder="static", url_prefix="/auth")
 
 
-@auth.route("/login", methods=["GET"])
+@auth_blueprint.route("/login", methods=["GET"])
 @anonymous_only
 def login():
     form = forms.LoginForm(csrf_token=CSRF.generate_token())
@@ -19,7 +19,7 @@ def login():
     return render_template("login.html", form=form)
 
 
-@auth.route("/login/submit", methods=["POST"])
+@auth_blueprint.route("/login/submit", methods=["POST"])
 @anonymous_only
 @csrf_protected()
 def login_submit():
@@ -50,7 +50,7 @@ def login_submit():
     return redirect(url_for("auth.login"))
 
 
-@auth.route("/logout", methods=["GET"])
+@auth_blueprint.route("/logout", methods=["GET"])
 @login_required
 def logout():
     system_logs_utils.log_security(key=SecurityLogKeyEnum.Logout)
@@ -59,7 +59,7 @@ def logout():
     return redirect(url_for("core.home"))
 
 
-@auth.route("/password-authentication", methods=["GET"])
+@auth_blueprint.route("/password-authentication", methods=["GET"])
 @login_required
 def password_authentication():
     current_user = authentication_manager.current_user
@@ -78,7 +78,7 @@ def password_authentication():
     return render_template("password_authentication.html", form=form)
 
 
-@auth.route("/password-authentication/submit", methods=["POST"])
+@auth_blueprint.route("/password-authentication/submit", methods=["POST"])
 @login_required
 def password_authentication_submit():
     origin_url, referrer_url = authentication_manager.get_password_authentication_origin()
@@ -100,9 +100,10 @@ def password_authentication_submit():
                       FlashTypeEnum.Success.value)
 
                 return redirect(origin_url)
-            
+
         else:
-            system_logs_utils.log_security(key=SecurityLogKeyEnum.PasswordAuthenticationFailed)
+            system_logs_utils.log_security(
+                key=SecurityLogKeyEnum.PasswordAuthenticationFailed)
 
     flash(i18n.t("password_authentication_page.auth_error"),
           FlashTypeEnum.Error.value)

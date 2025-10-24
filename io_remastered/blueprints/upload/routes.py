@@ -12,17 +12,17 @@ from io_remastered.blueprints.upload import helpers
 from io_remastered.types import ActionLogKeyEnum
 
 
-upload = Blueprint("upload", __name__, template_folder="templates",
+upload_blueprint = Blueprint("upload", __name__, template_folder="templates",
                    static_folder="static", url_prefix="/upload")
 
 
-@upload.route("", methods=["GET"])
+@upload_blueprint.route("", methods=["GET"])
 @login_required
 def view():
     return render_template("upload.html")
 
 
-@upload.route("/preflight", methods=["POST"])
+@upload_blueprint.route("/preflight", methods=["POST"])
 @login_required
 @csrf_protected()
 def upload_handler_preflight():
@@ -44,7 +44,7 @@ def upload_handler_preflight():
     return jsonify({"file_uuid": uuid}), 200
 
 
-@upload.route("/submit", methods=["PUT"])
+@upload_blueprint.route("/submit", methods=["PUT"])
 @login_required
 def upload_handler():
     current_user = authentication_manager.current_user

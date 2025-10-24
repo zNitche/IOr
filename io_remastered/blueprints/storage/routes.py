@@ -9,11 +9,11 @@ from io_remastered.types.action_log_key_enum import ActionLogKeyEnum
 from io_remastered.utils import system_logs_utils
 
 
-storage = Blueprint("storage", __name__, template_folder="templates",
-                    static_folder="static", url_prefix="/storage")
+storage_blueprint = Blueprint("storage", __name__, template_folder="templates",
+                              static_folder="static", url_prefix="/storage")
 
 
-@storage.route("/add-directory", methods=["POST"])
+@storage_blueprint.route("/add-directory", methods=["POST"])
 @login_required
 @csrf_protected()
 def add_directory():

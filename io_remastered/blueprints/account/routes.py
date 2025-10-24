@@ -8,17 +8,17 @@ from io_remastered.types import FlashTypeEnum, SecurityLogKeyEnum
 from io_remastered.utils import system_logs_utils
 
 
-account = Blueprint("account", __name__, template_folder="templates",
-                    static_folder="static", url_prefix="/account")
+account_blueprint = Blueprint("account", __name__, template_folder="templates",
+                              static_folder="static", url_prefix="/account")
 
 
-@account.route("", methods=["GET"])
+@account_blueprint.route("", methods=["GET"])
 @login_required
 def home():
     return render_template("account.html")
 
 
-@account.route("/change-password", methods=["GET"])
+@account_blueprint.route("/change-password", methods=["GET"])
 @login_required
 def change_password():
     form = forms.ChangePasswordForm(csrf_token=CSRF.generate_token())
@@ -26,7 +26,7 @@ def change_password():
     return render_template("change_password.html", form=form)
 
 
-@account.route("/change-password/submit", methods=["POST"])
+@account_blueprint.route("/change-password/submit", methods=["POST"])
 @login_required
 @csrf_protected()
 def handle_change_password():
@@ -71,7 +71,7 @@ def handle_change_password():
     return redirect(url_for("account.change_password"))
 
 
-@account.route("/sessions", methods=["GET"])
+@account_blueprint.route("/sessions", methods=["GET"])
 @login_required
 def login_sessions():
     current_user = authentication_manager.current_user
@@ -81,7 +81,7 @@ def login_sessions():
     return render_template("login_sessions.html", user_sessions=user_sessions)
 
 
-@account.route("/sessions/<id>/remove", methods=["GET"])
+@account_blueprint.route("/sessions/<id>/remove", methods=["GET"])
 @login_required
 @password_authentication_required
 def remove_login_sessions(id: str):
@@ -106,7 +106,7 @@ def remove_login_sessions(id: str):
     return redirect(url_for("account.login_sessions"))
 
 
-@account.route("/storage-statistics", methods=["GET"])
+@account_blueprint.route("/storage-statistics", methods=["GET"])
 @login_required
 def storage_stats():
     current_user = authentication_manager.current_user
@@ -144,7 +144,7 @@ def storage_stats():
     return render_template("storage_statistics.html", stats=stats)
 
 
-@account.route("/logs", methods=["GET"])
+@account_blueprint.route("/logs", methods=["GET"])
 @login_required
 @pageable_content
 def logs_preview(page_id: int = 1):
