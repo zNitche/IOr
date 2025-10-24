@@ -4,7 +4,7 @@
     <div class="title">
         {{i18n('create_directory_modal.title')}}
     </div>
-    <form action="{{url_for('core.add_directory')}}" class="content" method="post">
+    <form action="{{url_for('storage.add_directory')}}" class="content" method="post">
         {% with form=form, extra_class="create-directory-form"  %}
         {% include "components/forms/form.html" %}
         {% endwith %}
