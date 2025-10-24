@@ -7,7 +7,7 @@
     <div class="content">
         {{i18n('remove_directory_modal.text', {"name": directory.name})}}
     </div>
-    <form action="{{url_for('storage.remove_directory', uuid=directory.uuid)}}" class="actions" method="post">
+    <form action="{{url_for('storage.directories.remove_directory', uuid=directory.uuid)}}" class="actions" method="post">
         {{csrf_hidden_input(get_csrf_token())}}
         <div>
             <input type="checkbox" id="remove-all-files" name="remove-all-files" />

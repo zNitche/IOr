@@ -10,7 +10,7 @@ from io_remastered.utils import sharing_utils, system_logs_utils
 
 
 files_blueprint = Blueprint("files", __name__, template_folder="templates",
-                          static_folder="static", url_prefix="/file")
+                            static_folder="static", url_prefix="/file")
 
 
 @files_blueprint.route("/<uuid>", methods=["GET"])

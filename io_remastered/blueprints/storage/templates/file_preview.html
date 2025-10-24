@@ -12,7 +12,7 @@
 {
 "title": i18n('file_preview_page.directory'),
 "content": "/" if not file.directory else file.directory.name,
-"on_content_click": url_for('storage.directory_preview', uuid=file.directory.uuid) if file.directory else "",
+"on_content_click": url_for('storage.directories.directory_preview', uuid=file.directory.uuid) if file.directory else "",
 "on_edit": "toggleElementVisibility('edit_file_directory_modal', true)"
 },
 {

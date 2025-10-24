@@ -50,7 +50,7 @@
 {% with modal_id='remove_directory_modal', directory=directory %}
 {% include "components/modals/remove_directory_modal.html" %}
 {% endwith %}
-{% with modal_id='edit_directory_name_modal', item=directory, endpoint='storage.change_directory_name',
+{% with modal_id='edit_directory_name_modal', item=directory, endpoint='storage.directories.change_directory_name',
 form=rename_directory_form %}
 {% include "components/modals/change_storage_item_name_modal.html" %}
 {% endwith %}
@@ -70,7 +70,7 @@ form=rename_directory_form %}
                 onclick="toggleElementVisibility('share_directory_modal', true)" />
             <img src="{{get_static_resource('icons/trash_icon.svg')}}" class="actions-icon"
                 onclick="toggleElementVisibility('remove_directory_modal', true)" />
-            <a href="{{url_for('storage.download_directory', uuid=directory.uuid)}}">
+            <a href="{{url_for('storage.directories.download_directory', uuid=directory.uuid)}}">
                 <img src="{{get_static_resource('icons/download_icon.svg')}}" class="actions-icon" />
             </a>
         </div>
@@ -82,7 +82,7 @@ form=rename_directory_form %}
         {% endwith %}
         {% endfor %}
     </div>
-    {% with route=url_for('storage.directory_preview', uuid=directory.uuid), form=search_form %}
+    {% with route=url_for('storage.directories.directory_preview', uuid=directory.uuid), form=search_form %}
     {% include "components/forms/search_bar.html" %}
     {% endwith %}
     {% if files_pagination.items|length > 0 %}
