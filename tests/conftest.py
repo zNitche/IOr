@@ -1,13 +1,13 @@
 import pytest
 from flask import url_for
 from werkzeug.security import generate_password_hash
-from tests.consts import UsersConsts
+from tests.consts import UsersConsts, StorageConsts
 from tests.test_app_config import TestAppConfig
 from tests import utils
 from io_remastered import create_app, models, db
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def test_client():
     flask_app = create_app(config_class=TestAppConfig)
 
@@ -33,3 +33,28 @@ def logged_test_user(test_client):
     yield
 
     test_client.get(url_for("auth.logout"))
+
+
+@pytest.fixture(scope="function", autouse=False)
+def with_file():
+    file = models.File(name="test_file", extension="txt",
+                       size=200, sha256_sum="123", owner_id=1)
+
+    db.add(file, commit_on_completion=True)
+
+
+@pytest.fixture(scope="function", autouse=False)
+def with_shared_file():
+    file = models.File(name="test_file", extension="txt",
+                       size=200, sha256_sum="123", owner_id=1,
+                       share_uuid=StorageConsts.SHARED_FILE_SHARE_UUID)
+
+    db.add(file, commit_on_completion=True)
+
+
+@pytest.fixture(scope="function", autouse=False)
+def with_shared_directory():
+    directory = models.Directory(name="test_directory", owner_id=1,
+                                 share_uuid=StorageConsts.SHARED_DIRECTORY_SHARE_UUID)
+
+    db.add(directory, commit_on_completion=True)
