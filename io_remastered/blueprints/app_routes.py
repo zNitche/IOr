@@ -14,8 +14,8 @@ def before_request():
     i18n.before_request()
 
 
-@current_app.route("/static/<path:filename>")
-def static(filename: str):
+# @current_app.route("/static/<path:filename>")
+def static_content_handler(filename: str):
     forbdidden_characters = ["..", "~", "&", "//", "\\"]
     parsed_filename = filename
 

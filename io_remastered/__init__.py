@@ -18,6 +18,7 @@ authentication_manager = AuthenticationManager(auth_db=authentication_cache_db)
 
 i18n = I18n(translations_path="./i18n")
 
+
 def generate_secret(is_debug=False):
     return secrets.token_hex(
         nbytes=32) if not is_debug else "debug_secret"
@@ -33,6 +34,13 @@ def register_blueprints(app: Flask):
     app.register_blueprint(blueprints.storage_blueprint)
     app.register_blueprint(blueprints.share_blueprint)
     app.register_blueprint(blueprints.account_blueprint)
+
+
+def register_routes(app: Flask):
+    from io_remastered import blueprints
+
+    app.add_url_rule(rule="/static/<path:filename>", endpoint="static",
+                     view_func=blueprints.app_routes.static_content_handler)
 
 
 def setup_app_modules(app: Flask):
@@ -80,10 +88,11 @@ def create_app(config_class: type[AppConfig]):
     with app.app_context():
         from io_remastered.jinja_context import setup_constext_processor, setup_template_filters
 
+        register_routes(app)
+        register_blueprints(app)
+
         setup_constext_processor(app)
         setup_template_filters(app)
-
-        register_blueprints(app)
 
         app.logger.info("app has been created")
 
