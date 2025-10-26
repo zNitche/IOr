@@ -1,10 +1,10 @@
 import pytest
-from flask import url_for, g
+from flask import url_for
 from werkzeug.security import generate_password_hash
 from tests.consts import UsersConsts
 from tests.test_app_config import TestAppConfig
-from io_remastered.io_csrf.csrf import CSRF_TOKEN_FIELD_NAME, CSRF_BARE_TOKEN_FIELD_NAME
-from io_remastered import create_app, models, db, forms, CSRF
+from tests import utils
+from io_remastered import create_app, models, db
 
 
 @pytest.fixture(scope="session")
@@ -25,18 +25,7 @@ def test_client():
 
 @pytest.fixture(scope="function", autouse=False)
 def logged_test_user(test_client):
-    form_data = {}
-
-    csrf_token = CSRF.generate_token()
-
-    with test_client.session_transaction() as session:
-        session[CSRF_TOKEN_FIELD_NAME] = g.get(CSRF_BARE_TOKEN_FIELD_NAME)
-
-    form_data["name"] = UsersConsts.TEST_USER_NAME
-    form_data["password"] = UsersConsts.TEST_USER_PASSWORD
-    form_data["csrf_token"] = csrf_token
-
-    login_form = forms.LoginForm(form_data=form_data)
+    login_form = utils.get_login_form(test_client)
 
     test_client.post(url_for("auth.login_submit"),
                      data=login_form.form_data)
