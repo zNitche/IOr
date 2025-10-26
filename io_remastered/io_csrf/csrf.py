@@ -8,6 +8,8 @@ CSRF_TOKEN_FIELD_NAME = "csrf_token"
 CSRF_TOKEN_FIELD_NAME_KEY = "CSRF_TOKEN_FIELD_NAME"
 CSRF_TOKEN_HTTP_HEADER_NAME = "X-CSRF-TOKEN"
 
+CSRF_BARE_TOKEN_FIELD_NAME = "bare_csrf_token"
+
 
 class CSRF:
     def __init__(self):
@@ -40,6 +42,8 @@ class CSRF:
         signed_token = signer.dumps(new_token)
 
         session[token_session_field_name] = new_token
+
+        setattr(g, CSRF_BARE_TOKEN_FIELD_NAME, new_token)
         setattr(g, CSRF_TOKEN_FIELD_NAME, signed_token)
 
         return signed_token

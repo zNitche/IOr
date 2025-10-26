@@ -13,3 +13,31 @@ def test_home_as_auth(test_client, logged_test_user):
 
     assert response.status_code == 200
     assert response.request.path == url_for("core.home")
+
+
+def test_files_as_non_auth(test_client):
+    response = test_client.get(url_for("core.files"), follow_redirects=True)
+
+    assert response.status_code == 200
+    assert response.request.path == url_for("auth.login")
+
+
+def test_files_as_auth(test_client, logged_test_user):
+    response = test_client.get(url_for("core.files"), follow_redirects=True)
+
+    assert response.status_code == 200
+    assert response.request.path == url_for("core.files")
+
+
+def test_directories_as_non_auth(test_client):
+    response = test_client.get(url_for("core.directories"), follow_redirects=True)
+
+    assert response.status_code == 200
+    assert response.request.path == url_for("auth.login")
+
+
+def test_directories_as_auth(test_client, logged_test_user):
+    response = test_client.get(url_for("core.directories"), follow_redirects=True)
+
+    assert response.status_code == 200
+    assert response.request.path == url_for("core.directories")
