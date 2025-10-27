@@ -55,6 +55,20 @@ def with_file_2():
 
 
 @pytest.fixture(scope="function", autouse=False)
+def with_directory():
+    dir = models.Directory(name="test_dir", owner_id=1, uuid="123")
+
+    db.add(dir, commit_on_completion=True)
+
+
+@pytest.fixture(scope="function", autouse=False)
+def with_directory_2():
+    dir = models.Directory(name="test_dir", owner_id=2, uuid="12345")
+
+    db.add(dir, commit_on_completion=True)
+
+
+@pytest.fixture(scope="function", autouse=False)
 def with_shared_file():
     file = models.File(name="test_file", extension="txt",
                        size=200, sha256_sum="123", owner_id=1,
