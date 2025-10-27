@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, request, flash
+from flask import Blueprint, redirect, request, flash, url_for
 from werkzeug.utils import secure_filename
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
@@ -55,4 +55,4 @@ def add_directory():
         flash(i18n.t('create_directory_modal.unexpeted_error'),
               FlashTypeEnum.Error.value)
 
-    return redirect(location=request.referrer)
+    return redirect(location=request.referrer if request.referrer else url_for("core.home"))
