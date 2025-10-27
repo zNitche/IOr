@@ -34,6 +34,9 @@ def logged_test_user(test_client):
 
     test_client.get(url_for("auth.logout"))
 
+    with test_client.session_transaction() as session:
+        session.clear()
+
 
 @pytest.fixture(scope="function", autouse=False)
 def with_file():
