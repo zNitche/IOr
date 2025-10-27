@@ -11,7 +11,7 @@ def inject_into_session(test_client, data: dict[str, Any]):
             session[key] = data[key]
 
 
-def get_login_form(test_client):
+def get_login_form(test_client, password=UsersConsts.TEST_USER_PASSWORD):
     form_data = {}
 
     csrf_token = CSRF.generate_token()
@@ -20,7 +20,7 @@ def get_login_form(test_client):
         test_client, {CSRF_TOKEN_FIELD_NAME: g.get(CSRF_BARE_TOKEN_FIELD_NAME)})
 
     form_data["name"] = UsersConsts.TEST_USER_NAME
-    form_data["password"] = UsersConsts.TEST_USER_PASSWORD
+    form_data["password"] = password
     form_data["csrf_token"] = csrf_token
 
     return forms.LoginForm(form_data=form_data)
