@@ -41,7 +41,15 @@ def logged_test_user(test_client):
 @pytest.fixture(scope="function", autouse=False)
 def with_file():
     file = models.File(name="test_file", extension="txt",
-                       size=200, sha256_sum="123", owner_id=1)
+                       size=200, sha256_sum="123", owner_id=1, uuid="123")
+
+    db.add(file, commit_on_completion=True)
+
+
+@pytest.fixture(scope="function", autouse=False)
+def with_file_2():
+    file = models.File(name="test_file", extension="txt",
+                       size=200, sha256_sum="123", owner_id=2, uuid="12345")
 
     db.add(file, commit_on_completion=True)
 
