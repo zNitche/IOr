@@ -43,5 +43,5 @@ class UsersSecurityLogsCleanupTask(TaskBase):
 
         self.logger.info("done, sleeping.")
 
-        # every 6 hours
-        time.sleep(3600 * 6)
+        # every hour
+        time.sleep(3600)
