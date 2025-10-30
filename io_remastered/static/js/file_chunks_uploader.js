@@ -24,10 +24,13 @@ class FileChunksUploader {
             method: "POST",
             headers: {
                 "X-Is-JS-Request": true,
-                "X-File-Size": this.fileSize,
-                "X-File-Name": this.fileName,
                 "X-CSRF-TOKEN": csrf_token,
+                "Content-Type": "application/json",
             },
+            body: JSON.stringify({
+                "file_size": this.fileSize,
+                "file_name": this.fileName,
+            })
         });
 
         return response;

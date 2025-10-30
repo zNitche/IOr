@@ -26,7 +26,9 @@ def view():
 @login_required
 @csrf_protected()
 def upload_handler_preflight():
-    file_size = int(request.headers["X-File-Size"])
+    request_body = request.get_json()
+
+    file_size = int(request_body["file_size"])
     current_user = authentication_manager.current_user
 
     storage_size_exceeded = helpers.check_if_files_doesnt_exceed_storage_size(
