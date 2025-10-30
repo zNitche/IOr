@@ -1,3 +1,6 @@
+__version__ = "0.0.1"
+
+
 from flask import Flask
 import secrets
 from config.app_config import AppConfig
@@ -7,8 +10,6 @@ from io_remastered.io_csrf import CSRF
 from io_remastered.io_i18n import I18n
 from io_remastered.extra_modules import RedisCacheDatabase
 from io_remastered.authentication import AuthenticationManager
-
-__version__ = "0.0.1"
 
 
 db = Database()
