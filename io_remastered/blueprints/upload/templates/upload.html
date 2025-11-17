@@ -42,7 +42,9 @@
         </div>
 
         <button id="file-upload-button" class="file-upload-button"
-            onclick="sendFile('{{file_upload_preflight_url}}', '{{file_upload_url}}', '{{get_csrf_token()}}')">Upload</button>
+            onclick="sendFile('{{file_upload_preflight_url}}', '{{file_upload_url}}', '{{get_csrf_token()}}', '{{file_upload_chunk_size}}')">
+            {{i18n('file_upload.upload')}}
+        </button>
     </div>
 </div>
 

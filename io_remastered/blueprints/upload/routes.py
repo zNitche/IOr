@@ -13,13 +13,16 @@ from io_remastered.types import ActionLogKeyEnum
 
 
 upload_blueprint = Blueprint("upload", __name__, template_folder="templates",
-                   static_folder="static", url_prefix="/upload")
+                             static_folder="static", url_prefix="/upload")
 
 
 @upload_blueprint.route("", methods=["GET"])
 @login_required
 def view():
-    return render_template("upload.html")
+    file_upload_chunk_size = current_app.config["FILE_UPLOAD_CHUNK_SIZE_MB"]
+
+    return render_template("upload.html",
+                           file_upload_chunk_size=file_upload_chunk_size)
 
 
 @upload_blueprint.route("/preflight", methods=["POST"])

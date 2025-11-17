@@ -75,7 +75,7 @@ function showMessage(message, type) {
     messageElement.innerHTML = `${messagePrefix}${message}!`;
 }
 
-async function sendFile(file_upload_preflight_url, upload_url, csrf_token) {
+async function sendFile(fileUploadPreflightUrl, uploadUrl, csrfToken, chunkSize) {
     const file = getInputFile();
 
     if (!file) {
@@ -89,9 +89,9 @@ async function sendFile(file_upload_preflight_url, upload_url, csrf_token) {
     const targetDirectoryUUID = directorySelectElement?.value;
 
     try {
-        const uploader = new FileChunksUploader(file, targetDirectoryUUID);
-        const response = await uploader.uploadChunkedFile(upload_url, file_upload_preflight_url,
-            csrf_token, handleSendFileLoadProgress);
+        const uploader = new FileChunksUploader(file, targetDirectoryUUID, chunkSize);
+        const response = await uploader.uploadChunkedFile(uploadUrl, fileUploadPreflightUrl,
+            csrfToken, handleSendFileLoadProgress);
 
         if (!response) {
             showMessage(i18n.t('no_response_from_server'), "error");
