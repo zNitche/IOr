@@ -18,8 +18,8 @@ class AppConfig:
 
     LOGS_DIR_PATH = os.path.join(PROJECT_ROOT, "logs")
 
-    REDIS_SERVER_ADDRESS = os.getenv("REDIS_SERVER_ADDRESS")
-    REDIS_SERVER_PORT = os.getenv("REDIS_SERVER_PORT")
+    WHIMDB_SERVER_ADDRESS = os.getenv("WHIMDB_SERVER_ADDRESS")
+    WHIMDB_SERVER_PORT = os.getenv("WHIMDB_SERVER_PORT")
 
     AUTH_TOKEN_LIFESPAN = int(os.getenv("AUTH_TOKEN_LIFESPAN", 600))
 

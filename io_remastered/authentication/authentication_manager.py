@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from flask import g, session
 from io_remastered import models
-from io_remastered.extra_modules import RedisCacheDatabase
+from io_remastered.extra_modules import CacheDatabase
 
 
 @dataclass
@@ -23,7 +23,7 @@ class UserSessionsDetails:
 
 
 class AuthenticationManager:
-    def __init__(self, auth_db: RedisCacheDatabase):
+    def __init__(self, auth_db: CacheDatabase):
         self.__default_auth_token_ttl = 600
 
         self.__auth_db = auth_db
@@ -33,7 +33,7 @@ class AuthenticationManager:
             self.__default_auth_token_ttl = default_auth_token_ttl
 
     def get_auth_db_key_pattern(self, token: str | None = None, user_id: int | None = None):
-        return f"user:{'*' if user_id is None else user_id}:{'*' if token is None else token}:"
+        return f"user:{'(.*)' if user_id is None else user_id}:{'(.*)' if token is None else token}:"
 
     def login(self, user_id: int, remote_addr: str | None = None):
         token = secrets.token_hex(128)
@@ -92,7 +92,7 @@ class AuthenticationManager:
         if not auth_key:
             return None
 
-        split_key =  auth_key.split(":")
+        split_key = auth_key.split(":")
         # remove last empty string
         split_key.pop()
 
@@ -191,8 +191,8 @@ class AuthenticationManager:
                     break
 
         return s
-    
-    def clear_session(self, complete_wipe = False):
+
+    def clear_session(self, complete_wipe=False):
         if complete_wipe:
             session.clear()
 

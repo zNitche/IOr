@@ -8,13 +8,13 @@ from io_remastered.db import Database
 from io_remastered.io_logging import AppLogging
 from io_remastered.io_csrf import CSRF
 from io_remastered.io_i18n import I18n
-from io_remastered.extra_modules import RedisCacheDatabase
+from io_remastered.extra_modules import CacheDatabase
 from io_remastered.authentication import AuthenticationManager
 
 
 db = Database()
 
-authentication_cache_db = RedisCacheDatabase(db_id=0)
+authentication_cache_db = CacheDatabase(db_id=0)
 authentication_manager = AuthenticationManager(auth_db=authentication_cache_db)
 
 i18n = I18n(translations_path="./i18n")
@@ -68,11 +68,11 @@ def setup_app_modules(app: Flask):
 def setup_cache_databases(app: Flask):
     flush_database = True if not app.debug else False
 
-    redis_server_address = app.config.get("REDIS_SERVER_ADDRESS", "")
-    redis_server_port = int(app.config.get("REDIS_SERVER_PORT", 0))
+    whimdb_server_address = app.config.get("WHIMDB_SERVER_ADDRESS", "")
+    whimdb_server_port = int(app.config.get("WHIMDB_SERVER_PORT", 0))
 
-    authentication_cache_db.setup(
-        address=redis_server_address, port=redis_server_port, flush=flush_database)
+    authentication_cache_db.setup(server_address=whimdb_server_address,
+                                  server_port=whimdb_server_port, flush=flush_database)
 
     app.logger.info("authentication_cache_db setup completed...")
 
