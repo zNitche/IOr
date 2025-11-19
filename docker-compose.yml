@@ -1,13 +1,15 @@
 services:
-  redis:
-    command: --port 6000
-    image: redis:8.0.3-alpine
-    container_name: ior-redis
+  whimdb:
+    command: whimdb-server --port 6000
+    container_name: whimdb
     restart: unless-stopped
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.whimdb
   
   ior_app:
     depends_on:
-      - redis
+      - whimdb
     command: gunicorn -c gunicorn.conf.py app:app --preload
     container_name: ior-app
     restart: unless-stopped
