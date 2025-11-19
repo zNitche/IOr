@@ -4,11 +4,11 @@ IO (In &amp; Out) Remastered minimalist files server
 ### Description
 lightweight, minimal dependencies, python based files server with web UI, for easy LAN files sharing.
 
-Tech stack:
+#### Tech stack:
 - `Flask`
 - `SQLAlchemy` (+ `alembic` for migrations)
-- `redis`
-- `html`, `css` and some `vanilla js`
+- `whimdb`
+- `html`, `css` and some `js`
 - `gunicorn`
 - `docker`
 
