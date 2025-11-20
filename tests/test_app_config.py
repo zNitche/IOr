@@ -8,4 +8,4 @@ class TestAppConfig(AppConfig):
     DATABASE_URI = "sqlite:///:memory:"
 
     WHIMDB_SERVER_ADDRESS = "127.0.0.1"
-    WHIMDB_SERVER_PORT = "6000"
+    WHIMDB_SERVER_PORT = 6000

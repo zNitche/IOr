@@ -3,8 +3,18 @@ from flask import url_for
 from werkzeug.security import generate_password_hash
 from tests.consts import UsersConsts, StorageConsts
 from tests.test_app_config import TestAppConfig
-from tests import utils
+from tests import utils, modules
 from io_remastered import create_app, models, db
+
+
+@pytest.fixture(scope="session", autouse=True)
+def setup_whimdb_server():
+    whimdb_port = TestAppConfig.WHIMDB_SERVER_PORT
+    server, server_thread = modules.get_whimdb_server(port=whimdb_port)
+
+    yield
+
+    modules.stop_whimdb_server(server, server_thread)
 
 
 @pytest.fixture(scope="module")
