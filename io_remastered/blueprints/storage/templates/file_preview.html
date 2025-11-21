@@ -63,11 +63,20 @@
 
 {% block page_content %}
 <div class="file-preview-page">
-    <div class="file-header">
-        <img src="{{ icon_for_file_extension(file.extension) }}" class="file-type-icon">
-        {% if file.is_shared %}
-        <img src="{{get_static_resource('icons/share_enabled_icon.svg')}}" class="sharing-enabled-icon" />
-        {% endif %}
+    <div class="header">
+        <div class="file-header">
+            <img src="{{ icon_for_file_extension(file.extension) }}" class="file-type-icon">
+            {% if file.is_shared %}
+            <img src="{{get_static_resource('icons/share_enabled_icon.svg')}}" class="sharing-enabled-icon" />
+            {% endif %}
+        </div>
+        <div class="header-actions">
+            <img src="{{get_static_resource('icons/trash_icon.svg')}}" class="actions-icon"
+                onclick="toggleElementVisibility('remove-file-modal', true)" />
+            <a href="{{url_for('storage.files.download', uuid=file.uuid)}}">
+                <img src="{{get_static_resource('icons/download_icon.svg')}}" class="actions-icon" />
+            </a>
+        </div>
     </div>
     <div class="file-details">
         {% for item in details_items %}
@@ -75,15 +84,6 @@
         {% include "components/storage_item_details_row.html" %}
         {% endwith %}
         {% endfor %}
-    </div>
-    <div class="file-actions">
-        <a href="{{url_for('storage.files.download', uuid=file.uuid)}}">
-            <button>
-                {{i18n('file_preview_page.bottom.download_button')}}
-            </button>
-        </a>
-        <button onclick="toggleElementVisibility('remove-file-modal', true)"
-            class="remove-file-button">{{i18n('file_preview_page.bottom.remove_button')}}</button>
     </div>
 </div>
 

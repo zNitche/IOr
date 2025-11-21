@@ -4,6 +4,30 @@
     gap: 24px;
 }
 
+.file-preview-page .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header .header-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+}
+
+.header .header-actions a {
+    display: flex;
+    height: max-content;
+    width: max-content;
+}
+
+.actions-icon {
+    object-fit: contain;
+    height: 24px;
+    cursor: pointer;
+}
+
 .file-header {
     display: flex;
     gap: 20px;
@@ -24,50 +48,4 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-}
-
-.file-actions {
-    display: flex;
-    gap: 16px;
-}
-
-.file-actions button {
-    border: unset;
-    border-radius: 4px;
-    padding: 8px 8px;
-    background: var(--green);
-    color: var(--black);
-    text-transform: capitalize;
-    cursor: pointer;
-}
-
-.file-actions .remove-file-button {
-    background: var(--red);
-}
-
-.file-actions {
-    display: flex;
-    gap: 16px;
-}
-
-.file-actions button {
-    border: unset;
-    border-radius: 4px;
-    padding: 8px 8px;
-    background: var(--green);
-    color: var(--black);
-    text-transform: capitalize;
-    cursor: pointer;
-}
-
-.file-actions .remove-file-button {
-    background: var(--red);
-}
-
-@media (max-width: 576px) {
-
-    .file-actions button,
-    a {
-        width: 100%;
-    }
 }
