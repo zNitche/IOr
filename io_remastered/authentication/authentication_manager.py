@@ -51,6 +51,7 @@ class AuthenticationManager:
     def refresh(self, token: str, user_id: int):
         auth_db_key = self.get_auth_db_key_pattern(
             user_id=user_id, token=token)
+
         self.__auth_db.update_ttl(
             key=auth_db_key, ttl=self.__default_auth_token_ttl)
 

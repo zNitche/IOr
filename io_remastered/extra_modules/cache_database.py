@@ -45,7 +45,7 @@ class CacheDatabase:
         if not item:
             return None
 
-        return item.ttl
+        return item.ttl_left
 
     def set_value(self, key: str, value: dict | str | int | bool, ttl=60):
         self.client.set(key=key, value=json.dumps(value), ttl=ttl)
