@@ -1,4 +1,4 @@
 Flask==3.1.1
 SQLAlchemy==2.0.41
 alembic==1.16.1
-whimdb @ git+https://github.com/zNitche/whimdb.git@v1.2.1
+whimdb @ git+https://github.com/zNitche/whimdb.git@v1.2.3
