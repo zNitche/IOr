@@ -4,7 +4,7 @@ CODE_FILE = "code_file"
 DOCUMENT_FILE = "document_file"
 
 
-common_files_extensions = {
+COMMON_FILES_EXTENSIONS = {
     ".jpg": IMAGE_FILE,
     ".jpeg": IMAGE_FILE,
     ".png": IMAGE_FILE,
@@ -50,4 +50,24 @@ common_files_extensions = {
     ".json": CODE_FILE,
     ".yaml": CODE_FILE,
     ".yml": CODE_FILE,
+}
+
+
+WEB_PREVIEW_MIMETYPE_FOR_FILE_EXTENSION = {
+    ".jpg": "image/jpg",
+    ".jpeg": "image/jpeg",
+    ".png": "image/png",
+    ".gif": "image/gif",
+    ".tiff": "image/tiff",
+    ".tif": "image/tif",
+    ".bmp": "image/bmp",
+    ".webp": "image/webp",
+
+    ".mp3": "audio/mpeg",
+    ".wav": "audio/wav",
+    ".mp4": "video/mp4",
+    ".avi": "video/x-msvideo",
+    ".webm": "video/webm",
+    ".flac": "audio/flac",
+    ".mov": "video/quicktime"
 }

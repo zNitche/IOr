@@ -1,7 +1,9 @@
 from flask import url_for
 from datetime import datetime
 from io_remastered.models import User
-from io_remastered.app_helpers.common_files_extensions import MEDIA_FILE, IMAGE_FILE, CODE_FILE, DOCUMENT_FILE, common_files_extensions
+from io_remastered.app_helpers.files_responses import \
+    MEDIA_FILE, IMAGE_FILE, CODE_FILE, DOCUMENT_FILE, COMMON_FILES_EXTENSIONS
+from io_remastered.utils import files_utils
 
 
 def get_static_resource(path: str, cache_time: int | None = None):
@@ -17,7 +19,7 @@ def icon_for_file_extension(extension: str):
         DOCUMENT_FILE: "document_file_icon.svg",
     }
 
-    icon_type_for_extension = common_files_extensions.get(extension, None)
+    icon_type_for_extension = COMMON_FILES_EXTENSIONS.get(extension, None)
 
     if icon_type_for_extension and icon_type_for_extension in icon_per_type.keys():
         return url_for('static', filename=f"icons/{icon_per_type.get(icon_type_for_extension)}")
