@@ -4,7 +4,7 @@ from typing import Any
 def formatted_file_size(size: str):
     sizes = ["KB", "MB", "GB"]
     size_bytes = int(size)
-    
+
     current_size = size_bytes
 
     for size in sizes:

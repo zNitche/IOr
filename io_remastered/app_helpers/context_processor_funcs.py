@@ -49,3 +49,7 @@ def is_viewed_by_owner(obj: object, owner: User | None, owner_id_attr_name: str 
 
 def parse_iso_date(date_str: str):
     return datetime.fromisoformat(date_str)
+
+
+def is_file_preview_available(file_extension):
+    return files_utils.is_file_preview_available(file_extension)

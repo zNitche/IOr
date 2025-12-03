@@ -23,18 +23,23 @@ def setup_constext_processor(app: Flask):
 
     app.context_processor(
         lambda: {"io_version": __version__})
-    
+
     app.context_processor(
         lambda: {"unpack_dict": app_helpers.context_processor_funcs.unpack_dict})
-    
+
     app.context_processor(
         lambda: {"is_viewed_by_owner": app_helpers.context_processor_funcs.is_viewed_by_owner})
-    
+
     app.context_processor(
         lambda: {"get_uuid": lambda: uuid4().hex})
-    
+
     app.context_processor(
         lambda: {"parse_iso_date": app_helpers.context_processor_funcs.parse_iso_date})
+
+    app.context_processor(
+        lambda: {
+            "is_file_preview_available": app_helpers.context_processor_funcs.is_file_preview_available}
+    )
 
 
 def setup_template_filters(app: Flask):
