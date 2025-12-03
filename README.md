@@ -7,7 +7,7 @@ lightweight, minimal dependencies, python based files server with web UI, for ea
 #### Tech stack:
 - `Flask`
 - `SQLAlchemy` (+ `alembic` for migrations)
-- `whimdb`
+- `whimdb`, [->](https://github.com/zNitche/whimdb)
 - `html`, `css` and some `js`
 - `gunicorn`
 - `docker`
