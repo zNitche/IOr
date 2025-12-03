@@ -76,6 +76,11 @@
             <a href="{{url_for('storage.files.download', uuid=file.uuid)}}">
                 <img src="{{get_static_resource('icons/download_icon.svg')}}" class="actions-icon" />
             </a>
+            {% if is_file_preview_available(file.extension) %}
+            <a href="{{url_for('storage.files.raw_preview', uuid=file.uuid)}}" target="_blank">
+                <img src="{{get_static_resource('icons/search_icon.svg')}}" class="actions-icon" />
+            </a>
+            {% endif %}
         </div>
     </div>
     <div class="file-details">

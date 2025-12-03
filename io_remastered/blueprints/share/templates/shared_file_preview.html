@@ -38,8 +38,20 @@ file.directory.is_shared else "",
 
 {% block page_content %}
 <div class="file-preview-page">
-    <div class="file-header">
-        <img src="{{ icon_for_file_extension(file.extension) }}" class="file-type-icon">
+    <div class="header">
+        <div class="file-header">
+            <img src="{{ icon_for_file_extension(file.extension) }}" class="file-type-icon">
+        </div>
+        <div class="header-actions">
+            <a href="{{url_for('share.download_file', share_uuid=file.share_uuid)}}">
+                <img src="{{get_static_resource('icons/download_icon.svg')}}" class="actions-icon" />
+            </a>
+            {% if is_file_preview_available(file.extension) %}
+            <a href="{{url_for('share.file_raw_preview', share_uuid=file.share_uuid)}}">
+                <img src="{{get_static_resource('icons/search_icon.svg')}}" class="actions-icon" />
+            </a>
+            {% endif %}
+        </div>
     </div>
     <div class="file-details">
         {% for item in details_items %}
@@ -47,13 +59,6 @@ file.directory.is_shared else "",
         {% include "components/storage_item_details_row.html" %}
         {% endwith %}
         {% endfor %}
-    </div>
-    <div class="file-actions">
-        <a href="{{url_for('share.download_file', share_uuid=file.share_uuid)}}">
-            <button>
-                {{i18n('file_preview_page.bottom.download_button')}}
-            </button>
-        </a>
     </div>
 </div>
 

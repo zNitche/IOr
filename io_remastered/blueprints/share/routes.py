@@ -1,7 +1,7 @@
 import os
 from flask import Blueprint, render_template, abort, send_file, current_app, request
 from io_remastered import models, forms
-from io_remastered.utils import requests_utils
+from io_remastered.utils import requests_utils, files_utils
 from io_remastered.db.pagination import Pagination, pageable_content
 
 
@@ -18,6 +18,27 @@ def file_preview(share_uuid: str):
         abort(404)
 
     return render_template("shared_file_preview.html", file=file)
+
+
+@share_blueprint.route("/<share_uuid>/raw-preview", methods=["GET"])
+def file_raw_preview(share_uuid: str):
+    file = models.File.query(models.File.select().filter_by(
+        share_uuid=share_uuid)).first()
+
+    if not file:
+        abort(404)
+
+    file_mimetype = files_utils.file_preview_mimetype(file.extension)
+
+    if not file_mimetype:
+        abort(404)
+
+    user_storage_path = os.path.join(
+        current_app.config["STORAGE_ROOT_PATH"], str(file.owner_id))
+
+    file_path = os.path.join(user_storage_path, file.uuid)
+
+    return send_file(path_or_file=file_path, as_attachment=False, mimetype=file_mimetype)
 
 
 @share_blueprint.route("/file/<share_uuid>/download", methods=["GET"])

@@ -6,7 +6,7 @@ from io_remastered.io_csrf.decorators import csrf_protected
 from io_remastered import authentication_manager, models, db, i18n, forms, CSRF
 from io_remastered.types import FlashTypeEnum
 from io_remastered.types.action_log_key_enum import ActionLogKeyEnum
-from io_remastered.utils import sharing_utils, system_logs_utils
+from io_remastered.utils import sharing_utils, system_logs_utils, files_utils
 
 
 files_blueprint = Blueprint("files", __name__, template_folder="templates",
@@ -76,6 +76,29 @@ def remove(uuid: str):
     db.remove(file)
 
     return redirect(url_for("core.home"))
+
+
+@files_blueprint.route("/<uuid>/raw-preview", methods=["GET"])
+@login_required
+def raw_preview(uuid: str):
+    current_user = authentication_manager.current_user
+    file = models.File.query(models.File.select().filter_by(
+        uuid=uuid, owner_id=current_user.id)).first()
+
+    if not file:
+        abort(404)
+
+    file_mimetype = files_utils.file_preview_mimetype(file.extension)
+
+    if not file_mimetype:
+        abort(404)
+
+    user_storage_path = os.path.join(
+        current_app.config["STORAGE_ROOT_PATH"], str(file.owner_id))
+
+    file_path = os.path.join(user_storage_path, file.uuid)
+
+    return send_file(path_or_file=file_path, as_attachment=False, mimetype=file_mimetype)
 
 
 @files_blueprint.route("/<file_uuid>/change-directory", methods=["POST"])
