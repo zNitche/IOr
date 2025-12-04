@@ -38,6 +38,13 @@ def file_raw_preview(share_uuid: str):
 
     file_path = os.path.join(user_storage_path, file.uuid)
 
+    range_header = request.headers.get("range")
+
+    if range_header:
+        return requests_utils.stream_media_file(range_header=range_header,
+                                                file_path=file_path, file_size=file.size,
+                                                mimetype=file_mimetype)
+
     return send_file(path_or_file=file_path, as_attachment=False, mimetype=file_mimetype)
 
 

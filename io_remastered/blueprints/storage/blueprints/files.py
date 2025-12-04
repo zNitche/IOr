@@ -6,7 +6,7 @@ from io_remastered.io_csrf.decorators import csrf_protected
 from io_remastered import authentication_manager, models, db, i18n, forms, CSRF
 from io_remastered.types import FlashTypeEnum
 from io_remastered.types.action_log_key_enum import ActionLogKeyEnum
-from io_remastered.utils import sharing_utils, system_logs_utils, files_utils
+from io_remastered.utils import sharing_utils, system_logs_utils, files_utils, requests_utils
 
 
 files_blueprint = Blueprint("files", __name__, template_folder="templates",
@@ -97,6 +97,13 @@ def raw_preview(uuid: str):
         current_app.config["STORAGE_ROOT_PATH"], str(file.owner_id))
 
     file_path = os.path.join(user_storage_path, file.uuid)
+
+    range_header = request.headers.get("range")
+
+    if range_header:
+        return requests_utils.stream_media_file(range_header=range_header,
+                                                file_path=file_path, file_size=file.size,
+                                                mimetype=file_mimetype)
 
     return send_file(path_or_file=file_path, as_attachment=False, mimetype=file_mimetype)
 

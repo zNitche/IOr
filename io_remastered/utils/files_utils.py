@@ -63,3 +63,11 @@ def file_preview_mimetype(file_extension: str):
 
 def is_file_preview_available(file_extension: str):
     return True if file_preview_mimetype(file_extension) else False
+
+
+def get_file_chunk(file_path: str, chunk_start: int, chunk_size: int):
+    with open(file_path, "rb") as file:
+        file.seek(chunk_start)
+        chunk = file.read(chunk_size)
+
+    return chunk
