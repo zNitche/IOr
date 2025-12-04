@@ -32,8 +32,10 @@ def stream_media_file(range_header: str, file_path: str, file_size: int,
     if not mimetype:
         return Response(status=400)
 
-    split_range_header = range_header.split("=")[0].split("-")
-    chunk_start = int(split_range_header[0])
+    split_range_header = range_header.split("=")
+    split_ranges_part = split_range_header[1].split("-")
+
+    chunk_start = int(split_ranges_part[0])
 
     chunk_end = min(
         chunk_start + chunk_size, file_size - 1)
