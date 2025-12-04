@@ -7,7 +7,7 @@ lightweight, minimal dependencies, python based files server with web UI, for ea
 #### Tech stack:
 - `Flask`
 - `SQLAlchemy` (+ `alembic` for migrations)
-- `whimdb`, [->](https://github.com/zNitche/whimdb)
+- `whimdb`, [here](https://github.com/zNitche/whimdb)
 - `html`, `css` and some `js`
 - `gunicorn`
 - `docker`
@@ -77,9 +77,9 @@ cp .env.app.template .env.app
 pip3 install -r requirements/common.txt
 pip3 install -r requirements/dev.txt
 ```
-5. Run DEV docker-compose
+5. Start whimdb server
 ```
-docker compose -f docker-compose-dev.yml up
+whimdb-server --port 6000
 ```
 6. Start webserver
 ```
