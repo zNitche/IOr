@@ -9,6 +9,12 @@
     <form action="{{url_for('storage.directories.toggle_sharing', directory_uuid=directory.uuid)}}"
         class="share-directory-form" method="post">
         {{csrf_hidden_input(get_csrf_token())}}
+
+        {% if not directory.is_shared %}
+        {% with form=form %}
+        {% include "components/forms/form.html" %}
+        {% endwith %}
+        {% endif %}
         <button class="submit-button {%if directory.is_shared%}disable{%endif%}" type="submit">
             {% if not directory.is_shared %}
             {{i18n('share_directory_modal.enable_sharing')}}

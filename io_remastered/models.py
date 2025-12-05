@@ -71,10 +71,14 @@ class Directory(Base):
     def is_shared(self):
         return self.share_uuid is not None
 
-    def toggle_sharing(self, state: bool):
+    def toggle_sharing(self, state: bool, friendly_uuid: str | None = None):
         def uuid_setter(): return None if not state else sharing_utils.generate_sharing_uuid()
 
-        self.share_uuid = uuid_setter()
+        if not state:
+            self.share_uuid = None
+
+        else:
+            self.share_uuid = uuid_setter() if not friendly_uuid else friendly_uuid
 
         for file in self.files:
             file.share_uuid = uuid_setter()

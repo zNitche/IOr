@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, abort, send_file, current_app, \
+from flask import Blueprint, render_template, abort, current_app, \
     url_for, redirect, request, flash
 from io_remastered.authentication.decorators import login_required
 from io_remastered.db.pagination import Pagination, pageable_content
@@ -27,7 +27,9 @@ def preview(page_id: int, uuid: str):
         abort(404)
 
     search_string = request.args.get("search", "")
+
     search_form = forms.SearchBarForm(search_phrase=search_string)
+    share_friendly_uuid_form = forms.SetFriendlyUUIDForSharingForm()
 
     files_query = models.File.select().filter(models.File.name.icontains(search_string),
                                               models.File.owner_id == current_user.id,
@@ -45,6 +47,7 @@ def preview(page_id: int, uuid: str):
     return render_template("directory_preview.html",
                            directory=directory,
                            search_form=search_form,
+                           share_friendly_uuid_form=share_friendly_uuid_form,
                            files_pagination=files_pagination,
                            rename_directory_form=rename_directory_form)
 
@@ -148,9 +151,23 @@ def toggle_sharing(directory_uuid: str):
     if not directory:
         abort(404)
 
+    share_friendly_uuid_form = forms.SetFriendlyUUIDForSharingForm(
+        form_data=request.form)
+    friendly_uuid = share_friendly_uuid_form.get_field_value("share_uuid")
+
     next_state = not directory.is_shared
 
-    directory.toggle_sharing(state=next_state)
+    if friendly_uuid:
+        shared_directory_for_friendly_uuid = models.Directory.query(
+            models.Directory.select().filter_by(share_uuid=friendly_uuid)).first()
+
+        if shared_directory_for_friendly_uuid:
+            flash(i18n.t("toggle_directory_sharing.friendly_uuid_not_available"),
+                  FlashTypeEnum.Error.value)
+
+            return redirect(location=request.referrer)
+
+    directory.toggle_sharing(state=next_state, friendly_uuid=friendly_uuid)
     db.commit()
 
     flash(i18n.t(f'toggle_directory_sharing.{'disabled' if not next_state else "enabled"}'),

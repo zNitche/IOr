@@ -124,3 +124,14 @@ class PasswordAuthenticationForm(Form):
                                  {"field": "password", "characters_count": 64}), length=64))
 
         self.add_field(password_input)
+
+
+class SetFriendlyUUIDForSharingForm(Form):
+    def __init__(self, form_data: dict[str, str] | None = None):
+        super().__init__(csrf_token=None, form_data=form_data)
+
+    def setup(self):
+        share_uuid_input = TextInput(id="share_uuid", props={"maxlength": 32}, field_name="share_uuid",
+                               required=False, placeholder=i18n.t("set_friendly_uuid_for_sharing_form.uuid"))
+
+        self.add_field(share_uuid_input)

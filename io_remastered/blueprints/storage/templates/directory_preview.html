@@ -54,7 +54,7 @@
 form=rename_directory_form %}
 {% include "components/modals/change_storage_item_name_modal.html" %}
 {% endwith %}
-{% with modal_id='share_directory_modal', item=directory %}
+{% with modal_id='share_directory_modal', item=directory, form=share_friendly_uuid_form %}
 {% include "components/modals/share_directory_modal.html" %}
 {% endwith %}
 {% endblock %}

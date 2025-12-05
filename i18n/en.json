@@ -130,7 +130,8 @@
     },
     "toggle_directory_sharing": {
         "enabled": "Directory sharing has been enabled",
-        "disabled": "Directory sharing has been disabled"
+        "disabled": "Directory sharing has been disabled",
+        "friendly_uuid_not_available": "Selected friendly uuid is not available"
     },
     "file_upload_backend": {
         "messages": {
@@ -225,5 +226,8 @@
                 "toggled_directory_sharing": "Toggled directory {uuid} ({name}) sharing to {state}"
             }
         }
+    },
+    "set_friendly_uuid_for_sharing_form": {
+        "uuid": "friendly uuid (optional)"
     }
 }

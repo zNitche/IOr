@@ -1,7 +1,6 @@
 import os
 from flask import Request, Response
 from io_remastered import models
-from io_remastered.app_helpers.files_responses import WEB_PREVIEW_MIMETYPE_FOR_FILE_EXTENSION
 from io_remastered.extra_modules.zip_on_the_fly import ZipFileItemDetails, ZipOnTheFly
 from io_remastered.utils import files_utils
 
