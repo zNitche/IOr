@@ -99,7 +99,7 @@ def upload_handler():
                 file_path=target_file_path)
 
             file_object = models.File(uuid=file_uuid, name=file_name,
-                                      extension=file_extension, size=final_file_size,
+                                      extension=file_extension.lower(), size=final_file_size,
                                       owner_id=current_user.id, sha256_sum=sha256sum)
 
             if req_target_directory_uuid is not None:
