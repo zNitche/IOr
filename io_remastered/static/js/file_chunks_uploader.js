@@ -1,13 +1,13 @@
 class FileChunksUploader {
     constructor(file, targetDirectoryUUID = null, chunkSize = 10_000_000) {
         this.file = file;
-        this.chunkSize = chunkSize;
+        this.chunkSize = Number.parseInt(chunkSize);
 
         this.fileSize = file.size;
         this.fileName = file.name.substring(0, 64) // limit filename to 64 characters
         this.targetDirectoryUUID = targetDirectoryUUID;
 
-        this.fileChunksCount = Math.ceil(this.fileSize / chunkSize);
+        this.fileChunksCount = Math.ceil(this.fileSize / this.chunkSize);
     }
 
     getChunksRange() {
