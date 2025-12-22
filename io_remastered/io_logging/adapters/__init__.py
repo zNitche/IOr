@@ -1,1 +1,1 @@
-from io_remastered.io_logging.adapters.thread_logger_adapter import ThreadLoggerAdapter
+from io_remastered.io_logging.adapters.extendable_logs_adapter import ExtendableLogsAdapter

@@ -1,8 +1,7 @@
 from typing import Any
-import os
 import logging
 from io_remastered.io_logging import common
-from io_remastered.io_logging.adapters.thread_logger_adapter import ThreadLoggerAdapter
+from io_remastered.io_logging.adapters import ExtendableLogsAdapter
 
 
 class Logger:
@@ -14,7 +13,7 @@ class Logger:
         self.backup_log_files_count = 7
         self.logs_path = None
 
-        self.__logger: logging.Logger | logging.LoggerAdapter[Any] | None = None
+        self.__logger: logging.Logger | None = None
 
     def init(self,
              logger_name: str | None = None,
@@ -22,13 +21,17 @@ class Logger:
              log_to_file: bool = False,
              logs_filename: str | None = None,
              logs_path: str | None = None,
-             backup_log_files_count: int = 7):
+             backup_log_files_count: int | None = None):
 
-        self.__logger = Logger.get_logger(logger_name=logger_name)
+        self.__logger = logging.getLogger(logger_name)
+
+        # already configured
+        if self.__logger.handlers:
+            return
 
         self.debug_mode = debug
-
         self.log_to_file = log_to_file
+
         self.backup_log_files_count = backup_log_files_count
         self.logs_path = common.set_logs_path(
             filename=logs_filename, path=logs_path)
@@ -43,21 +46,22 @@ class Logger:
                      is_debug=self.debug_mode, backup_log_files_count=self.backup_log_files_count)
 
     @staticmethod
-    def for_thread(logger_name: str, thread_uid: str | int):
+    def get_expandable_logger(logger_name: str, extra: dict[str, Any], logs_path: str | None = None,
+                              logs_filename: str | None = None, backup_log_files_count: int | None = None):
         logger = Logger()
-        logger.__logger = Logger.get_logger(
-            logger_name=logger_name, logger_adapter=ThreadLoggerAdapter, extra_context={"thread_uid": thread_uid})
+        logger.init(logger_name=logger_name, logs_filename=logs_filename,
+                    backup_log_files_count=backup_log_files_count, logs_path=logs_path)
 
-        return logger
+        return ExtendableLogsAdapter(logger.__logger, extra=extra)
 
     @staticmethod
-    def get_logger(logger_name: str | None,
-                   logger_adapter: type[logging.LoggerAdapter] | None = None,
-                   extra_context: dict[str, Any] | None = None):
+    def get_logger(logger_name: str, logs_path: str | None = None,
+                   logs_filename: str | None = None, backup_log_files_count: int | None = None):
+        logger = Logger()
+        logger.init(logger_name=logger_name, logs_filename=logs_filename,
+                    backup_log_files_count=backup_log_files_count, logs_path=logs_path)
 
-        logger = logging.getLogger(
-            __name__ if logger_name is None else logger_name)
-        return logger_adapter(logger, extra=extra_context) if logger_adapter else logger
+        return logger
 
     def exception(self, message: str):
         if not self.__logger:
