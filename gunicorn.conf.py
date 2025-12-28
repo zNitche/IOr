@@ -1,4 +1,4 @@
-import os, ssl, multiprocessing
+import os, multiprocessing
 
 
 bind = "0.0.0.0:8080"
@@ -14,7 +14,10 @@ keepalive = 10
 keyfile = "key.pem" if os.path.exists("key.pem") else None
 certfile = "cert.pem" if os.path.exists("cert.pem") else None
 
-__is_ssl_enabled = True if keyfile is not None and certfile is not None else False
+def ssl_context(conf, default_ssl_context_factory):
+    import ssl
 
-ssl_version = ssl.PROTOCOL_TLS if __is_ssl_enabled else None
-cert_reqs = True if __is_ssl_enabled else False
+    context = default_ssl_context_factory()
+    context.minimum_version = ssl.TLSVersion.TLSv1_3
+
+    return context
