@@ -71,7 +71,7 @@ docker compose --env-file .env.docker up -d
 ```
 cp .env.app.template .env.app
 ```
-3. Change `REDIS_SERVER_ADDRESS` in `.env.app` to `127.0.0.1`
+3. Change `WHIMDB_SERVER_ADDRESS` in `.env.app` to `127.0.0.1`
 4. Install development dependencies 
 ```
 pip3 install -r requirements/common.txt
