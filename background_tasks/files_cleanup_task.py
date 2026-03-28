@@ -15,6 +15,11 @@ class FilesCleanupTask(TaskBase):
     def __init__(self):
         super().__init__()
 
+        self.__check_interval = int(
+            os.getenv("FILES_CLEANUP_TASK_INTERVAL", "60"))
+        self.__steps_interval = int(
+            os.getenv("FILES_CLEANUP_TASK_STEPS_INTERVAL", "300"))
+
     def setup_logger(self):
         self.logger.init(logger_name="FilesCleanupTask", log_to_file=True,
                          logs_filename="files_cleanup_task.log", logs_path="logs/")
@@ -82,7 +87,7 @@ class FilesCleanupTask(TaskBase):
             return
 
         files_first_pass = self.analyze_users_storage()
-        time.sleep(10)
+        time.sleep(self.__steps_interval)
         files_second_pass = self.analyze_users_storage()
 
         for file_uuid in files_first_pass:
@@ -104,4 +109,4 @@ class FilesCleanupTask(TaskBase):
             self.process_tmp()
             self.process_users_files()
 
-            time.sleep(60)
+            time.sleep(self.__check_interval)
