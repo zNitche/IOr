@@ -35,3 +35,4 @@ services:
       - ${DB_PATH}:/io_remastered/database
       - ${LOGS_PATH}:/io_remastered/logs
       - ${STORAGE_PATH}:/io_remastered/files_storage
+    env_file: ".env.background"
