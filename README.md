@@ -41,25 +41,31 @@ Creating this project (with dependencies limitations in mind) required some extr
 - i18n module (`io_i18n`)
 - every icon
 
-### Production Setup
-1. Clone this repo
-
-2. Create `.env.docker` file and setup its values:
-```
-cp .env.docker.template .env.docker
-```
-
-3. Create `.env.app` file and setup its values:
+### Env setup
+Create `.env.app` file and setup its values:
 ```
 cp .env.app.template .env.app
 ```
 
-4. (Optional) Enable HTTPS, generate new certificates, or provide your own
+Create `.env.background` file and setup its values:
+```
+cp .env.background.template .env.background
+```
+
+Create `.env.docker` file and setup its values:
+```
+cp .env.docker.template .env.docker
+```
+
+### Production Setup
+1. Clone this repo
+
+2. (Optional) Enable HTTPS, generate new certificates, or provide your own
 ```
 openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
 ```
 
-5. Run docker container.
+3. Run docker container.
 ```
 docker compose --env-file .env.docker build --no-cache
 docker compose --env-file .env.docker up -d
@@ -67,21 +73,17 @@ docker compose --env-file .env.docker up -d
 
 ### Dev Setup
 1. Clone this repo
-2. Create `.env.app` file
-```
-cp .env.app.template .env.app
-```
-3. Change `WHIMDB_SERVER_ADDRESS` in `.env.app` to `127.0.0.1`
-4. Install development dependencies 
+2. Change `WHIMDB_SERVER_ADDRESS` in `.env.app` to `127.0.0.1`
+3. Install development dependencies 
 ```
 pip3 install -r requirements/common.txt
 pip3 install -r requirements/dev.txt
 ```
-5. Start whimdb server
+4. Start whimdb server
 ```
 whimdb-server --port 6000
 ```
-6. Start webserver
+5. Start webserver
 ```
 python3 app.py
 ```
