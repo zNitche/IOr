@@ -3,8 +3,7 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    height: 100vh;
-    position: relative;
+    width: 100%;
 }
 
 .login-page-content-wrapper {
@@ -16,6 +15,10 @@
     box-sizing: border-box;
     gap: 16px;
     padding: 16px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .io-logo {
@@ -47,7 +50,7 @@
 }
 
 .app-version {
-    position: absolute;
+    position: fixed;
     color: var(--white);
     font-size: var(--font-size);
     right: 15px;
