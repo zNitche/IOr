@@ -1,5 +1,4 @@
 import os
-import shutil
 import secrets
 from uuid import uuid4
 from flask import Blueprint, render_template, jsonify, current_app, request, Response
@@ -90,7 +89,7 @@ def upload_handler():
             file_uuid = uuid4().hex
             target_file_path = os.path.join(user_storage_path, file_uuid)
 
-            shutil.move(tmp_file_path, target_file_path)
+            os.rename(tmp_file_path, target_file_path)
 
             _, file_extension = os.path.splitext(file_name)
             final_file_size = files_utils.get_file_size(target_file_path)
