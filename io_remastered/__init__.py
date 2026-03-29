@@ -8,14 +8,14 @@ from io_remastered.db import Database
 from io_remastered.io_logging import AppLogging
 from io_remastered.io_csrf import CSRF
 from io_remastered.io_i18n import I18n
-from io_remastered.extra_modules import CacheDatabase
+from io_remastered.extra_modules import InMemoryDatabase
 from io_remastered.authentication import AuthenticationManager
 
 
 db = Database()
 
-authentication_cache_db = CacheDatabase(db_id=0)
-authentication_manager = AuthenticationManager(auth_db=authentication_cache_db)
+authentication_db = InMemoryDatabase(db_id=0)
+authentication_manager = AuthenticationManager(auth_db=authentication_db)
 
 i18n = I18n(translations_path="./i18n")
 
@@ -71,8 +71,8 @@ def setup_cache_databases(app: Flask):
     whimdb_server_address = app.config.get("WHIMDB_SERVER_ADDRESS", "")
     whimdb_server_port = int(app.config.get("WHIMDB_SERVER_PORT", 0))
 
-    authentication_cache_db.setup(server_address=whimdb_server_address,
-                                  server_port=whimdb_server_port, flush=flush_database)
+    authentication_db.setup(server_address=whimdb_server_address,
+                            server_port=whimdb_server_port, flush=flush_database)
 
     app.logger.info("authentication_cache_db setup completed...")
 

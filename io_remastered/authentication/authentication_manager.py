@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from flask import g, session
 from io_remastered import models
-from io_remastered.extra_modules import CacheDatabase
+from io_remastered.extra_modules import InMemoryDatabase
 
 
 @dataclass
@@ -23,7 +23,7 @@ class UserSessionsDetails:
 
 
 class AuthenticationManager:
-    def __init__(self, auth_db: CacheDatabase):
+    def __init__(self, auth_db: InMemoryDatabase):
         self.__default_auth_token_ttl = 600
 
         self.__auth_db = auth_db
