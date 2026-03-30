@@ -1,7 +1,7 @@
 import os
 import time
 from dataclasses import dataclass
-from background_tasks.task_base import TaskBase
+from maintenance_tasks.task_base import TaskBase
 from io_remastered import models
 
 

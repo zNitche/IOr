@@ -24,15 +24,15 @@ services:
       - ${STORAGE_PATH}:/io_remastered/files_storage
     env_file: ".env.app"
 
-  io_background_tasks:
-    command: python3 run_background_tasks.py
-    container_name: io-background-tasks
+  io_maintenance_tasks:
+    command: python3 run_maintenance_tasks.py
+    container_name: io-maintenance-tasks
     restart: unless-stopped
     build:
       context: .
-      dockerfile: docker/Dockerfile.background_tasks
+      dockerfile: docker/Dockerfile.maintenance_tasks
     volumes:
       - ${DB_PATH}:/io_remastered/database
       - ${LOGS_PATH}:/io_remastered/logs
       - ${STORAGE_PATH}:/io_remastered/files_storage
-    env_file: ".env.background"
+    env_file: ".env.maintenance"

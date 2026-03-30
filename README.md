@@ -23,7 +23,7 @@ lightweight, minimal dependencies, python based files server with web UI, for ea
 - directories sharing (via link)
 - user accessible read-only logs like actions, authentications etc. (cleaned after 28 days)
 - support for internationalization (i18n)
-- background tasks for files cleanup
+- maintenance tasks for files cleanup
 - support for HTTPS
 - docker based containerization
 
@@ -47,9 +47,9 @@ Create `.env.app` file and setup its values:
 cp .env.app.template .env.app
 ```
 
-Create `.env.background` file and setup its values:
+Create `.env.maintenance` file and setup its values:
 ```
-cp .env.background.template .env.background
+cp .env.maintenance.template .env.maintenance
 ```
 
 Create `.env.docker` file and setup its values:

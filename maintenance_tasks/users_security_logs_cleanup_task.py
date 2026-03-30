@@ -1,7 +1,7 @@
 import time
 from datetime import datetime
 from io_remastered.models import UserSecurityLog
-from background_tasks import TaskBase
+from maintenance_tasks import TaskBase
 
 class UsersSecurityLogsCleanupTask(TaskBase):
     def __init__(self):
