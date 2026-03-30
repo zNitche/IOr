@@ -116,7 +116,7 @@ def upload_handler():
             })
 
             return jsonify({"message": i18n.t("file_upload_backend.messages.uploaded_successfully",
-                                              format={"file_name": file_name})}), 200
+                                              format={"file_name": file_name})}), 201
 
     except Exception as e:
         current_app.logger.exception(e)

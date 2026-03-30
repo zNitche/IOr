@@ -99,7 +99,7 @@ async function sendFile(fileUploadPreflightUrl, uploadUrl, csrfToken, chunkSize)
         }
 
         const resJson = await response.json()
-        handleSendFileLoadEnd(resJson.message, response.status !== 200);
+        handleSendFileLoadEnd(resJson.message, response.status !== 201);
     } catch {
         handleSendFileLoadEnd(i18n.t('error_occured'), true);
     }
