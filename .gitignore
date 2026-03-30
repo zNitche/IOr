@@ -10,7 +10,7 @@ database/
 
 .env.app
 .env.docker
-.env.background
+.env.maintenance
 
 *.db
 
