@@ -1,9 +1,8 @@
 import os
 import time
-import threading
 from io_remastered.io_logging import Logger
 from io_remastered.extra_modules import InMemoryDatabase
-from io_remastered.tasks_scheduler.tasks import TaskBase
+from io_remastered.tasks_scheduler.tasks import TaskTypeEnum, CalcFileChecksumTask
 from io_remastered.tasks_scheduler.task_data import TaskData
 
 
@@ -54,8 +53,21 @@ class TasksSchedulerServer:
         for task in running_tasks:
             self.__in_memory_db.set_value(task.uuid, task.to_dict())
 
+    def __get_task_for_type(self, task_type: str):
+        match task_type:
+            case TaskTypeEnum.CALC_FILE_CHECKSUM.value:
+                return CalcFileChecksumTask
+            
+        return None
+
     def __start_task(self, task: TaskData):
-        pass
+        task_class = self.__get_task_for_type(task.task_type)
+
+        if not task_class:
+            raise Exception(f"runner class not found for {task.task_type}")
+        
+        t = task_class(uuid=task.uuid, args=task.get_args())
+        t.run()
 
     def __mainloop(self):
         self.__logger.info("mainloop is running")

@@ -99,7 +99,7 @@ def upload_handler():
             #     file_path=target_file_path)
 
             tasks_scheduler_client.add_to_queue(
-                TaskTypeEnum.CALC_FILE_SHA256, {"file_uuid": file_uuid})
+                TaskTypeEnum.CALC_FILE_CHECKSUM, {"file_uuid": file_uuid})
 
             file_object = models.File(uuid=file_uuid, name=file_name,
                                       extension=file_extension.lower(), size=final_file_size,
