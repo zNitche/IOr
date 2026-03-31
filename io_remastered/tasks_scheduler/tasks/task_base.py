@@ -12,13 +12,13 @@ class TaskBase:
         self.timestamp = str(time.time())
         self.__thread: Thread | None = None
 
-    def run(self, on_complete_callback: Callable[[str], None],
+    def run(self, db, on_complete_callback: Callable[[str], None],
             task_keep_alive_callback: Callable[[str], None]):
 
-        self.__thread = Thread(target=self._mainloop, args=(
-            on_complete_callback, task_keep_alive_callback))
+        self.__thread = Thread(target=self._mainloop, args=(db,
+                                                            on_complete_callback, task_keep_alive_callback))
         self.__thread.start()
 
-    def _mainloop(self, on_complete_callback: Callable[[str], None],
+    def _mainloop(self, db, on_complete_callback: Callable[[str], None],
                   task_keep_alive_callback: Callable[[str], None]):
         raise NotImplementedError()

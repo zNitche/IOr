@@ -1,7 +1,9 @@
 import os
 import time
+from config.app_config import AppConfig
 from io_remastered.io_logging import Logger
 from io_remastered.extra_modules import InMemoryDatabase
+from io_remastered.db import Database
 from io_remastered.tasks_scheduler.tasks import TaskTypeEnum, CalcFileChecksumTask
 from io_remastered.tasks_scheduler.task_data import TaskData
 
@@ -19,14 +21,22 @@ class TasksSchedulerServer:
         self.__logger = Logger()
 
         self.__in_memory_db = in_memory_db
+        self.__db: Database | None = None
 
         self.__setup_logger()
+        self.__setup_database()
 
     def __setup_logger(self):
         logs_path = os.path.join("logs", "tasks_scheduler")
 
         self.__logger.init(logger_name="TasksSchedulerServer", log_to_file=True,
                            logs_filename="tasks_scheduler_server.log", logs_path=logs_path)
+
+    def __setup_database(self):
+        self.__db = Database()
+        self.__db.setup(db_uri=AppConfig.DATABASE_URI)
+
+        self.__db.create_all()
 
     def __load_tasks_data(self):
         raw_tasks_uuids = self.__in_memory_db.get_all_keys_for_pattern("(.*?)")
@@ -74,8 +84,8 @@ class TasksSchedulerServer:
             raise Exception(f"runner class not found for {task.task_type}")
 
         t = task_class(uuid=task.uuid, args=task.get_args())
-        t.run(self.__task_on_complete_callback,
-              self.__task_keep_alive_callback)
+        t.run(db=self.__db, on_complete_callback=self.__task_on_complete_callback,
+              task_keep_alive_callback=self.__task_keep_alive_callback)
 
     def __mainloop(self):
         self.__logger.info("mainloop is running")
