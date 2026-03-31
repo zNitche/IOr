@@ -48,7 +48,8 @@
         "bottom": {
             "remove_button": "remove",
             "download_button": "download"
-        }
+        },
+        "file_has_been_removed": "{uuid} ({filename}), has been removed"
     },
     "remove_file_modal": {
         "title": "Delete file",

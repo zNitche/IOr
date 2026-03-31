@@ -75,6 +75,10 @@ def remove(uuid: str):
 
     db.remove(file)
 
+    flash(i18n.t('file_preview_page.file_has_been_removed',
+                 format={"uuid": file.uuid, "filename": file.name}),
+          FlashTypeEnum.Success.value)
+
     return redirect(url_for("core.home"))
 
 
