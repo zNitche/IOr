@@ -7,12 +7,29 @@ class CalcFileChecksumTask(TaskBase):
     def __init__(self, uuid: str, args: dict[str, Any]):
         super().__init__(uuid, args)
 
-    def _mainloop(self, on_complete_callback: Callable[[str], None],
+    def _mainloop(self, db, on_complete_callback: Callable[[str], None],
                   task_keep_alive_callback: Callable[[str], None]):
+        
+        from io_remastered import models
+        from io_remastered.utils import files_utils
+
 
         file_uuid = self.args.get("file_uuid")
+        file_path = self.args.get("target_file_path")
 
-        print(f"CalcFileChecksumTask -> {file_uuid}")
+        if not file_uuid or not file_path:
+            raise Exception("")
+
+        file = models.File.query(
+            models.File.select().filter_by(uuid=file_uuid)).first()
+        
+        if not file:
+            raise Exception("")
+
+        sha256sum = files_utils.get_sha256sum_for_file(file_path=file_path)
+        file.sha256_sum = sha256sum
+
+        db.commit()
 
         task_keep_alive_callback(self.uuid)
         on_complete_callback(self.uuid)
