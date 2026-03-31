@@ -5,7 +5,8 @@ from flask import Blueprint, render_template, jsonify, current_app, request, Res
 from werkzeug.utils import secure_filename
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
-from io_remastered import models, authentication_manager, db, i18n
+from io_remastered import models, authentication_manager, db, i18n, tasks_scheduler_client
+from io_remastered.tasks_scheduler.tasks import TaskTypeEnum
 from io_remastered.utils import files_utils, system_logs_utils
 from io_remastered.blueprints.upload import helpers
 from io_remastered.types import ActionLogKeyEnum
@@ -94,12 +95,15 @@ def upload_handler():
             _, file_extension = os.path.splitext(file_name)
             final_file_size = files_utils.get_file_size(target_file_path)
 
-            sha256sum = files_utils.get_sha256sum_for_file(
-                file_path=target_file_path)
+            # sha256sum = files_utils.get_sha256sum_for_file(
+            #     file_path=target_file_path)
+
+            tasks_scheduler_client.add_to_queue(
+                TaskTypeEnum.CALC_FILE_SHA256, {"file_uuid": file_uuid})
 
             file_object = models.File(uuid=file_uuid, name=file_name,
                                       extension=file_extension.lower(), size=final_file_size,
-                                      owner_id=current_user.id, sha256_sum=sha256sum)
+                                      owner_id=current_user.id, sha256_sum=None)
 
             if req_target_directory_uuid is not None:
                 target_directory = models.Directory.query(

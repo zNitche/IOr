@@ -95,7 +95,7 @@ class File(Base):
     extension = mapped_column(String(10), unique=False, nullable=False)
 
     size = mapped_column(Integer, unique=False, nullable=False, default=0)
-    sha256_sum = mapped_column(String(64), unique=False, nullable=False)
+    sha256_sum = mapped_column(String(64), unique=False, nullable=True)
 
     upload_date = mapped_column(
         DATETIME, nullable=False, default=lambda: datetime.datetime.now())

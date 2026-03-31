@@ -10,12 +10,16 @@ from io_remastered.io_csrf import CSRF
 from io_remastered.io_i18n import I18n
 from io_remastered.extra_modules import InMemoryDatabase
 from io_remastered.authentication import AuthenticationManager
+from io_remastered.tasks_scheduler import TasksSchedulerClient
 
 
 db = Database()
 
 authentication_db = InMemoryDatabase(db_id=0)
+tasks_scheduler_db = InMemoryDatabase(db_id=1)
+
 authentication_manager = AuthenticationManager(auth_db=authentication_db)
+tasks_scheduler_client = TasksSchedulerClient(in_memory_db=tasks_scheduler_db)
 
 i18n = I18n(translations_path="./i18n")
 
@@ -74,7 +78,12 @@ def setup_cache_databases(app: Flask):
     authentication_db.setup(server_address=whimdb_server_address,
                             server_port=whimdb_server_port, flush=flush_database)
 
-    app.logger.info("authentication_cache_db setup completed...")
+    app.logger.info("authentication_cache_db setup completed.")
+
+    tasks_scheduler_db.setup(server_address=whimdb_server_address,
+                             server_port=whimdb_server_port, flush=flush_database)
+
+    app.logger.info("tasks_scheduler_db setup completed.")
 
 
 def create_app(config_class: type[AppConfig]):
