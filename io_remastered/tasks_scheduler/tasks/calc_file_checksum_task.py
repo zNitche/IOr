@@ -1,5 +1,5 @@
 from typing import Any
-import time
+from collections.abc import Callable
 from io_remastered.tasks_scheduler.tasks.task_base import TaskBase
 
 
@@ -7,9 +7,12 @@ class CalcFileChecksumTask(TaskBase):
     def __init__(self, uuid: str, args: dict[str, Any]):
         super().__init__(uuid, args)
 
-    def _mainloop(self):
+    def _mainloop(self, on_complete_callback: Callable[[str], None],
+                  task_keep_alive_callback: Callable[[str], None]):
+
         file_uuid = self.args.get("file_uuid")
 
-        while True:
-            print(f"CalcFileChecksumTask -> {file_uuid}")
-            time.sleep(1)
+        print(f"CalcFileChecksumTask -> {file_uuid}")
+
+        task_keep_alive_callback(self.uuid)
+        on_complete_callback(self.uuid)

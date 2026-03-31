@@ -57,17 +57,25 @@ class TasksSchedulerServer:
         match task_type:
             case TaskTypeEnum.CALC_FILE_CHECKSUM.value:
                 return CalcFileChecksumTask
-            
+
         return None
+
+    def __task_keep_alive_callback(self, uuid: str):
+        self.__in_memory_db.update_ttl(uuid, 120)
+
+    def __task_on_complete_callback(self, uuid: str):
+        self.__in_memory_db.delete_key(uuid)
+        self.__logger.info(f"task {uuid} has been completed")
 
     def __start_task(self, task: TaskData):
         task_class = self.__get_task_for_type(task.task_type)
 
         if not task_class:
             raise Exception(f"runner class not found for {task.task_type}")
-        
+
         t = task_class(uuid=task.uuid, args=task.get_args())
-        t.run()
+        t.run(self.__task_on_complete_callback,
+              self.__task_keep_alive_callback)
 
     def __mainloop(self):
         self.__logger.info("mainloop is running")
