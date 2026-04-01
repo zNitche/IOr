@@ -6,7 +6,6 @@ from werkzeug.utils import secure_filename
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
 from io_remastered import models, authentication_manager, db, i18n, tasks_scheduler_client
-from io_remastered.tasks_scheduler.tasks import TaskTypeEnum
 from io_remastered.utils import files_utils, system_logs_utils
 from io_remastered.blueprints.upload import helpers
 from io_remastered.types import ActionLogKeyEnum
@@ -95,9 +94,9 @@ def upload_handler():
             _, file_extension = os.path.splitext(file_name)
             final_file_size = files_utils.get_file_size(target_file_path)
 
-            tasks_scheduler_client.add_to_queue(
-                TaskTypeEnum.CALC_FILE_CHECKSUM, {"file_uuid": file_uuid,
-                                                  "target_file_path": target_file_path})
+            tasks_scheduler_client.add_to_queue("CALC_FILE_CHECKSUM",
+                                                {"file_uuid": file_uuid,
+                                                 "target_file_path": target_file_path})
 
             file_object = models.File(uuid=file_uuid, name=file_name,
                                       extension=file_extension.lower(), size=final_file_size,

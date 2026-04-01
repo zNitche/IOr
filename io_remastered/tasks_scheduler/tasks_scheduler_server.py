@@ -4,7 +4,7 @@ from config.app_config import AppConfig
 from io_remastered.io_logging import Logger
 from io_remastered.extra_modules import InMemoryDatabase
 from io_remastered.db import Database
-from io_remastered.tasks_scheduler.tasks import TaskTypeEnum, CalcFileChecksumTask
+from io_remastered.tasks_scheduler.tasks import CalcFileChecksumTask
 from io_remastered.tasks_scheduler.task_data import TaskData
 
 
@@ -65,7 +65,7 @@ class TasksSchedulerServer:
 
     def __get_task_for_type(self, task_type: str):
         match task_type:
-            case TaskTypeEnum.CALC_FILE_CHECKSUM.value:
+            case "CalcFileChecksumTask":
                 return CalcFileChecksumTask
 
         return None
