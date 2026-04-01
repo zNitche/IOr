@@ -19,7 +19,7 @@ authentication_db = InMemoryDatabase(db_id=0)
 tasks_scheduler_db = InMemoryDatabase(db_id=1)
 
 authentication_manager = AuthenticationManager(auth_db=authentication_db)
-tasks_scheduler_client = TasksSchedulerClient(in_memory_db=tasks_scheduler_db)
+tasks_scheduler_client = TasksSchedulerClient(broker_db=tasks_scheduler_db)
 
 i18n = I18n(translations_path="./i18n")
 

@@ -18,7 +18,7 @@ class InMemoryDatabase:
     def setup(self, server_address: str, server_port: int, flush: bool = False):
         self.__client = Client(addr=server_address,
                                port=server_port, database_id=self.db_id)
-        
+
         if flush:
             self.flush_db()
 
@@ -47,7 +47,7 @@ class InMemoryDatabase:
 
         return item.ttl_left
 
-    def set_value(self, key: str, value: dict | str | int | bool, ttl=60):
+    def set_value(self, key: str, value: dict | str | int | bool, ttl: int | None = 60):
         self.client.set(key=key, value=json.dumps(value), ttl=ttl)
 
     def get_value(self, key: str | None = None, pattern: str | None = None):
@@ -60,9 +60,9 @@ class InMemoryDatabase:
 
         if not item or not item.value:
             return None
-        
+
         return item.key
-    
+
     def get_all_keys_for_pattern(self, pattern: str):
         keys = []
 

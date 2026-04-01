@@ -9,7 +9,7 @@ from io_remastered.tasks_scheduler.task_data import TaskData
 
 
 class TasksSchedulerServer:
-    def __init__(self, in_memory_db: InMemoryDatabase,
+    def __init__(self, broker_db: InMemoryDatabase,
                  max_running_tasks: int,
                  mainloop_pooling_interval: int = 5):
 
@@ -20,7 +20,7 @@ class TasksSchedulerServer:
 
         self.__logger = Logger()
 
-        self.__in_memory_db = in_memory_db
+        self.__broker_db = broker_db
         self.__db: Database | None = None
 
         self.__setup_logger()
@@ -39,13 +39,13 @@ class TasksSchedulerServer:
         self.__db.create_all()
 
     def __load_tasks_data(self):
-        raw_tasks_uuids = self.__in_memory_db.get_all_keys_for_pattern("(.*?)")
+        raw_tasks_uuids = self.__broker_db.get_all_keys_for_pattern("(.*?)")
 
         q_tasks: list[TaskData] = []
         r_tasks: list[TaskData] = []
 
         for task_uuid in raw_tasks_uuids:
-            task = self.__in_memory_db.get_value(task_uuid)
+            task = self.__broker_db.get_value(task_uuid)
 
             if not task:
                 continue
@@ -61,7 +61,7 @@ class TasksSchedulerServer:
 
     def __write_tasks_data(self, running_tasks: list[TaskData]):
         for task in running_tasks:
-            self.__in_memory_db.set_value(task.uuid, task.to_dict())
+            self.__broker_db.set_value(task.uuid, task.to_dict(), ttl=None)
 
     def __get_task_for_type(self, task_type: str):
         match task_type:
@@ -71,10 +71,10 @@ class TasksSchedulerServer:
         return None
 
     def __task_keep_alive_callback(self, uuid: str):
-        self.__in_memory_db.update_ttl(uuid, 120)
+        pass
 
     def __task_on_complete_callback(self, uuid: str):
-        self.__in_memory_db.delete_key(uuid)
+        self.__broker_db.delete_key(uuid)
         self.__logger.info(f"task {uuid} has been completed")
 
     def __start_task(self, task: TaskData):

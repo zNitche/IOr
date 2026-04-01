@@ -19,7 +19,7 @@ class TasksSchedulerServerRunner:
             self.__whimdb_server_address, int(self.__whimdb_server_port))
 
         server = TasksSchedulerServer(
-            in_memory_db=self.__in_memory_database, max_running_tasks=5,
+            broker_db=self.__in_memory_database, max_running_tasks=5,
             mainloop_pooling_interval=5)
 
         server.run()

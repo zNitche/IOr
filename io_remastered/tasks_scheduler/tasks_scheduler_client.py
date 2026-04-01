@@ -6,9 +6,9 @@ from io_remastered.tasks_scheduler.task_data import TaskData
 
 
 class TasksSchedulerClient:
-    def __init__(self, in_memory_db: InMemoryDatabase):
+    def __init__(self, broker_db: InMemoryDatabase):
         self.__logger = Logger()
-        self.__in_memory_db = in_memory_db
+        self.__broker_db = broker_db
 
         self.__setup_logger()
 
@@ -25,8 +25,8 @@ class TasksSchedulerClient:
         task_data = TaskData(is_running=False, uuid=uuid, task_type=task_type,
                              args=parsed_args)
 
-        self.__in_memory_db.set_value(
-            key=task_data.uuid, value=task_data.to_dict())
+        self.__broker_db.set_value(
+            key=task_data.uuid, value=task_data.to_dict(), ttl=None)
 
         self.__logger.info(f"{task_data.uuid} added to queue")
 
