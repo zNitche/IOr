@@ -9,14 +9,15 @@ class TasksSchedulerServerRunner:
         self.__whimdb_server_address = os.getenv("WHIMDB_SERVER_ADDRESS")
         self.__whimdb_server_port = os.getenv("WHIMDB_SERVER_PORT")
 
-        self.__in_memory_database = InMemoryDatabase(1)
+        self.__in_memory_database = InMemoryDatabase(db_id=1)
 
     def run(self):
         if self.__whimdb_server_address is None or self.__whimdb_server_port is None:
             raise Exception("can't connect to in memory database.")
 
         self.__in_memory_database.setup(
-            self.__whimdb_server_address, int(self.__whimdb_server_port))
+            server_address=self.__whimdb_server_address,
+            server_port=int(self.__whimdb_server_port), flush=True)
 
         server = TasksSchedulerServer(
             broker_db=self.__in_memory_database, max_running_tasks=5,
