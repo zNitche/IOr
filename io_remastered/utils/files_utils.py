@@ -1,7 +1,6 @@
 import os
 import hashlib
 from typing import IO
-from io_remastered.app_helpers.files_responses import WEB_PREVIEW_MIMETYPE_FOR_FILE_EXTENSION
 
 
 def get_file_size(file_path: str):
@@ -58,6 +57,8 @@ def get_sha256sum_for_file(file_path: str):
 
 
 def file_preview_mimetype(file_extension: str):
+    from io_remastered.app_helpers.files_responses import WEB_PREVIEW_MIMETYPE_FOR_FILE_EXTENSION
+
     return WEB_PREVIEW_MIMETYPE_FOR_FILE_EXTENSION.get(file_extension)
 
 
