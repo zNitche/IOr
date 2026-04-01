@@ -65,7 +65,7 @@ class TasksSchedulerServer:
 
     def __get_task_for_type(self, task_type: str):
         match task_type:
-            case "CalcFileChecksumTask":
+            case "CALC_FILE_CHECKSUM":
                 return CalcFileChecksumTask
 
         return None
