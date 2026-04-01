@@ -95,7 +95,7 @@ def upload_handler():
             _, file_extension = os.path.splitext(file_name)
             final_file_size = files_utils.get_file_size(target_file_path)
 
-            tasks_scheduler_client.add_to_queue(CalcFileChecksumTask.get_name(),
+            tasks_scheduler_client.add_to_queue(CalcFileChecksumTask,
                                                 {"file_uuid": file_uuid,
                                                  "target_file_path": target_file_path})
 
