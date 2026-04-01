@@ -4,7 +4,7 @@ from config.app_config import AppConfig
 from io_remastered.io_logging import Logger
 from io_remastered.extra_modules import InMemoryDatabase
 from io_remastered.db import Database
-from io_remastered.tasks_scheduler.tasks import CalcFileChecksumTask
+from io_remastered.tasks_scheduler.tasks import TaskBase, CalcFileChecksumTask
 from io_remastered.tasks_scheduler.task_data import TaskData
 
 
@@ -63,10 +63,12 @@ class TasksSchedulerServer:
         for task in running_tasks:
             self.__broker_db.set_value(task.uuid, task.to_dict(), ttl=None)
 
-    def __get_task_for_type(self, task_type: str):
-        match task_type:
-            case "CALC_FILE_CHECKSUM":
-                return CalcFileChecksumTask
+    def __get_task_for_type(self, task_name: str):
+        subclasses = TaskBase.__subclasses__()
+
+        for cls in subclasses:
+            if cls.get_name() == task_name:
+                return cls
 
         return None
 
@@ -78,10 +80,10 @@ class TasksSchedulerServer:
         self.__logger.info(f"task {uuid} has been completed")
 
     def __start_task(self, task: TaskData):
-        task_class = self.__get_task_for_type(task.task_type)
+        task_class = self.__get_task_for_type(task.task_name)
 
         if not task_class:
-            raise Exception(f"runner class not found for {task.task_type}")
+            raise Exception(f"runner class not found for {task.task_name}")
 
         t = task_class(uuid=task.uuid, args=task.get_args())
         t.run(db=self.__db, on_complete_callback=self.__task_on_complete_callback,

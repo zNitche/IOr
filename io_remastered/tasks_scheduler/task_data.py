@@ -4,10 +4,10 @@ from uuid import uuid4
 
 
 class TaskData:
-    def __init__(self, is_running: bool, uuid: str, task_type: str, args: str):
+    def __init__(self, is_running: bool, uuid: str, task_name: str, args: str):
         self.is_running = is_running
         self.uuid = uuid
-        self.task_type = task_type
+        self.task_name = task_name
         self.args = args
 
     def get_args(self):
@@ -29,6 +29,6 @@ class TaskData:
         return {
             "is_running": self.is_running,
             "uuid": self.uuid,
-            "task_type": self.task_type,
+            "task_name": self.task_name,
             "args": self.args,
         }

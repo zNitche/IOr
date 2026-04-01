@@ -13,6 +13,10 @@ class TaskBase:
         self.timestamp = str(time.time())
         self.__thread: Thread | None = None
 
+    @classmethod
+    def get_name(cls):
+        return cls.__class__.__name__
+
     def run(self, db: Database | None, on_complete_callback: Callable[[str], None],
             task_keep_alive_callback: Callable[[str], None]):
 

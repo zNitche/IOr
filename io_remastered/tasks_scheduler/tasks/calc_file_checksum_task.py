@@ -14,7 +14,6 @@ class CalcFileChecksumTask(TaskBase):
                   task_keep_alive_callback: Callable[[str], None]):
 
         from io_remastered import models
-        # from io_remastered.utils import files_utils
 
         if db is None:
             raise Exception("")

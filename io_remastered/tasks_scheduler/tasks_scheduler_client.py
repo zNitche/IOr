@@ -18,11 +18,11 @@ class TasksSchedulerClient:
         self.__logger.init(logger_name="TasksSchedulerClient", log_to_file=True,
                            logs_filename="tasks_scheduler_client.log", logs_path=logs_path)
 
-    def add_to_queue(self, task_type: str, args: dict[str, Any]):
+    def add_to_queue(self, task_name: str, args: dict[str, Any]):
         uuid = TaskData.generate_uuid()
         parsed_args = TaskData.dump_args(args)
 
-        task_data = TaskData(is_running=False, uuid=uuid, task_type=task_type,
+        task_data = TaskData(is_running=False, uuid=uuid, task_name=task_name,
                              args=parsed_args)
 
         self.__broker_db.set_value(

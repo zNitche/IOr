@@ -1,14 +1,15 @@
 import os
 import secrets
 from uuid import uuid4
-from flask import Blueprint, render_template, jsonify, current_app, request, Response
 from werkzeug.utils import secure_filename
+from flask import Blueprint, render_template, jsonify, current_app, request, Response
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
 from io_remastered import models, authentication_manager, db, i18n, tasks_scheduler_client
 from io_remastered.utils import files_utils, system_logs_utils
 from io_remastered.blueprints.upload import helpers
 from io_remastered.types import ActionLogKeyEnum
+from io_remastered.tasks_scheduler.tasks import CalcFileChecksumTask
 
 
 upload_blueprint = Blueprint("upload", __name__, template_folder="templates",
@@ -94,7 +95,7 @@ def upload_handler():
             _, file_extension = os.path.splitext(file_name)
             final_file_size = files_utils.get_file_size(target_file_path)
 
-            tasks_scheduler_client.add_to_queue("CALC_FILE_CHECKSUM",
+            tasks_scheduler_client.add_to_queue(CalcFileChecksumTask.get_name(),
                                                 {"file_uuid": file_uuid,
                                                  "target_file_path": target_file_path})
 
