@@ -41,8 +41,8 @@ class TasksSchedulerServer:
     def __load_tasks_data(self):
         raw_tasks_uuids = self.__broker_db.get_all_keys_for_pattern("(.*?)")
 
-        q_tasks: list[TaskData] = []
-        r_tasks: list[TaskData] = []
+        queued_tasks: list[TaskData] = []
+        running_tasks: list[TaskData] = []
 
         for task_uuid in raw_tasks_uuids:
             task = self.__broker_db.get_value(task_uuid)
@@ -53,11 +53,11 @@ class TasksSchedulerServer:
             task_data = TaskData.from_dict(task)
 
             if task_data.is_running:
-                r_tasks.append(task_data)
+                running_tasks.append(task_data)
             else:
-                q_tasks.append(task_data)
+                queued_tasks.append(task_data)
 
-        return q_tasks, r_tasks
+        return queued_tasks, running_tasks
 
     def __write_tasks_data(self, running_tasks: list[TaskData]):
         for task in running_tasks:
@@ -94,7 +94,12 @@ class TasksSchedulerServer:
             queued_tasks, running_tasks = self.__load_tasks_data()
 
             if len(queued_tasks) > 0:
-                if len(running_tasks) < self.__max_running_tasks:
+                free_tasks_slots = abs(self.__max_running_tasks - len(running_tasks))
+
+                for _ in range(free_tasks_slots):
+                    if len(queued_tasks) == 0:
+                        break
+
                     task = queued_tasks.pop(0)
 
                     self.__logger.info(f"starting task {task.uuid}...")
