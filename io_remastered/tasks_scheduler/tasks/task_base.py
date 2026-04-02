@@ -8,8 +8,10 @@ from io_remastered.io_logging import Logger
 
 
 class TaskBase:
-    def __init__(self, uuid: str, args: dict[str, Any]):
+    def __init__(self, uuid: str, args: dict[str, Any], user_id: str | None = None):
+        self.user_id = user_id
         self.uuid = uuid
+
         self.args = args
 
         self.timestamp = str(time.time())
