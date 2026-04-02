@@ -9,10 +9,7 @@ class CalcFileChecksumTask(TaskBase):
     def __init__(self, uuid: str, args: dict[str, Any]):
         super().__init__(uuid, args)
 
-    def _mainloop(self, db: Database | None,
-                  on_complete_callback: Callable[[str], None],
-                  task_keep_alive_callback: Callable[[str], None]):
-
+    def _mainloop(self, db: Database | None, on_complete_callback: Callable[[str], None]):
         from io_remastered import models
 
         if db is None:
@@ -35,5 +32,4 @@ class CalcFileChecksumTask(TaskBase):
 
         db.commit()
 
-        task_keep_alive_callback(self.uuid)
         on_complete_callback(self.uuid)

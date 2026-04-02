@@ -17,14 +17,10 @@ class TaskBase:
     def get_name(cls):
         return cls.__class__.__name__
 
-    def run(self, db: Database | None, on_complete_callback: Callable[[str], None],
-            task_keep_alive_callback: Callable[[str], None]):
-
-        self.__thread = Thread(target=self._mainloop, args=(db,
-                                                            on_complete_callback, task_keep_alive_callback))
+    def run(self, db: Database | None, on_complete_callback: Callable[[str], None]):
+        self.__thread = Thread(target=self._mainloop,
+                               args=(db, on_complete_callback))
         self.__thread.start()
 
-    def _mainloop(self, db: Database | None,
-                  on_complete_callback: Callable[[str], None],
-                  task_keep_alive_callback: Callable[[str], None]):
+    def _mainloop(self, db: Database | None, on_complete_callback: Callable[[str], None]):
         raise NotImplementedError()
