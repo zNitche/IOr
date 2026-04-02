@@ -1,14 +1,9 @@
-from typing import Any
-from collections.abc import Callable
 from io_remastered.db import Database
 from io_remastered.utils import files_utils
 from io_remastered.tasks_scheduler.tasks.task_base import TaskBase
 
 
 class CalcFileChecksumTask(TaskBase):
-    def __init__(self, uuid: str, args: dict[str, Any]):
-        super().__init__(uuid, args)
-
     def _runner(self, db: Database | None):
         from io_remastered import models
 

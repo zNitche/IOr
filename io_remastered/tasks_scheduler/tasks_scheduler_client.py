@@ -17,15 +17,18 @@ class TasksSchedulerClient:
         logs_path = os.path.join("logs", "tasks_scheduler")
 
         self.__logger.init(logger_name="TasksSchedulerClient", log_to_file=True,
-                           logs_filename="tasks_scheduler_client.log", logs_path=logs_path)
+                           logs_filename="tasks_scheduler_client.log", logs_path=logs_path,
+                           backup_log_files_count=1)
 
-    def add_to_queue(self, task_cls: type[TaskBase], args: dict[str, Any]):
+    def add_to_queue(self, task_cls: type[TaskBase], args: dict[str, Any],
+                     user_id: str | None = None):
+
         uuid = TaskData.generate_uuid()
         parsed_args = TaskData.dump_args(args)
 
-        task_data = TaskData(is_running=False, uuid=uuid,
+        task_data = TaskData(uuid=uuid,
                              task_name=task_cls.get_name(),
-                             args=parsed_args)
+                             args=parsed_args, user_id=user_id)
 
         self.__broker_db.set_value(
             key=task_data.uuid, value=task_data.to_dict(), ttl=None)

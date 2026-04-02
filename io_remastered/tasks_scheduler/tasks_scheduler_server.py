@@ -30,7 +30,8 @@ class TasksSchedulerServer:
         logs_path = os.path.join("logs", "tasks_scheduler")
 
         self.__logger.init(logger_name="TasksSchedulerServer", log_to_file=True,
-                           logs_filename="tasks_scheduler_server.log", logs_path=logs_path)
+                           logs_filename="tasks_scheduler_server.log", logs_path=logs_path,
+                           backup_log_files_count=1)
 
     def __setup_database(self):
         self.__db = Database()
@@ -83,7 +84,8 @@ class TasksSchedulerServer:
             if not task_class:
                 raise Exception(f"runner class not found for {task.task_name}")
 
-            t = task_class(uuid=task.uuid, args=task.get_args())
+            t = task_class(uuid=task.uuid, args=task.get_args(),
+                           user_id=task.user_id)
             t.run(db=self.__db, on_complete_callback=self.__task_on_complete_callback)
 
         except:
@@ -111,7 +113,8 @@ class TasksSchedulerServer:
                         task.is_running = True
                         self.__start_task(task)
 
-                        self.__logger.info(f"task {task.uuid} is running")
+                        self.__logger.info(
+                            f"task {task.uuid} for user: {task.user_id} , is running")
                         running_tasks.append(task)
 
                     self.__write_tasks_data(running_tasks=running_tasks)
@@ -119,7 +122,7 @@ class TasksSchedulerServer:
             except:
                 self.__logger.exception(
                     "an exception occured while processing mainloop")
-                
+
             time.sleep(self.__mainloop_pooling_interval)
 
         self.__logger.info("mainloop exited")
