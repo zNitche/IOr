@@ -18,9 +18,18 @@ class TaskBase:
         return cls.__class__.__name__
 
     def run(self, db: Database | None, on_complete_callback: Callable[[str], None]):
-        self.__thread = Thread(target=self._mainloop,
+        self.__thread = Thread(target=self.__mainloop,
                                args=(db, on_complete_callback))
         self.__thread.start()
 
-    def _mainloop(self, db: Database | None, on_complete_callback: Callable[[str], None]):
-        raise NotImplementedError()
+    def __mainloop(self, db: Database | None, on_complete_callback: Callable[[str], None]):
+        try:
+            self._runner(db=db)
+        
+        except:
+            pass
+
+        on_complete_callback(self.uuid)
+
+    def _runner(self, db: Database | None):
+         raise NotImplementedError()

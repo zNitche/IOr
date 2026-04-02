@@ -9,7 +9,7 @@ class CalcFileChecksumTask(TaskBase):
     def __init__(self, uuid: str, args: dict[str, Any]):
         super().__init__(uuid, args)
 
-    def _mainloop(self, db: Database | None, on_complete_callback: Callable[[str], None]):
+    def _runner(self, db: Database | None):
         from io_remastered import models
 
         if db is None:
@@ -31,5 +31,3 @@ class CalcFileChecksumTask(TaskBase):
         file.sha256_sum = sha256sum
 
         db.commit()
-
-        on_complete_callback(self.uuid)
