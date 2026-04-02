@@ -72,48 +72,54 @@ class TasksSchedulerServer:
 
         return None
 
-    def __task_keep_alive_callback(self, uuid: str):
-        pass
-
     def __task_on_complete_callback(self, uuid: str):
         self.__broker_db.delete_key(uuid)
         self.__logger.info(f"task {uuid} has been completed")
 
     def __start_task(self, task: TaskData):
-        task_class = self.__get_task_for_type(task.task_name)
+        try:
+            task_class = self.__get_task_for_type(task.task_name)
 
-        if not task_class:
-            raise Exception(f"runner class not found for {task.task_name}")
+            if not task_class:
+                raise Exception(f"runner class not found for {task.task_name}")
 
-        t = task_class(uuid=task.uuid, args=task.get_args())
-        t.run(db=self.__db, on_complete_callback=self.__task_on_complete_callback,
-              task_keep_alive_callback=self.__task_keep_alive_callback)
+            t = task_class(uuid=task.uuid, args=task.get_args())
+            t.run(db=self.__db, on_complete_callback=self.__task_on_complete_callback)
+
+        except:
+            self.__logger.exception(f"error while starting task")
 
     def __mainloop(self):
         self.__logger.info("mainloop is running")
 
         while self.__is_running:
-            queued_tasks, running_tasks = self.__load_tasks_data()
+            try:
+                queued_tasks, running_tasks = self.__load_tasks_data()
 
-            if len(queued_tasks) > 0:
-                free_tasks_slots = abs(self.__max_running_tasks - len(running_tasks))
+                if len(queued_tasks) > 0:
+                    free_tasks_slots = abs(
+                        self.__max_running_tasks - len(running_tasks))
 
-                for _ in range(free_tasks_slots):
-                    if len(queued_tasks) == 0:
-                        break
+                    for _ in range(free_tasks_slots):
+                        if len(queued_tasks) == 0:
+                            break
 
-                    task = queued_tasks.pop(0)
+                        task = queued_tasks.pop(0)
 
-                    self.__logger.info(f"starting task {task.uuid}...")
+                        self.__logger.info(f"starting task {task.uuid}...")
 
-                    task.is_running = True
-                    self.__start_task(task)
+                        task.is_running = True
+                        self.__start_task(task)
 
-                    self.__logger.info(f"task {task.uuid} is running")
-                    running_tasks.append(task)
+                        self.__logger.info(f"task {task.uuid} is running")
+                        running_tasks.append(task)
 
-                self.__write_tasks_data(running_tasks=running_tasks)
+                    self.__write_tasks_data(running_tasks=running_tasks)
 
+            except:
+                self.__logger.exception(
+                    "an exception occured while processing mainloop")
+                
             time.sleep(self.__mainloop_pooling_interval)
 
         self.__logger.info("mainloop exited")

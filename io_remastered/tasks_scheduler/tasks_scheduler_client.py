@@ -33,4 +33,4 @@ class TasksSchedulerClient:
         self.__logger.info(f"{task_data.uuid} added to queue")
 
     def get_task_status(self):
-        pass
+        raise NotImplementedError()
