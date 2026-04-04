@@ -31,10 +31,12 @@ def preview(uuid: str):
     rename_file_form = forms.RenameStorageItemForm(
         csrf_token=CSRF.generate_token(), name=file.name)
 
+    calc_file_checksum_task_data = tasks_scheduler_client.get_file_task(user_id=current_user.id,
+                                                                        task_cls=CalcFileChecksumTask,
+                                                                        file_uuid=file.uuid)
+
     running_scheduled_tasks = {
-        "CalcFileChecksumTask": tasks_scheduler_client.check_if_file_task_is_running(user_id=current_user.id,
-                                                                                     task_cls=CalcFileChecksumTask,
-                                                                                     file_uuid=file.uuid)
+        "CalcFileChecksumTask": (calc_file_checksum_task_data and calc_file_checksum_task_data.is_running)
     }
 
     return render_template("file_preview.html",
@@ -199,11 +201,13 @@ def recalculate_file_checksum(uuid: str):
     file_path = app_helpers.user_storage.get_file_path(
         file_uuid=file.uuid, user_id=current_user.id)
 
-    is_task_already_running = tasks_scheduler_client.check_if_file_task_is_running(user_id=current_user.id,
-                                                                                   task_cls=CalcFileChecksumTask,
-                                                                                   file_uuid=file.uuid)
+    task_for_file = tasks_scheduler_client.get_file_task(user_id=current_user.id,
+                                                         task_cls=CalcFileChecksumTask,
+                                                         file_uuid=file.uuid)
+    
+    print(task_for_file)
 
-    if is_task_already_running:
+    if task_for_file or (task_for_file and task_for_file.is_running):
         flash(i18n.t('recalculate_file_checksum.already_running'),
               FlashTypeEnum.Error.value)
 
