@@ -35,5 +35,36 @@ class TasksSchedulerClient:
 
         self.__logger.info(f"{task_data.uuid} added to queue")
 
-    def get_task_status(self):
-        raise NotImplementedError()
+    def check_if_task(self, task_uuid: str):
+        raw_task_data = self.__broker_db.get_value(task_uuid)
+
+        if not raw_task_data:
+            return False
+
+        task_data = TaskData.from_dict(raw_task_data)
+
+        return task_data.is_running
+
+    def check_if_file_task_is_running(self, user_id: str, task_cls: type[TaskBase], file_uuid: str):
+        raw_tasks_uuids = self.__broker_db.get_all_keys_for_pattern("(.*?)")
+
+        for task_uuid in raw_tasks_uuids:
+            task = self.__broker_db.get_value(task_uuid)
+
+            if not task:
+                continue
+
+            task_data = TaskData.from_dict(task)
+
+            if not task_data.is_running or task_data.user_id != user_id:
+                continue
+
+            if task_data.task_name != task_cls.get_name():
+                continue
+
+            task_args = task_data.get_args()
+
+            if task_args.get("file_uuid") == file_uuid:
+                return True
+
+        return False

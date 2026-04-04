@@ -15,7 +15,7 @@ class TaskData:
 
         self.args = args
 
-    def get_args(self):
+    def get_args(self) -> dict[str, Any]:
         return json.loads(self.args)
 
     @staticmethod
