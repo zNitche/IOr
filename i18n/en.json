@@ -230,5 +230,10 @@
     },
     "set_friendly_uuid_for_sharing_form": {
         "uuid": "friendly uuid (optional)"
+    },
+    "recalculate_file_checksum": {
+        "success": "SHA256 checksum recalculation scheduled",
+        "already_running": "task is already running",
+        "error": "An error has occured during task scheduling"
     }
 }

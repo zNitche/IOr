@@ -12,7 +12,7 @@
 {
 "title": i18n('file_preview_page.directory'),
 "content": "/" if not file.directory else file.directory.name,
-"on_content_click": url_for('storage.directories.preview', uuid=file.directory.uuid) if file.directory else "",
+"on_content_click_href": url_for('storage.directories.preview', uuid=file.directory.uuid) if file.directory else "",
 "on_edit": "toggleElementVisibility('edit_file_directory_modal', true)"
 },
 {
@@ -29,7 +29,9 @@
 },
 {
 "title": i18n('file_preview_page.sha256sum'),
-"content": file.sha256_sum
+"content": file.sha256_sum,
+"on_reload_href": url_for('storage.files.recalculate_file_checksum', uuid=file.uuid),
+"checksum_recalculating": running_scheduled_tasks.get("CalcFileChecksumTask", False)
 }] %}
 
 {% block head_links %}

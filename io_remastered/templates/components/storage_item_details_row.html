@@ -2,16 +2,26 @@
     <div class="title">{{item.title}}</div>
     <div class="content-wrapper">
         {% set content = "-" if not item.content else item.content %}
-        {% if item.on_content_click %}
-        <a class="content-anchor" href="{{item.on_content_click}}">
+        {% if item.on_content_click_href %}
+        <a class="content-anchor" href="{{item.on_content_click_href}}">
             <div class="content">{{content}}</div>
         </a>
         {% else %}
         <div class="content">{{content}}</div>
         {% endif %}
         {% if item.get("on_edit") is not none %}
-        <img src="{{ get_static_resource('icons/edit_icon.svg') }}" class="edit-icon"
+        <img src="{{ get_static_resource('icons/edit_icon.svg') }}" class="action-icon"
             onclick="{{item.get('on_edit')}}" />
+        {% endif %}
+        {% if item.on_reload_href or item.checksum_recalculating %}
+        {% if not item.checksum_recalculating %}
+        <a href="{{item.on_reload_href}}">
+            {% endif %}
+            <img src="{{ get_static_resource('icons/reload_icon.svg') }}"
+                class="action-icon{{ ' rotating' if item.checksum_recalculating else '' }}" />
+            {% if item.on_reload_href or item.checksum_recalculating %}
+        </a>
+        {% endif %}
         {% endif %}
     </div>
 </div>

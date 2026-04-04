@@ -14,7 +14,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    gap: 4px;
+    gap: 16px;
 }
 
 .content-wrapper .content {
@@ -40,12 +40,21 @@
   background: var(--background-2-hover); 
 }
 
-.edit-icon {
+.action-icon {
     width: 22px;
     height: 22px;
     cursor: pointer;
 }
 
+.action-icon.rotating {
+    animation: spinnerRotation 3s infinite linear;
+}
+
 .content-anchor {
     color: var(--white);
+}
+
+@keyframes spinnerRotation {
+    from {transform: rotate(0deg);}
+    to   {transform: rotate(359deg);}
 }

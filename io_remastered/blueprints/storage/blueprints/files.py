@@ -3,10 +3,11 @@ from flask import Blueprint, render_template, abort, send_file, current_app, \
     url_for, redirect, request, flash
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
-from io_remastered import authentication_manager, models, db, i18n, forms, CSRF
+from io_remastered import authentication_manager, models, db, i18n, forms, CSRF, tasks_scheduler_client
 from io_remastered.types import FlashTypeEnum
 from io_remastered.types.action_log_key_enum import ActionLogKeyEnum
 from io_remastered.utils import sharing_utils, system_logs_utils, files_utils, requests_utils
+from io_remastered.tasks_scheduler.tasks import CalcFileChecksumTask
 
 
 files_blueprint = Blueprint("files", __name__, template_folder="templates",
@@ -30,10 +31,17 @@ def preview(uuid: str):
     rename_file_form = forms.RenameStorageItemForm(
         csrf_token=CSRF.generate_token(), name=file.name)
 
+    running_scheduled_tasks = {
+        "CalcFileChecksumTask": tasks_scheduler_client.check_if_file_task_is_running(user_id=current_user.id,
+                                                                                     task_cls=CalcFileChecksumTask,
+                                                                                     file_uuid=file.uuid)
+    }
+
     return render_template("file_preview.html",
                            file=file,
                            directories=directories,
-                           rename_file_form=rename_file_form)
+                           rename_file_form=rename_file_form,
+                           running_scheduled_tasks=running_scheduled_tasks)
 
 
 @files_blueprint.route("/<uuid>/download", methods=["GET"])
@@ -177,5 +185,45 @@ def change_name(uuid: str):
 
     else:
         flash(i18n.t('change_file_name.error'), FlashTypeEnum.Error.value)
+
+    return redirect(location=request.referrer)
+
+
+@files_blueprint.route("/<uuid>/recalculate-checksum", methods=["GET"])
+@login_required
+def recalculate_file_checksum(uuid: str):
+    current_user = authentication_manager.current_user
+    file = models.File.query(models.File.select().filter_by(
+        owner_id=current_user.id, uuid=uuid)).first()
+
+    if not file:
+        abort(404)
+
+    user_storage_path = os.path.join(
+        current_app.config["STORAGE_ROOT_PATH"], str(current_user.id))
+
+    target_file_path = os.path.join(user_storage_path, file.uuid)
+
+    is_task_already_running = tasks_scheduler_client.check_if_file_task_is_running(user_id=current_user.id,
+                                                                                   task_cls=CalcFileChecksumTask,
+                                                                                   file_uuid=file.uuid)
+
+    if is_task_already_running:
+        flash(i18n.t('recalculate_file_checksum.already_running'),
+              FlashTypeEnum.Error.value)
+
+    else:
+        try:
+            tasks_scheduler_client.add_to_queue(task_cls=CalcFileChecksumTask,
+                                                user_id=current_user.id,
+                                                args={"file_uuid": file.uuid,
+                                                      "target_file_path": target_file_path})
+
+            flash(i18n.t('recalculate_file_checksum.success'),
+                  FlashTypeEnum.Success.value)
+
+        except:
+            flash(i18n.t('recalculate_file_checksum.error'),
+                  FlashTypeEnum.Error.value)
 
     return redirect(location=request.referrer)

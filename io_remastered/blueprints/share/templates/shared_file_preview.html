@@ -11,8 +11,8 @@
 {
 "title": i18n('file_preview_page.directory'),
 "content": "/" if not file.directory else file.directory.name,
-"on_content_click": url_for('share.directory_preview', share_uuid=file.directory.share_uuid) if
-file.directory.is_shared else "",
+"on_content_click_href": url_for('share.directory_preview', share_uuid=file.directory.share_uuid) if
+file.directory.is_shared else ""
 },
 {
 "title": i18n('file_preview_page.size'),

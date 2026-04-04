@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="28.360931mm"
+   height="23.615829mm"
+   viewBox="0 0 28.360932 23.61583"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <marker
+       style="overflow:visible"
+       id="ArrowWide"
+       refX="-1"
+       refY="0"
+       orient="111"
+       markerWidth="0.60000002"
+       markerHeight="0.60000002"
+       viewBox="0 0 1 1"
+       preserveAspectRatio="xMidYMid"
+       markerUnits="strokeWidth">
+      <path
+         style="fill:none;stroke:context-stroke;stroke-width:1;stroke-linecap:butt"
+         d="M 3,-3 0,0 3,3"
+         transform="rotate(180,0.125,0)"
+         id="path3" />
+    </marker>
+  </defs>
+  <g
+     id="layer1"
+     transform="translate(-91.690455,-112.83515)">
+    <path
+       id="path1"
+       style="fill:none;stroke:#fff;stroke-width:3.089;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#ArrowWide)"
+       d="m 104.73258,134.83198 a 10.263415,10.263415 0 0 1 -1.23421,0.0745 10.263415,10.263415 0 0 1 -10.263415,-10.26342 10.263415,10.263415 0 0 1 10.263415,-10.26341 10.263415,10.263415 0 0 1 10.26341,10.26341 v 0 a 10.263415,10.263415 0 0 1 -0.44056,2.97477" />
+  </g>
+</svg>
