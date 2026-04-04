@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, abort, send_file, current_app, \
     url_for, redirect, request, flash
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
-from io_remastered import authentication_manager, models, db, i18n, forms, CSRF, tasks_scheduler_client
+from io_remastered import authentication_manager, models, db, i18n, forms, CSRF, tasks_scheduler_client, app_helpers
 from io_remastered.types import FlashTypeEnum
 from io_remastered.types.action_log_key_enum import ActionLogKeyEnum
 from io_remastered.utils import sharing_utils, system_logs_utils, files_utils, requests_utils
@@ -54,10 +54,9 @@ def download(uuid: str):
     if not file:
         abort(404)
 
-    user_storage_path = os.path.join(
-        current_app.config["STORAGE_ROOT_PATH"], str(file.owner_id))
+    file_path = app_helpers.user_storage.get_file_path(
+        file_uuid=file.uuid, user_id=current_user.id)
 
-    file_path = os.path.join(user_storage_path, file.uuid)
     filename = file.name if file.name.endswith(
         file.extension) else f"{file.name}{file.extension}"
 
@@ -105,10 +104,8 @@ def raw_preview(uuid: str):
     if not file_mimetype:
         abort(404)
 
-    user_storage_path = os.path.join(
-        current_app.config["STORAGE_ROOT_PATH"], str(file.owner_id))
-
-    file_path = os.path.join(user_storage_path, file.uuid)
+    file_path = app_helpers.user_storage.get_file_path(
+        file_uuid=file.uuid, user_id=current_user.id)
 
     range_header = request.headers.get("range")
 
@@ -199,10 +196,8 @@ def recalculate_file_checksum(uuid: str):
     if not file:
         abort(404)
 
-    user_storage_path = os.path.join(
-        current_app.config["STORAGE_ROOT_PATH"], str(current_user.id))
-
-    target_file_path = os.path.join(user_storage_path, file.uuid)
+    file_path = app_helpers.user_storage.get_file_path(
+        file_uuid=file.uuid, user_id=current_user.id)
 
     is_task_already_running = tasks_scheduler_client.check_if_file_task_is_running(user_id=current_user.id,
                                                                                    task_cls=CalcFileChecksumTask,
@@ -217,7 +212,7 @@ def recalculate_file_checksum(uuid: str):
             tasks_scheduler_client.add_to_queue(task_cls=CalcFileChecksumTask,
                                                 user_id=current_user.id,
                                                 args={"file_uuid": file.uuid,
-                                                      "target_file_path": target_file_path})
+                                                      "target_file_path": file_path})
 
             flash(i18n.t('recalculate_file_checksum.success'),
                   FlashTypeEnum.Success.value)

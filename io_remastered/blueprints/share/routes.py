@@ -1,6 +1,6 @@
 import os
 from flask import Blueprint, render_template, abort, send_file, current_app, request
-from io_remastered import models, forms
+from io_remastered import models, forms, app_helpers
 from io_remastered.utils import requests_utils, files_utils
 from io_remastered.db.pagination import Pagination, pageable_content
 
@@ -33,10 +33,8 @@ def file_raw_preview(share_uuid: str):
     if not file_mimetype:
         abort(404)
 
-    user_storage_path = os.path.join(
-        current_app.config["STORAGE_ROOT_PATH"], str(file.owner_id))
-
-    file_path = os.path.join(user_storage_path, file.uuid)
+    file_path = app_helpers.user_storage.get_file_path(
+        file_uuid=file.uuid, user_id=file.owner_id)
 
     range_header = request.headers.get("range")
 
@@ -56,8 +54,8 @@ def download_file(share_uuid: str):
     if not file:
         abort(404)
 
-    user_storage_path = os.path.join(
-        current_app.config["STORAGE_ROOT_PATH"], str(file.owner_id))
+    user_storage_path = app_helpers.user_storage.get_user_storage_path(
+        file.owner_id)
 
     file_path = os.path.join(user_storage_path, file.uuid)
     filename = file.name if file.name.endswith(
@@ -103,8 +101,8 @@ def download_directory(share_uuid: str):
     if not directory:
         abort(404)
 
-    user_storage_path = os.path.join(
-        current_app.config["STORAGE_ROOT_PATH"], str(directory.owner_id))
+    user_storage_path = app_helpers.user_storage.get_user_storage_path(
+        directory.owner_id)
 
     return requests_utils.send_directory_as_zip(directory=directory,
                                                 user_storage_path=user_storage_path)

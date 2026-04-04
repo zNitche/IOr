@@ -13,3 +13,13 @@ def get_taken_storage():
     user_taken_space = files_utils.get_directory_files_size(user_storage_path)
 
     return round(user_taken_space / 1_000_000_000, 2)
+
+
+def get_user_storage_path(user_id: str | int):
+    return os.path.join(current_app.config["STORAGE_ROOT_PATH"], str(user_id))
+
+
+def get_file_path(file_uuid: str, user_id: str | int):
+    user_storage_path = get_user_storage_path(user_id=user_id)
+
+    return os.path.join(user_storage_path, file_uuid)

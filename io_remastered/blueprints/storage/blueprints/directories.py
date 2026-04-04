@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, abort, current_app, \
 from io_remastered.authentication.decorators import login_required
 from io_remastered.db.pagination import Pagination, pageable_content
 from io_remastered.io_csrf.decorators import csrf_protected
-from io_remastered import authentication_manager, models, db, i18n, forms, CSRF
+from io_remastered import authentication_manager, models, db, i18n, forms, CSRF, app_helpers
 from io_remastered.types import FlashTypeEnum, ActionLogKeyEnum
 from io_remastered.utils import system_logs_utils, requests_utils
 from io_remastered.consts import DirectoriesConsts
@@ -92,8 +92,8 @@ def download(uuid: str):
     if not directory:
         abort(404)
 
-    user_storage_path = os.path.join(
-        current_app.config["STORAGE_ROOT_PATH"], str(current_user.id))
+    user_storage_path = app_helpers.user_storage.get_user_storage_path(
+        current_user.id)
 
     return requests_utils.send_directory_as_zip(directory=directory,
                                                 user_storage_path=user_storage_path)
