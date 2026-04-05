@@ -23,6 +23,7 @@ lightweight, minimal dependencies, python based files server with web UI, for ea
 - directories sharing (via link)
 - user accessible read-only logs like actions, authentications etc. (cleaned after 28 days)
 - support for internationalization (i18n)
+- support for scheduling background tasks
 - maintenance tasks for files cleanup
 - support for HTTPS
 - docker based containerization
@@ -40,6 +41,7 @@ Creating this project (with dependencies limitations in mind) required some extr
 - page based data pagination
 - i18n module (`io_i18n`)
 - every icon
+- tasks scheduling & execution system with broker database 
 
 ### Env setup
 Create `.env.app` file and setup its values:
