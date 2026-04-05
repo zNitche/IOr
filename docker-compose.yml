@@ -24,6 +24,21 @@ services:
       - ${STORAGE_PATH}:/io_remastered/files_storage
     env_file: ".env.app"
 
+  io_tasks_scheduler_server:
+    depends_on:
+      - whimdb
+    command: python3 run_tasks_scheduler_server.py
+    container_name: io-tasks-scheduler-server
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.app_base
+    volumes:
+      - ${DB_PATH}:/io_remastered/database
+      - ${LOGS_PATH}:/io_remastered/logs
+      - ${STORAGE_PATH}:/io_remastered/files_storage
+    env_file: ".env.app"
+
   io_maintenance_tasks:
     command: python3 run_maintenance_tasks.py
     container_name: io-maintenance-tasks
