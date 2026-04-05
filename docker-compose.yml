@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     build:
       context: .
-      dockerfile: docker/Dockerfile.whimdb
+      dockerfile: docker/Dockerfile.app_base
   
   ior_app:
     depends_on:
@@ -30,7 +30,7 @@ services:
     restart: unless-stopped
     build:
       context: .
-      dockerfile: docker/Dockerfile.maintenance_tasks
+      dockerfile: docker/Dockerfile.app_base
     volumes:
       - ${DB_PATH}:/io_remastered/database
       - ${LOGS_PATH}:/io_remastered/logs
