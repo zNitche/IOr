@@ -204,8 +204,6 @@ def recalculate_file_checksum(uuid: str):
     task_for_file = tasks_scheduler_client.get_file_task(user_id=current_user.id,
                                                          task_cls=CalcFileChecksumTask,
                                                          file_uuid=file.uuid)
-    
-    print(task_for_file)
 
     if task_for_file or (task_for_file and task_for_file.is_running):
         flash(i18n.t('recalculate_file_checksum.already_running'),
