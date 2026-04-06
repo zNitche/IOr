@@ -25,21 +25,27 @@ class FilesCleanupTask(TaskBase):
                          logs_filename="files_cleanup_task.log", logs_path="logs/")
 
     def analyze_tmp_files(self):
-        storage_tmp_path = os.path.join("files_storage", "tmp")
+        root_dir, users_storage_dirs = self.get_users_storage_dirs()
         files: dict[str, StorageFile] = {}
 
-        for file in os.listdir(storage_tmp_path):
-            file_path = os.path.join(storage_tmp_path, file)
+        for user_id in users_storage_dirs:
+            user_tmp_storage_path = os.path.join(root_dir, user_id, "tmp")
 
-            sf = StorageFile(path=file_path,
-                             size=os.path.getsize(file_path))
-            files[file_path] = sf
+            if not os.path.exists(user_tmp_storage_path):
+                continue
+
+            for tmp_file in os.listdir(user_tmp_storage_path):
+                tmp_file_path = os.path.join(user_tmp_storage_path, tmp_file)
+
+                sf = StorageFile(path=tmp_file_path,
+                                 size=os.path.getsize(tmp_file_path))
+                files[tmp_file_path] = sf
 
         return files
 
     def process_tmp(self):
         tmp_files_first_pass = self.analyze_tmp_files()
-        time.sleep(10)
+        time.sleep(self.__steps_interval)
         tmp_files_second_pass = self.analyze_tmp_files()
 
         for file_path in tmp_files_first_pass:
@@ -51,9 +57,11 @@ class FilesCleanupTask(TaskBase):
                     self.logger.info(f"removing tmp file: {file_path}")
                     os.remove(first_check_info.path)
 
-    def get_users_storage_dirs(self, dirs_root_path: str):
-        dirs = os.listdir(dirs_root_path)
-        filtered_dirs = []
+    def get_users_storage_dirs(self):
+        root_dir = "./files_storage"
+        dirs = os.listdir(root_dir)
+
+        filtered_dirs: list[str] = []
 
         for dir in dirs:
             try:
@@ -63,18 +71,21 @@ class FilesCleanupTask(TaskBase):
             except:
                 pass
 
-        return filtered_dirs
+        return root_dir, filtered_dirs
 
     def analyze_users_storage(self):
         files_info: dict[str, StorageFile] = {}
-        dirs_root_path = "./files_storage"
-        users_storage_dirs = self.get_users_storage_dirs(dirs_root_path)
+        root_dir, users_storage_dirs = self.get_users_storage_dirs()
 
         for dir in users_storage_dirs:
-            dir_path = os.path.join(dirs_root_path, dir)
+            dir_path = os.path.join(root_dir, dir)
 
             for file in os.listdir(dir_path):
                 file_path = os.path.join(dir_path, file)
+
+                if os.path.isdir(file_path):
+                    continue
+
                 sf = StorageFile(path=file_path,
                                  size=os.path.getsize(file_path))
 
@@ -100,9 +111,10 @@ class FilesCleanupTask(TaskBase):
                         models.File.select().filter_by(uuid=file_uuid)).first()
 
                     if db_file is None:
-                        self.logger.info(
-                            f"removing user file: {first_file_info.path}")
                         os.remove(first_file_info.path)
+
+                        self.logger.info(
+                            message=f"removed user file: {first_file_info.path}")
 
     def mainloop(self):
         while True:
