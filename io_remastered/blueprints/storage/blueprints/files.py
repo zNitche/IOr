@@ -1,6 +1,5 @@
 import os
-from flask import Blueprint, render_template, abort, send_file, current_app, \
-    url_for, redirect, request, flash
+from flask import Blueprint, render_template, abort, send_file, url_for, redirect, request, flash
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
 from io_remastered import authentication_manager, models, db, i18n, forms, CSRF, tasks_scheduler_client, app_helpers

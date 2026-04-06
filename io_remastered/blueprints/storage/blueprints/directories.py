@@ -1,6 +1,4 @@
-import os
-from flask import Blueprint, render_template, abort, current_app, \
-    url_for, redirect, request, flash
+from flask import Blueprint, render_template, abort, url_for, redirect, request, flash
 from io_remastered.authentication.decorators import login_required
 from io_remastered.db.pagination import Pagination, pageable_content
 from io_remastered.io_csrf.decorators import csrf_protected

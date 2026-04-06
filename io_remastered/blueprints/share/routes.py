@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, abort, send_file, current_app, request
+from flask import Blueprint, render_template, abort, send_file, request
 from io_remastered import models, forms, app_helpers
 from io_remastered.utils import requests_utils, files_utils
 from io_remastered.db.pagination import Pagination, pageable_content

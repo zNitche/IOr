@@ -4,7 +4,7 @@ from config.app_config import AppConfig
 from io_remastered.io_logging import Logger
 from io_remastered.extra_modules import InMemoryDatabase
 from io_remastered.db import Database
-from io_remastered.tasks_scheduler.tasks import TaskBase, CalcFileChecksumTask
+from io_remastered.tasks_scheduler.tasks import TaskBase
 from io_remastered.tasks_scheduler.task_data import TaskData
 
 
