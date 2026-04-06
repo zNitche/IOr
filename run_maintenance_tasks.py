@@ -1,4 +1,5 @@
 import multiprocessing
+from load_dotenv import load_dotenv
 from io_remastered.io_logging import Logger
 from maintenance_tasks import TaskBase, FilesCleanupTask, UsersSecurityLogsCleanupTask
 
@@ -42,5 +43,7 @@ class MaintenanceTasksRunner:
 
 
 if __name__ == "__main__":
+    load_dotenv(".env.maintenance")
+
     runner = MaintenanceTasksRunner()
     runner.run()
