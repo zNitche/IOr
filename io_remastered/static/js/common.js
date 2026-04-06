@@ -40,3 +40,19 @@ function toggleElementVisibility(id, visible) {
         console.error("can't find element with id " + id);
     }
 }
+
+function toggleCollapsible(id) {
+    const element = document.getElementById(id);
+
+    if (!element) {
+        console.error(`can't find element with id ${id}`);
+        return;
+    }
+
+    if (element.classList.contains("collapsed")) {
+        element.classList.remove("collapsed");
+    }
+    else {
+        element.classList.add("collapsed")
+    }
+}
