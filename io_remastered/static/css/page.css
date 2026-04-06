@@ -50,11 +50,17 @@
 
 .collapsible-content {
     transition: height 0.5s ease;
-    height: auto;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.5s ease-out;
     overflow: hidden;
-    interpolate-size: allow-keywords;
+    grid-template-rows: 1fr;
+}
+
+.collapsible-content-inner {
+    min-height: 0;
 }
 
 .collapsible-content.collapsed {
-    height: 0;
+    grid-template-rows: 0fr;
 }
