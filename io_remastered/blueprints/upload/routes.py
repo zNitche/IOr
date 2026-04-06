@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 from flask import Blueprint, render_template, jsonify, current_app, request, Response
 from io_remastered.authentication.decorators import login_required
 from io_remastered.io_csrf.decorators import csrf_protected
-from io_remastered import models, authentication_manager, db, i18n, tasks_scheduler_client
+from io_remastered import models, authentication_manager, db, i18n, tasks_scheduler_client, app_helpers
 from io_remastered.utils import files_utils, system_logs_utils
 from io_remastered.blueprints.upload import helpers
 from io_remastered.types import ActionLogKeyEnum
@@ -41,10 +41,14 @@ def upload_handler_preflight():
         return jsonify({"message": i18n.t("file_upload_backend.messages.storage_size_exceeded")}), 400
 
     uuid = secrets.token_hex(nbytes=64)
-    tmp_files_path = current_app.config["STORAGE_TMP_ROOT_PATH"]
 
-    files_utils.create_tmp_file_for_upload(
-        tmp_files_path, uuid, current_user.id)
+    tmp_files_path = app_helpers.user_storage.get_user_tmp_storage_path(
+        current_user.id)
+
+    if not os.path.exists(tmp_files_path):
+        os.mkdir(tmp_files_path)
+
+    files_utils.create_tmp_file_for_upload(tmp_files_path, uuid)
 
     return jsonify({"file_uuid": uuid}), 200
 
@@ -60,11 +64,10 @@ def upload_handler():
 
     is_last_chunk = int(request.headers.get("X-Is-Last-Chunk", 0))
 
-    tmp_file_name = files_utils.get_filename_for_tmp_upload(
-        uuid=file_uuid, user_id=current_user.id)
+    tmp_files_path = app_helpers.user_storage.get_user_tmp_storage_path(
+        current_user.id)
 
-    tmp_file_path = os.path.join(
-        current_app.config["STORAGE_TMP_ROOT_PATH"], tmp_file_name)
+    tmp_file_path = os.path.join(tmp_files_path, file_uuid)
 
     try:
         files_utils.write_file_from_stream(
@@ -84,8 +87,8 @@ def upload_handler():
             if len(file_name) > 64:
                 file_name = file_name[:64]
 
-            user_storage_path = os.path.join(
-                current_app.config["STORAGE_ROOT_PATH"], str(current_user.id))
+            user_storage_path = app_helpers.user_storage.get_user_storage_path(
+                current_user.id)
 
             file_uuid = uuid4().hex
             target_file_path = os.path.join(user_storage_path, file_uuid)

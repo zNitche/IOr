@@ -24,7 +24,6 @@ class AppConfig:
     AUTH_TOKEN_LIFESPAN = int(os.getenv("AUTH_TOKEN_LIFESPAN", 600))
 
     STORAGE_ROOT_PATH = os.path.join(PROJECT_ROOT, "files_storage")
-    STORAGE_TMP_ROOT_PATH = os.path.join(STORAGE_ROOT_PATH, "tmp")
 
     MAX_CONTENT_LENGTH = int(os.getenv("MAX_REQUEST_SIZE_MB", 15)) * 1_000_000
     FILE_UPLOAD_CHUNK_SIZE_MB = int(os.getenv("FILE_UPLOAD_CHUNK_SIZE_MB", 10)) * 1_000_000
