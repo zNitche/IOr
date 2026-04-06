@@ -4,11 +4,19 @@ from typing import IO
 
 
 def get_file_size(file_path: str):
-    stats = os.stat(file_path)
-    return stats.st_size
+    return os.path.getsize(file_path)
 
 
 def get_directory_files_size(files_path: str):
+    size = 0
+
+    for root, _, files in os.walk(files_path):
+        size += sum(get_file_size(os.path.join(root, file)) for file in files)
+
+    return size
+
+
+def get_flat_directory_files_size(files_path: str):
     size = 0
 
     for file in os.listdir(files_path):
@@ -32,18 +40,14 @@ def write_file_from_stream(stream: IO[bytes], file_path: str, chunk_size=102400)
             file.write(chunk)
 
 
-def get_filename_for_tmp_upload(uuid: str, user_id: int):
-    return f"{uuid}_{user_id}"
-
-
-def create_tmp_file_for_upload(tmp_files_path: str, uuid: str, user_id: int):
-    path = os.path.join(
-        tmp_files_path, get_filename_for_tmp_upload(uuid, user_id))
+def create_tmp_file_for_upload(tmp_files_path: str, uuid: str):
+    path = os.path.join(tmp_files_path, uuid)
 
     if os.path.exists(path):
         os.remove(path)
 
-    open(path, "x").close()
+    fd = open(path, "x")
+    fd.close()
 
 
 def get_sha256sum_for_file(file_path: str):
