@@ -52,6 +52,9 @@
 
 .section-header {
     font-size: var(--font-size-l);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .section-content {

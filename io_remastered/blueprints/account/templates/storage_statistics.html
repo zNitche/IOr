@@ -53,16 +53,22 @@
         {% if has_temporary_files %}
         <div class="section">
             <div class="section-header">
-                {{i18n('storage_stats_page.purge_tmp_files')}}
+                <span>
+                    {{i18n('storage_stats_page.purge_tmp_files')}}
+                </span>
+                <img src="{{ get_static_resource('icons/chevron_down_icon.svg') }}" class="collapsible-icon"
+                    onclick="toggleCollapsible(this, 'remove-tmp-files-collapsible')" />
             </div>
-            <div class="section-content">
-                <div class="section-caption">
-                    {{i18n('storage_stats_page.remove_tmp_files_caption')}}
+            <div class="collapsible-content collapsed" id="remove-tmp-files-collapsible">
+                <div class="section-content collapsible-content-inner">
+                    <div class="section-caption">
+                        {{i18n('storage_stats_page.remove_tmp_files_caption')}}
+                    </div>
+                    <button class="remove-tmp-files-button"
+                        onclick="toggleElementVisibility('purge_tmp_files_modal', true)">
+                        {{i18n('storage_stats_page.remove_tmp_files_button')}}
+                    </button>
                 </div>
-                <button class="remove-tmp-files-button"
-                    onclick="toggleElementVisibility('purge_tmp_files_modal', true)">
-                    {{i18n('storage_stats_page.remove_tmp_files_button')}}
-                </button>
             </div>
         </div>
         {% endif %}
