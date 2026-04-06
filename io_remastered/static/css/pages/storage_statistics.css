@@ -15,36 +15,33 @@
     gap: 24px;
 }
 
-.content-rows-wrapper {
-    display: flex;
-    flex-direction: column;
+.content-grid-wrapper {
+    display: grid;
+    grid-template-columns: 50% 50%;
     gap: 8px;
+    max-width: 100%;
 }
 
-.content-row {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    justify-content: space-evenly;
-}
-
-.total-items {
+.content-tile {
     padding: 4px;
     border-radius: 4px;
     background: var(--background-3);
     display: flex;
-    flex: 1;
     flex-direction: column;
     gap: 8px;
     justify-content: space-between;
 }
 
-.total-items-name {
+.content-tile-name {
     font-size: var(--font-size-m);
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
-.total-items-value {
+.content-tile-value {
     font-size: var(--font-size-l);
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .section {

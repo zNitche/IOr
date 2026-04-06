@@ -25,27 +25,15 @@
     </div>
     <div class="content">
         {% include "components/storage_space_bar.html" %}
-        <div class="content-rows-wrapper">
-            <div class="content-row">
-                <div class="total-items">
-                    <span class="total-items-name">{{i18n('storage_stats_page.files')}}</span>
-                    <span class="total-items-value">{{stats["files_count"]}}</span>
-                </div>
-                <div class="total-items">
-                    <span class="total-items-name">{{i18n('storage_stats_page.directories')}}</span>
-                    <span class="total-items-value">{{stats["directories_count"]}}</span>
-                </div>
+        <div class="content-grid-wrapper">
+            {% for s_key in stats['top'] %}
+            {% set i18n_key = 'storage_stats_page.stats.{key}'.format(key=s_key) %}
+
+            <div class="content-tile">
+                <span class="content-tile-name">{{i18n(i18n_key)}}</span>
+                <span class="content-tile-value">{{stats['top'][s_key]}}</span>
             </div>
-            <div class="content-row">
-                <div class="total-items">
-                    <span class="total-items-name">{{i18n('storage_stats_page.shared_files')}}</span>
-                    <span class="total-items-value">{{stats["shared_files"]}}</span>
-                </div>
-                <div class="total-items">
-                    <span class="total-items-name">{{i18n('storage_stats_page.shared_directories')}}</span>
-                    <span class="total-items-value">{{stats["shared_directories"]}}</span>
-                </div>
-            </div>
+            {% endfor %}
         </div>
         {% if files_count_by_extension.keys()|length > 0 %}
         <div class="section">

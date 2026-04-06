@@ -189,10 +189,13 @@
     },
     "storage_stats_page": {
         "title": "Storage statistics",
-        "files": "Files",
-        "directories": "Directories",
-        "shared_files": "Shared Files",
-        "shared_directories": "Shared Directories",
+        "stats": {
+            "files_count": "Files",
+            "directories_count": "Directories",
+            "shared_files": "Shared Files",
+            "shared_directories": "Shared Directories",
+            "tmp_files_count": "Temporary files"
+        },
         "files_count_by_extension": "Files by extension",
         "purge_tmp_files": "Purge temporary files",
         "remove_tmp_files_caption": "may included files being currently uploaded",

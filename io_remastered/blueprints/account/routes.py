@@ -117,12 +117,14 @@ def storage_stats():
         models.File.owner_id == current_user.id)
     user_dirs_query = models.Directory.select().filter(
         models.Directory.owner_id == current_user.id)
+    
+    stats["top"] = {}
 
-    stats["files_count"] = models.File.count(user_files_query)
-    stats["directories_count"] = models.Directory.count(user_dirs_query)
-    stats["shared_files"] = models.File.count(user_files_query.filter(
+    stats["top"]["files_count"] = models.File.count(user_files_query)
+    stats["top"]["directories_count"] = models.Directory.count(user_dirs_query)
+    stats["top"]["shared_files"] = models.File.count(user_files_query.filter(
         models.File.share_uuid.is_not(None)))  # type: ignore
-    stats["shared_directories"] = models.Directory.count(
+    stats["top"]["shared_directories"] = models.Directory.count(
         user_dirs_query.filter(models.Directory.share_uuid.is_not(None))) # type: ignore
 
     files_count_by_extension = {}
@@ -140,8 +142,12 @@ def storage_stats():
     sorted_files_count_by_extension.reverse()
 
     stats["files_count_by_extension"] = dict(sorted_files_count_by_extension)
-    
-    has_temporary_files = len(app_helpers.user_storage.get_user_tmp_files(current_user.id)) > 0
+
+    tmp_files_count = len(app_helpers.user_storage.get_user_tmp_files(current_user.id))
+    has_temporary_files = tmp_files_count > 0
+
+    if has_temporary_files:
+        stats["top"]["tmp_files_count"] = tmp_files_count
 
     return render_template("storage_statistics.html",
                            stats=stats, has_temporary_files=has_temporary_files)
