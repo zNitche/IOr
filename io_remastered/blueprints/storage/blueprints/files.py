@@ -223,3 +223,23 @@ def recalculate_file_checksum(uuid: str):
                   FlashTypeEnum.Error.value)
 
     return redirect(location=request.referrer)
+
+
+@files_blueprint.route("/purge-tmp", methods=["POST"])
+@csrf_protected()
+@login_required
+def purge_tmp():
+    current_user = authentication_manager.current_user
+    tmp_dir_path = app_helpers.user_storage.get_user_tmp_storage_path(
+        current_user.id)
+
+    for file in os.listdir(tmp_dir_path):
+        file_path = os.path.join(tmp_dir_path, file)
+
+        if not os.path.isdir(file_path):
+            os.remove(file_path)
+
+    flash(i18n.t('purge_tmp_files.success'),
+          FlashTypeEnum.Success.value)
+
+    return redirect(location=request.referrer)

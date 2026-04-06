@@ -1,0 +1,15 @@
+{% extends "components/modals/modal_base.html" %}
+{% block modal_content %}
+<div class="purge-tmp-files-modal">
+    <div class="title">
+        {{i18n('purge_tmp_files_modal.title')}}
+    </div>
+    <div class="content">
+        {{i18n('purge_tmp_files_modal.text')}}
+    </div>
+    <form action="{{url_for('storage.files.purge_tmp')}}" class="actions" method="post">
+        {{csrf_hidden_input(get_csrf_token())}}
+        <button class="submit-button" type="submit">{{i18n('purge_tmp_files_modal.submit')}}</button>
+    </form>
+</div>
+{% endblock %}

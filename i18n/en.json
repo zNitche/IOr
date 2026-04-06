@@ -193,7 +193,10 @@
         "directories": "Directories",
         "shared_files": "Shared Files",
         "shared_directories": "Shared Directories",
-        "files_count_by_extension": "Files count by extension"
+        "files_count_by_extension": "Files by extension",
+        "purge_tmp_files": "Purge temporary files",
+        "remove_tmp_files_caption": "may included files being currently uploaded",
+        "remove_tmp_files_button": "purge"
     },
     "logs_preview_page": {
         "title": "Logs",
@@ -235,5 +238,13 @@
         "success": "SHA256 checksum recalculation scheduled",
         "already_running": "task is already running",
         "error": "An error has occured during task scheduling"
+    },
+    "purge_tmp_files_modal": {
+        "title": "Purge tmp files",
+        "text": "this action will delete files that are currently being uploaded !",
+        "submit": "purge"
+    },
+    "purge_tmp_files": {
+        "success": "temporary files has been removed"
     }
 }

@@ -80,3 +80,17 @@
 .files-count-by-extension .value {
     font-size: var(--font-size-l);
 }
+
+.section-caption {
+    font-size: var(--font-size-m);
+}
+
+.remove-tmp-files-button {
+    border: none;
+    background: var(--red);
+    cursor: pointer;
+    height: 32px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    width: 100%;
+}

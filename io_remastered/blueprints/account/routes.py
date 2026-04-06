@@ -3,7 +3,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from io_remastered.db.pagination import Pagination, pageable_content
 from io_remastered.io_csrf import CSRF, csrf_protected
 from io_remastered.authentication.decorators import login_required, password_authentication_required
-from io_remastered import authentication_manager, forms, i18n, models, db
+from io_remastered import authentication_manager, forms, i18n, models, db, app_helpers
 from io_remastered.types import FlashTypeEnum, SecurityLogKeyEnum
 from io_remastered.utils import system_logs_utils
 
@@ -140,8 +140,11 @@ def storage_stats():
     sorted_files_count_by_extension.reverse()
 
     stats["files_count_by_extension"] = dict(sorted_files_count_by_extension)
+    
+    has_temporary_files = len(app_helpers.user_storage.get_user_tmp_files(current_user.id)) > 0
 
-    return render_template("storage_statistics.html", stats=stats)
+    return render_template("storage_statistics.html",
+                           stats=stats, has_temporary_files=has_temporary_files)
 
 
 @account_blueprint.route("/logs", methods=["GET"])

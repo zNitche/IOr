@@ -1,0 +1,33 @@
+.purge-tmp-files-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.purge-tmp-files-modal .title {
+    font-size: var(--font-size-l);
+}
+
+.purge-tmp-files-modal .content {
+    text-transform: uppercase;
+    font-size: var(--font-size-m);
+}
+
+.purge-tmp-files-modal .actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.actions .submit-button {
+    border: none;
+    background: var(--red);
+    cursor: pointer;
+    height: 32px;
+    border-radius: 4px;
+    width: 50%;
+    text-transform: uppercase;
+}
