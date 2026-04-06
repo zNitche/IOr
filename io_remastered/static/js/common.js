@@ -41,7 +41,7 @@ function toggleElementVisibility(id, visible) {
     }
 }
 
-function toggleCollapsible(id) {
+function toggleCollapsible(caller, id) {
     const element = document.getElementById(id);
 
     if (!element) {
@@ -51,8 +51,10 @@ function toggleCollapsible(id) {
 
     if (element.classList.contains("collapsed")) {
         element.classList.remove("collapsed");
+        caller.classList.add("expanded");
     }
     else {
         element.classList.add("collapsed")
+        caller.classList.remove("expanded");
     }
 }

@@ -64,3 +64,14 @@
 .collapsible-content.collapsed {
     grid-template-rows: 0fr;
 }
+
+.collapsible-icon {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in;
+}
+
+.collapsible-icon.expanded {
+    transform: rotate(180deg);
+}
