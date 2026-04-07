@@ -6,6 +6,10 @@ from io_remastered.tasks_scheduler import TasksSchedulerServer
 
 class TasksSchedulerServerRunner:
     def __init__(self):
+        self.__mainloop_pooling_interval = int(
+            os.getenv("MAINLOOP_POOLING_INTERVAL", 5))
+        self.__max_running_tasks = int(os.getenv("MAX_RUNNING_TASKS", 5))
+
         self.__whimdb_server_address = os.getenv("WHIMDB_SERVER_ADDRESS")
         self.__whimdb_server_port = os.getenv("WHIMDB_SERVER_PORT")
 
@@ -20,14 +24,15 @@ class TasksSchedulerServerRunner:
             server_port=int(self.__whimdb_server_port), flush=True)
 
         server = TasksSchedulerServer(
-            broker_db=self.__in_memory_database, max_running_tasks=5,
-            mainloop_pooling_interval=5)
+            broker_db=self.__in_memory_database, max_running_tasks=self.__max_running_tasks,
+            mainloop_pooling_interval=self.__mainloop_pooling_interval)
 
         server.run()
 
 
 if __name__ == "__main__":
     load_dotenv(".env.app")
+    load_dotenv(".env.tasks")
 
     runner = TasksSchedulerServerRunner()
     runner.run()
