@@ -46,17 +46,22 @@ Creating this project (with dependencies limitations in mind) required some extr
 ### Env setup
 Create `.env.app` file and setup its values:
 ```
-cp .env.app.template .env.app
+cp env/.env.app.template .env.app
 ```
 
 Create `.env.maintenance` file and setup its values:
 ```
-cp .env.maintenance.template .env.maintenance
+cp env/.env.maintenance.template .env.maintenance
+```
+
+Create `.env.tasks` file and setup its values:
+```
+cp env/.env.tasks.template .env.tasks
 ```
 
 Create `.env.docker` file and setup its values:
 ```
-cp .env.docker.template .env.docker
+cp env/.env.docker.template .env.docker
 ```
 
 ### Production Setup
@@ -88,6 +93,11 @@ whimdb-server --port 6000
 5. Start webserver
 ```
 python3 app.py
+```
+6. start background services
+```
+python3 run_maintenance_tasks.py
+python3 run_tasks_scheduler_server.py
 ```
 
 ### Database Migrations
