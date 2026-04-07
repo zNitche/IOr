@@ -8,9 +8,7 @@ database/
 
 .pytest_cache/
 
-.env.app
-.env.docker
-.env.maintenance
+.env.*
 
 *.db
 
