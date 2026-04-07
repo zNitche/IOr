@@ -3,9 +3,10 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from io_remastered.db.pagination import Pagination, pageable_content
 from io_remastered.io_csrf import CSRF, csrf_protected
 from io_remastered.authentication.decorators import login_required, password_authentication_required
-from io_remastered import authentication_manager, forms, i18n, models, db, app_helpers
+from io_remastered import authentication_manager, forms, i18n, models, db
 from io_remastered.types import FlashTypeEnum, SecurityLogKeyEnum
 from io_remastered.utils import system_logs_utils
+from io_remastered.blueprints.account.helpers import gather_user_storage_stats
 
 
 account_blueprint = Blueprint("account", __name__, template_folder="templates",
@@ -111,46 +112,10 @@ def remove_login_sessions(id: str):
 def storage_stats():
     current_user = authentication_manager.current_user
 
-    stats = {}
-
-    user_files_query = models.File.select().filter(
-        models.File.owner_id == current_user.id)
-    user_dirs_query = models.Directory.select().filter(
-        models.Directory.owner_id == current_user.id)
-    
-    stats["top"] = {}
-
-    stats["top"]["files_count"] = models.File.count(user_files_query)
-    stats["top"]["directories_count"] = models.Directory.count(user_dirs_query)
-    stats["top"]["shared_files"] = models.File.count(user_files_query.filter(
-        models.File.share_uuid.is_not(None)))  # type: ignore
-    stats["top"]["shared_directories"] = models.Directory.count(
-        user_dirs_query.filter(models.Directory.share_uuid.is_not(None))) # type: ignore
-
-    files_count_by_extension = {}
-
-    for file in models.File.query(user_files_query).all():
-        ext = file.extension
-
-        if ext not in files_count_by_extension.keys():
-            files_count_by_extension[ext] = 0
-
-        files_count_by_extension[ext] += 1
-
-    sorted_files_count_by_extension = sorted(
-        files_count_by_extension.items(), key=lambda x: x[1])
-    sorted_files_count_by_extension.reverse()
-
-    stats["files_count_by_extension"] = dict(sorted_files_count_by_extension)
-
-    tmp_files_count = len(app_helpers.user_storage.get_user_tmp_files(current_user.id))
-    has_temporary_files = tmp_files_count > 0
-
-    if has_temporary_files:
-        stats["top"]["tmp_files_count"] = tmp_files_count
+    stats = gather_user_storage_stats(current_user)
 
     return render_template("storage_statistics.html",
-                           stats=stats, has_temporary_files=has_temporary_files)
+                           stats=stats, has_temporary_files=stats.has_tmp_files)
 
 
 @account_blueprint.route("/logs", methods=["GET"])

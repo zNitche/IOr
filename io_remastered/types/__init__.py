@@ -2,3 +2,4 @@ from io_remastered.types.flash_type_enum import FlashTypeEnum
 from io_remastered.types.user_security_log_type_enum import UserSecurityLogTypeEnum
 from io_remastered.types.action_log_key_enum import ActionLogKeyEnum
 from io_remastered.types.security_log_key_enum import SecurityLogKeyEnum
+from io_remastered.types.user_storage_statistics import UserStorageStatistics

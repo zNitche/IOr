@@ -37,7 +37,7 @@ function toggleElementVisibility(id, visible) {
             element.classList.add("d-none")
         }
     } else {
-        console.error("can't find element with id " + id);
+        console.warn("can't find element with id " + id);
     }
 }
 
@@ -45,7 +45,7 @@ function toggleCollapsible(caller, id) {
     const element = document.getElementById(id);
 
     if (!element) {
-        console.error(`can't find element with id ${id}`);
+        console.warn(`can't find element with id ${id}`);
         return;
     }
 

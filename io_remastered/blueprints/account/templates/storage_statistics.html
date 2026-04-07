@@ -26,12 +26,12 @@
     <div class="content">
         {% include "components/storage_space_bar.html" %}
         <div class="content-grid-wrapper">
-            {% for s_key in stats['top'] %}
+            {% for s_key, s_value in stats.short_statistics.dict.items() %}
             {% set i18n_key = 'storage_stats_page.stats.{key}'.format(key=s_key) %}
 
             <div class="content-tile">
                 <span class="content-tile-name">{{i18n(i18n_key)}}</span>
-                <span class="content-tile-value">{{stats['top'][s_key]}}</span>
+                <span class="content-tile-value">{{s_value}}</span>
             </div>
             {% endfor %}
         </div>
